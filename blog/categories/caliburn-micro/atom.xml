@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Caliburn.Micro | Inspiration]]></title>
+  <link href="http://kmees.github.com/blog/categories/caliburn-micro/atom.xml" rel="self"/>
+  <link href="http://kmees.github.com/"/>
+  <updated>2011-11-29T22:47:16+01:00</updated>
+  <id>http://kmees.github.com/</id>
+  <author>
+    <name><![CDATA[Kevin Mees]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[MVVM Dialogs with Caliburn.Micro]]></title>
+    <link href="http://kmees.github.com/blog/2011/11/29/mvvm-dialogs-with-caliburn-dot-micro/"/>
+    <updated>2011-11-29T21:10:00+01:00</updated>
+    <id>http://kmees.github.com/blog/2011/11/29/mvvm-dialogs-with-caliburn-dot-micro</id>
+    <content type="html"><![CDATA[<h1>Background</h1>
+
+<p>In every applications life there comes a time when you need to show some kind of message to the user. Be it a question whether he really wants to delete something or a simple message that says that some operation was successful. The most simple way to do that is the good ol' <code>MessageBox.Show()</code> with its zillion overloads.</p>
+
+<p><code>csharp
+MessageBox.Show("Foo", "Bar", MessageBoxButton.OKCancel);
+</code></p>
+
+<p>But in the shiny MVVM World , polluting your ViewModels with MessageBoxes is usually frowned upon since it breaks a lot of stuff, especially automated unit testing and theming.</p>
+
+<p>You can find quite a lot solutions about how the MVVM<em>ize</em> MesasgeBoxes and dialog screens in general. Most of them involve wrapping the <code>MessageBox.Show()</code> in some kind of IService, setting up some kind of event infrastructure and other funky stuff. Surprisingly, all of those solutions completely ignore the first M in <strong>M</strong>VVM, namely the Model, and none really tackles the problem at its heart.</p>
+
+<h1>Implementation</h1>
+
+<h2>One Model to rule them all</h2>
+
+<p>Well, let's forget about all the View and ViewModel stuff for now. We will start by specifying what we actually want to achieve with a dialog.</p>
+
+<p>We want to display some message concerning some topic and a list of possible Responses from which the user can choose one.</p>
+
+<p>So, let's create a model with conforms to those specifications</p>
+
+<p>``` csharp Dialog&lt;TResponse&gt;
+public class Dialog<TResponse>
+{</p>
+
+<pre><code>public DialogType DialogType { get; set; }
+public string Subject { get; set; }
+public string Message { get; set; }
+
+public IEnumerable&lt;TResponse&gt; PossibleResponses { get; protected set; }
+public TResponse GivenResponse {get; set; }
+public bool IsResponseGiven { get; private set; }
+</code></pre>
+
+<p>}
+```</p>
+
+<p>``` csharp DialogType
+public enum DialogType
+{</p>
+
+<pre><code>None,
+Question,
+Warning,
+Information,
+Error
+</code></pre>
+
+<p>}
+```</p>
+
+<p>The DialogType in conjunction with the subject defines the topic and the rest is pretty much straightforward. We also need a IsResponseGiven Property so that we can distinguish between default and unset values because TResponse may or may not be a value type (and hence not nullable).</p>
+
+<h2>One ViewModel to bind them</h2>
+
+<p>The ViewModel is responsible for bringing the Responses in a bindable format and setting the response on the dialog when the user selects one. The ViewModel also handles the case where the user closes the window without giving any response at all.</p>
+
+<p>For supporting default (the user presses <code>Enter</code>) and cancel (the user presses <code>Escape</code>) responses,  I will use a convention based approach, namely defining the first response in the list as the default response and the last response as the cancel response.</p>
+
+<p>``` csharp BindableResponse&lt;TResponse&gt;
+public class BindableResponse<TResponse>
+{</p>
+
+<pre><code>public TResponse Response { get; set; }
+public bool IsDefault { get; set; }
+public bool IsCancel { get; set; }
+</code></pre>
+
+<p>}
+```</p>
+
+<p>``` csharp IDialogViewModel&lt;TResponse&gt;
+public interface IDialogViewModel<TResponse>
+{</p>
+
+<pre><code>bool IsClosed { get; set; }
+Dialog&lt;TResponse&gt; Dialog { get; set; }
+IObservableCollection&lt;BindableResponse&lt;TResponse&gt;&gt; Responses { get; }
+void Respond(BindableResponse&lt;TResponse&gt; bindableResponse);
+</code></pre>
+
+<p>}
+```</p>
+
+<p>The implementation is pretty straightforward and omitted for brevity but can be found here.</p>
+
+<h2>One View to show them all</h2>
+
+<p>I will present the WPF version of the view here because the SL version requires a workaround for the non existing <code>IsDefault</code>/<code>IsCancel</code> Properties of the Button. For those interested in the SL version, the source is here. I will also omit all irrelevant (styling) properties.</p>
+
+<p>``` xml DialogView
+&lt;Window x:Class="Caliburn.Micro.Contrib.Interaction.DialogView"</p>
+
+<pre><code>    Title="{Binding Dialog.Subject}"
+    Contrib:DialogCloser.DialogResult="{Binding CanClose}"&gt;
+&lt;Window.Icon&gt;
+    &lt;Binding Path="Dialog.DialogType"&gt;
+        &lt;Binding.Converter&gt;
+            &lt;Converter:DialogTypeToSystemIconConverter /&gt;
+        &lt;/Binding.Converter&gt;
+    &lt;/Binding&gt;
+&lt;/Window.Icon&gt;
+&lt;DockPanel Focusable="False" LastChildFill="True"&gt;
+    &lt;ItemsControl x:Name="Responses"&gt;
+        &lt;ItemsControl.ItemTemplate&gt;
+            &lt;DataTemplate&gt;
+                &lt;Button Content="{Binding Response}"
+                        IsCancel="{Binding IsCancel}"
+                        IsDefault="{Binding IsDefault}"
+                        Micro:Message.Attach="Respond($dataContext)" /&gt;
+            &lt;/DataTemplate&gt;
+        &lt;/ItemsControl.ItemTemplate&gt;
+    &lt;/ItemsControl&gt;
+    &lt;TextBlock Text="{Binding Dialog.Message}" /&gt;
+&lt;/DockPanel&gt;
+</code></pre>
+
+<p></Window>
+```</p>
+
+<p>The most important part is where we bind the Responses to an ItemsControl (by using Caliburn.Micros Convention Binding Feature) and create a Button for each Response which will call the Respond() Method on the ViewModel with the bound Response as a parameter. The Subject of the Dialog is bound to the Title of the Window and the DialogType is converted to an Icon.</p>
+
+<h2>And with the IResult show them</h2>
+
+<p>No Caliburn.Micro Extension with the corresponding IResult to use them !</p>
+
+<p>To actually show the dialog to the user, we would have to</p>
+
+<ul>
+<li>Create the dialog</li>
+<li>Import the IWindowManager in the ViewModel</li>
+<li>Create the ViewModel and pass it the dialog</li>
+<li>Invoke ShowDialog() on the IWindowManager with the ViewModel as a parameter</li>
+</ul>
+
+
+<p>Well, the first step cannot be encapsulated in an IResult, but 2-4 rest can easily be encapsulated.</p>
+
+<p>``` csharp DialogResult&lt;TResponse&gt;
+public class DialogResult<TResponse> : IResult
+{</p>
+
+<pre><code>private Func&lt;IDialogViewModel&lt;TResponse&gt;&gt; _locateVM =
+    () =&gt; new DialogViewModel&lt;TResponse&gt;();
+
+public DialogResult(Dialog&lt;TResponse&gt; dialog)
+{
+    Dialog = dialog;
+}
+
+public Dialog&lt;TResponse&gt; Dialog { get; private set; }
+
+public void Execute(ActionExecutionContext context)
+{
+    IDialogViewModel&lt;TResponse&gt; vm = _locateVM();
+    vm.Dialog = Dialog;
+    Micro.Execute.OnUIThread(() =&gt; IoC.Get&lt;IWindowManager&gt;().ShowDialog(vm));
+}
+
+public DialogResult&lt;TResponse&gt; In(IDialogViewModel&lt;TResponse&gt; dialogViewModel)
+{
+    _locateVM = () =&gt; dialogViewModel;
+    return this;
+}
+
+public DialogResult&lt;TResponse&gt; In&lt;TDialogViewModel&gt;()
+    where TDialogViewModel : IDialogViewModel&lt;TResponse&gt;
+{
+    _locateVM = () =&gt; IoC.Get&lt;TDialogViewModel&gt;();
+    return this;
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>We do not only get reusable code, but also a nice way to change the implementation of IDialogViewModel&lt;> for specific dialogs if we want to.</p>
+
+<p>Last but not least we can write a small Extension Method to get even more readable code !</p>
+
+<p>``` csharp
+public static DialogResult<TResponse> AsResult<TResponse>(this Dialog<TResponse> dialog)</p>
+
+<pre><code>    {
+        return new DialogResult&lt;TResponse&gt;(dialog);
+    }
+</code></pre>
+
+<p>```</p>
+
+<p>And use it in the coroutine</p>
+
+<p>``` csharp Demo
+public IEnumerable<IResult> Foo()
+{</p>
+
+<pre><code>var question = new Dialog&lt;Answer&gt;(DialogType.Question,
+                                  "Isn't this a nice way to create a Dialog Window?",
+                                  Answer.Yes,
+                                  Answer.No);
+
+yield return question.AsResult();
+
+if (question.GivenResponse == Answer.Yes)
+    Console.WriteLine(" ^_^ ");
+else
+    Console.WriteLine(" :*( ");
+</code></pre>
+
+<p>}
+```</p>
+]]></content>
+  </entry>
+  
+</feed>
