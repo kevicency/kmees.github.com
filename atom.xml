@@ -4,7 +4,7 @@
   <title><![CDATA[Inspiration]]></title>
   <link href="http://kmees.github.com/atom.xml" rel="self"/>
   <link href="http://kmees.github.com/"/>
-  <updated>2011-11-29T23:39:14+01:00</updated>
+  <updated>2011-11-29T23:51:06+01:00</updated>
   <id>http://kmees.github.com/</id>
   <author>
     <name><![CDATA[Kevin Mees]]></name>
@@ -12,6 +12,20 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Migration to Octopress]]></title>
+    <link href="http://kmees.github.com/blog/2011/11/29/migration-to-octopress/"/>
+    <updated>2011-11-29T23:44:00+01:00</updated>
+    <id>http://kmees.github.com/blog/2011/11/29/migration-to-octopress</id>
+    <content type="html"><![CDATA[<p>I am currently migrating my blog from <em>Wordpress</em> to <em>Octopress</em>. The main
+reason for the migration is the awful (at least for coding blogs) post editor in
+Wordpress. With the migration I can write the posts in Markdown and Vim which,
+hopefully, leads to more posts !</p>
+
+<p>And becuase Octopress is new and shiny and geeky !</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[MVVM Dialogs with Caliburn.Micro]]></title>
