@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://kmees.github.com/blog/2011/11/29/mvvm-dialogs-with-caliburn-dot-micro">
+  <link rel="canonical" href="http://kmees.github.com/blog/2011/06/16/mvvm-dialogs-with-caliburn-dot-micro">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -93,7 +93,7 @@
   
 
 
-<time datetime="2011-11-29T21:10:00+01:00" pubdate data-updated="true">Nov 29<span>th</span>, 2011</time>
+<time datetime="2011-06-16T21:10:00+02:00" pubdate data-updated="true">Jun 16<span>th</span>, 2011</time>
         
          | <a href="#disqus_thread">Comments</a>
         
@@ -102,7 +102,7 @@
   </header>
 
 
-<div class="entry-content"><h1>Background</h1>
+<div class="entry-content"><h2>Background</h2>
 
 <p>In every applications life there comes a time when you need to show some kind of message to the user. Be it a question whether he really wants to delete something or a simple message that says that some operation was successful. The most simple way to do that is the good ol&#8217; <code>MessageBox.Show()</code> with its zillion overloads.</p>
 
@@ -115,9 +115,12 @@
 
 <p>You can find quite a lot solutions about how the MVVM<em>ize</em> MesasgeBoxes and dialog screens in general. Most of them involve wrapping the <code>MessageBox.Show()</code> in some kind of IService, setting up some kind of event infrastructure and other funky stuff. Surprisingly, all of those solutions completely ignore the first M in <strong>M</strong>VVM, namely the Model, and none really tackles the problem at its heart.</p>
 
-<h1>Implementation</h1>
+<!--more-->
 
-<h2>One Model to rule them all</h2>
+
+<h2>Implementation</h2>
+
+<h3>One Model to rule them all</h3>
 
 <p>Well, let&#8217;s forget about all the View and ViewModel stuff for now. We will start by specifying what we actually want to achieve with a dialog.</p>
 
@@ -171,7 +174,7 @@
 
 <p>The DialogType in conjunction with the subject defines the topic and the rest is pretty much straightforward. We also need a IsResponseGiven Property so that we can distinguish between default and unset values because TResponse may or may not be a value type (and hence not nullable).</p>
 
-<h2>One ViewModel to bind them</h2>
+<h3>One ViewModel to bind them</h3>
 
 <p>The ViewModel is responsible for bringing the Responses in a bindable format and setting the response on the dialog when the user selects one. The ViewModel also handles the case where the user closes the window without giving any response at all.</p>
 
@@ -213,7 +216,7 @@
 
 <p>The implementation is pretty straightforward and omitted for brevity but can be found here.</p>
 
-<h2>One View to show them all</h2>
+<h3>One View to show them all</h3>
 
 <p>I will present the WPF version of the view here because the SL version requires a workaround for the non existing <code>IsDefault</code>/<code>IsCancel</code> Properties of the Button. For those interested in the SL version, the source is here. I will also omit all irrelevant (styling) properties.</p>
 
@@ -270,7 +273,7 @@
 
 <p>The most important part is where we bind the Responses to an ItemsControl (by using Caliburn.Micros Convention Binding Feature) and create a Button for each Response which will call the Respond() Method on the ViewModel with the bound Response as a parameter. The Subject of the Dialog is bound to the Title of the Window and the DialogType is converted to an Icon.</p>
 
-<h2>And with the IResult show them</h2>
+<h3>And with the IResult show them</h3>
 
 <p>No Caliburn.Micro Extension with the corresponding IResult to use them !</p>
 
@@ -422,7 +425,7 @@
   
 
 
-<time datetime="2011-11-29T21:10:00+01:00" pubdate data-updated="true">Nov 29<span>th</span>, 2011</time>
+<time datetime="2011-06-16T21:10:00+02:00" pubdate data-updated="true">Jun 16<span>th</span>, 2011</time>
       
 
 <span class="categories">
@@ -436,7 +439,7 @@
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://kmees.github.com/blog/2011/11/29/mvvm-dialogs-with-caliburn-dot-micro/" data-via="kevin_mees" data-counturl="http://kmees.github.com/blog/2011/11/29/mvvm-dialogs-with-caliburn-dot-micro/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://kmees.github.com/blog/2011/06/16/mvvm-dialogs-with-caliburn-dot-micro/" data-via="kevin_mees" data-counturl="http://kmees.github.com/blog/2011/06/16/mvvm-dialogs-with-caliburn-dot-micro/" >Tweet</a>
   
   
   
@@ -446,6 +449,8 @@
 
     
     <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2011/06/01/handling-errors-in-caliburn-dot-micros-iresult-part-ii/" title="Previous Post: Handling Errors in Caliburn.Micro's IResult - Part II">&laquo; Handling Errors in Caliburn.Micro's IResult - Part II</a>
       
       
     </p>
@@ -467,7 +472,15 @@
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2011/11/29/mvvm-dialogs-with-caliburn-dot-micro/">MVVM Dialogs with Caliburn.Micro</a>
+        <a href="/blog/2011/06/16/mvvm-dialogs-with-caliburn-dot-micro/">MVVM Dialogs with Caliburn.Micro</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/06/01/handling-errors-in-caliburn-dot-micros-iresult-part-ii/">Handling Errors in Caliburn.Micro's IResult - Part II</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/05/31/handling-errors-in-caliburn-dot-micros-iresult-part-i/">Handling Errors in Caliburn.Micro's IResult - Part I</a>
       </li>
     
   </ul>
@@ -520,8 +533,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://kmees.github.com/blog/2011/11/29/mvvm-dialogs-with-caliburn-dot-micro/';
-        var disqus_url = 'http://kmees.github.com/blog/2011/11/29/mvvm-dialogs-with-caliburn-dot-micro/';
+        var disqus_identifier = 'http://kmees.github.com/blog/2011/06/16/mvvm-dialogs-with-caliburn-dot-micro/';
+        var disqus_url = 'http://kmees.github.com/blog/2011/06/16/mvvm-dialogs-with-caliburn-dot-micro/';
         var disqus_script = 'embed.js';
       
     (function () {

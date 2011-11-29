@@ -4,7 +4,7 @@
   <title><![CDATA[Category: WPF | Inspiration]]></title>
   <link href="http://kmees.github.com/blog/categories/wpf/atom.xml" rel="self"/>
   <link href="http://kmees.github.com/"/>
-  <updated>2011-11-29T22:47:16+01:00</updated>
+  <updated>2011-11-29T23:36:12+01:00</updated>
   <id>http://kmees.github.com/</id>
   <author>
     <name><![CDATA[Kevin Mees]]></name>
@@ -15,10 +15,10 @@
   
   <entry>
     <title type="html"><![CDATA[MVVM Dialogs with Caliburn.Micro]]></title>
-    <link href="http://kmees.github.com/blog/2011/11/29/mvvm-dialogs-with-caliburn-dot-micro/"/>
-    <updated>2011-11-29T21:10:00+01:00</updated>
-    <id>http://kmees.github.com/blog/2011/11/29/mvvm-dialogs-with-caliburn-dot-micro</id>
-    <content type="html"><![CDATA[<h1>Background</h1>
+    <link href="http://kmees.github.com/blog/2011/06/16/mvvm-dialogs-with-caliburn-dot-micro/"/>
+    <updated>2011-06-16T21:10:00+02:00</updated>
+    <id>http://kmees.github.com/blog/2011/06/16/mvvm-dialogs-with-caliburn-dot-micro</id>
+    <content type="html"><![CDATA[<h2>Background</h2>
 
 <p>In every applications life there comes a time when you need to show some kind of message to the user. Be it a question whether he really wants to delete something or a simple message that says that some operation was successful. The most simple way to do that is the good ol' <code>MessageBox.Show()</code> with its zillion overloads.</p>
 
@@ -30,9 +30,12 @@ MessageBox.Show("Foo", "Bar", MessageBoxButton.OKCancel);
 
 <p>You can find quite a lot solutions about how the MVVM<em>ize</em> MesasgeBoxes and dialog screens in general. Most of them involve wrapping the <code>MessageBox.Show()</code> in some kind of IService, setting up some kind of event infrastructure and other funky stuff. Surprisingly, all of those solutions completely ignore the first M in <strong>M</strong>VVM, namely the Model, and none really tackles the problem at its heart.</p>
 
-<h1>Implementation</h1>
+<!--more-->
 
-<h2>One Model to rule them all</h2>
+
+<h2>Implementation</h2>
+
+<h3>One Model to rule them all</h3>
 
 <p>Well, let's forget about all the View and ViewModel stuff for now. We will start by specifying what we actually want to achieve with a dialog.</p>
 
@@ -72,7 +75,7 @@ Error
 
 <p>The DialogType in conjunction with the subject defines the topic and the rest is pretty much straightforward. We also need a IsResponseGiven Property so that we can distinguish between default and unset values because TResponse may or may not be a value type (and hence not nullable).</p>
 
-<h2>One ViewModel to bind them</h2>
+<h3>One ViewModel to bind them</h3>
 
 <p>The ViewModel is responsible for bringing the Responses in a bindable format and setting the response on the dialog when the user selects one. The ViewModel also handles the case where the user closes the window without giving any response at all.</p>
 
@@ -105,7 +108,7 @@ void Respond(BindableResponse&lt;TResponse&gt; bindableResponse);
 
 <p>The implementation is pretty straightforward and omitted for brevity but can be found here.</p>
 
-<h2>One View to show them all</h2>
+<h3>One View to show them all</h3>
 
 <p>I will present the WPF version of the view here because the SL version requires a workaround for the non existing <code>IsDefault</code>/<code>IsCancel</code> Properties of the Button. For those interested in the SL version, the source is here. I will also omit all irrelevant (styling) properties.</p>
 
@@ -141,7 +144,7 @@ void Respond(BindableResponse&lt;TResponse&gt; bindableResponse);
 
 <p>The most important part is where we bind the Responses to an ItemsControl (by using Caliburn.Micros Convention Binding Feature) and create a Button for each Response which will call the Respond() Method on the ViewModel with the bound Response as a parameter. The Subject of the Dialog is bound to the Title of the Window and the DialogType is converted to an Icon.</p>
 
-<h2>And with the IResult show them</h2>
+<h3>And with the IResult show them</h3>
 
 <p>No Caliburn.Micro Extension with the corresponding IResult to use them !</p>
 
