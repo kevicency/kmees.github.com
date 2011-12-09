@@ -1,0 +1,943 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Inspiration]]></title>
+  <link href="http://kmees.github.com/atom.xml" rel="self"/>
+  <link href="http://kmees.github.com/"/>
+  <updated>2011-11-29T23:56:23+01:00</updated>
+  <id>http://kmees.github.com/</id>
+  <author>
+    <name><![CDATA[Kevin Mees]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Migration to Octopress]]></title>
+    <link href="http://kmees.github.com/blog/2011/11/29/migration-to-octopress/"/>
+    <updated>2011-11-29T23:44:00+01:00</updated>
+    <id>http://kmees.github.com/blog/2011/11/29/migration-to-octopress</id>
+    <content type="html"><![CDATA[<p>I am currently migrating my blog from <em>Wordpress</em> to <em>Octopress</em>. The main
+reason for the migration is the awful (at least for coding blogs) post editor in
+Wordpress. With the migration I can write the posts in Markdown and Vim which,
+hopefully, leads to more posts !</p>
+
+<p>And because Octopress is new and shiny and geeky !</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[MVVM Dialogs with Caliburn.Micro]]></title>
+    <link href="http://kmees.github.com/blog/2011/06/16/mvvm-dialogs-with-caliburn-dot-micro/"/>
+    <updated>2011-06-16T21:10:00+02:00</updated>
+    <id>http://kmees.github.com/blog/2011/06/16/mvvm-dialogs-with-caliburn-dot-micro</id>
+    <content type="html"><![CDATA[<h2>Background</h2>
+
+<p>In every applications life there comes a time when you need to show some kind of message to the user. Be it a question whether he really wants to delete something or a simple message that says that some operation was successful. The most simple way to do that is the good ol&#8217; <code>MessageBox.Show()</code> with its zillion overloads.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="s">&quot;Foo&quot;</span><span class="p">,</span> <span class="s">&quot;Bar&quot;</span><span class="p">,</span> <span class="n">MessageBoxButton</span><span class="p">.</span><span class="n">OKCancel</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But in the shiny MVVM World , polluting your ViewModels with MessageBoxes is usually frowned upon since it breaks a lot of stuff, especially automated unit testing and theming.</p>
+
+<p>You can find quite a lot solutions about how the MVVM<em>ize</em> MesasgeBoxes and dialog screens in general. Most of them involve wrapping the <code>MessageBox.Show()</code> in some kind of IService, setting up some kind of event infrastructure and other funky stuff. Surprisingly, all of those solutions completely ignore the first M in <strong>M</strong>VVM, namely the Model, and none really tackles the problem at its heart.</p>
+
+<!--more-->
+
+
+<h2>Implementation</h2>
+
+<h3>One Model to rule them all</h3>
+
+<p>Well, let&#8217;s forget about all the View and ViewModel stuff for now. We will start by specifying what we actually want to achieve with a dialog.</p>
+
+<p>We want to display some message concerning some topic and a list of possible Responses from which the user can choose one.</p>
+
+<p>So, let&#8217;s create a model with conforms to those specifications</p>
+
+<figure class='code'><figcaption><span>Dialog&lt;TResponse&gt;</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">public</span> <span class="k">class</span> <span class="nc">Dialog</span><span class="p">&lt;</span><span class="n">TResponse</span><span class="p">&gt;</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="n">DialogType</span> <span class="n">DialogType</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>    <span class="k">public</span> <span class="kt">string</span> <span class="n">Subject</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>    <span class="k">public</span> <span class="kt">string</span> <span class="n">Message</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">public</span> <span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">TResponse</span><span class="p">&gt;</span> <span class="n">PossibleResponses</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">protected</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>    <span class="k">public</span> <span class="n">TResponse</span> <span class="n">GivenResponse</span> <span class="p">{</span><span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>    <span class="k">public</span> <span class="kt">bool</span> <span class="n">IsResponseGiven</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">private</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>DialogType</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">public</span> <span class="k">enum</span> <span class="n">DialogType</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">None</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">Question</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">Warning</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">Information</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">Error</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The DialogType in conjunction with the subject defines the topic and the rest is pretty much straightforward. We also need a IsResponseGiven Property so that we can distinguish between default and unset values because TResponse may or may not be a value type (and hence not nullable).</p>
+
+<h3>One ViewModel to bind them</h3>
+
+<p>The ViewModel is responsible for bringing the Responses in a bindable format and setting the response on the dialog when the user selects one. The ViewModel also handles the case where the user closes the window without giving any response at all.</p>
+
+<p>For supporting default (the user presses <code>Enter</code>) and cancel (the user presses <code>Escape</code>) responses,  I will use a convention based approach, namely defining the first response in the list as the default response and the last response as the cancel response.</p>
+
+<figure class='code'><figcaption><span>BindableResponse&lt;TResponse&gt;</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">public</span> <span class="k">class</span> <span class="nc">BindableResponse</span><span class="p">&lt;</span><span class="n">TResponse</span><span class="p">&gt;</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="n">TResponse</span> <span class="n">Response</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>    <span class="k">public</span> <span class="kt">bool</span> <span class="n">IsDefault</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>    <span class="k">public</span> <span class="kt">bool</span> <span class="n">IsCancel</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>IDialogViewModel&lt;TResponse&gt;</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">public</span> <span class="k">interface</span> <span class="n">IDialogViewModel</span><span class="p">&lt;</span><span class="n">TResponse</span><span class="p">&gt;</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">bool</span> <span class="n">IsClosed</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>    <span class="n">Dialog</span><span class="p">&lt;</span><span class="n">TResponse</span><span class="p">&gt;</span> <span class="n">Dialog</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>    <span class="n">IObservableCollection</span><span class="p">&lt;</span><span class="n">BindableResponse</span><span class="p">&lt;</span><span class="n">TResponse</span><span class="p">&gt;&gt;</span> <span class="n">Responses</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>    <span class="k">void</span> <span class="nf">Respond</span><span class="p">(</span><span class="n">BindableResponse</span><span class="p">&lt;</span><span class="n">TResponse</span><span class="p">&gt;</span> <span class="n">bindableResponse</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The implementation is pretty straightforward and omitted for brevity but can be found here.</p>
+
+<h3>One View to show them all</h3>
+
+<p>I will present the WPF version of the view here because the SL version requires a workaround for the non existing <code>IsDefault</code>/<code>IsCancel</code> Properties of the Button. For those interested in the SL version, the source is here. I will also omit all irrelevant (styling) properties.</p>
+
+<figure class='code'><figcaption><span>DialogView</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;Window</span> <span class="na">x:Class=</span><span class="s">&quot;Caliburn.Micro.Contrib.Interaction.DialogView&quot;</span>
+</span><span class='line'>        <span class="na">Title=</span><span class="s">&quot;{Binding Dialog.Subject}&quot;</span>
+</span><span class='line'>        <span class="na">Contrib:DialogCloser.DialogResult=</span><span class="s">&quot;{Binding CanClose}&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;Window.Icon&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;Binding</span> <span class="na">Path=</span><span class="s">&quot;Dialog.DialogType&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;Binding.Converter&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;Converter:DialogTypeToSystemIconConverter</span> <span class="nt">/&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/Binding.Converter&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/Binding&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/Window.Icon&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;DockPanel</span> <span class="na">Focusable=</span><span class="s">&quot;False&quot;</span> <span class="na">LastChildFill=</span><span class="s">&quot;True&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;ItemsControl</span> <span class="na">x:Name=</span><span class="s">&quot;Responses&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;ItemsControl.ItemTemplate&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;DataTemplate&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;Button</span> <span class="na">Content=</span><span class="s">&quot;{Binding Response}&quot;</span>
+</span><span class='line'>                            <span class="na">IsCancel=</span><span class="s">&quot;{Binding IsCancel}&quot;</span>
+</span><span class='line'>                            <span class="na">IsDefault=</span><span class="s">&quot;{Binding IsDefault}&quot;</span>
+</span><span class='line'>                            <span class="na">Micro:Message.Attach=</span><span class="s">&quot;Respond($dataContext)&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/DataTemplate&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/ItemsControl.ItemTemplate&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/ItemsControl&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;TextBlock</span> <span class="na">Text=</span><span class="s">&quot;{Binding Dialog.Message}&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/DockPanel&gt;</span>
+</span><span class='line'><span class="nt">&lt;/Window&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The most important part is where we bind the Responses to an ItemsControl (by using Caliburn.Micros Convention Binding Feature) and create a Button for each Response which will call the Respond() Method on the ViewModel with the bound Response as a parameter. The Subject of the Dialog is bound to the Title of the Window and the DialogType is converted to an Icon.</p>
+
+<h3>And with the IResult show them</h3>
+
+<p>No Caliburn.Micro Extension with the corresponding IResult to use them !</p>
+
+<p>To actually show the dialog to the user, we would have to</p>
+
+<ul>
+<li>Create the dialog</li>
+<li>Import the IWindowManager in the ViewModel</li>
+<li>Create the ViewModel and pass it the dialog</li>
+<li>Invoke ShowDialog() on the IWindowManager with the ViewModel as a parameter</li>
+</ul>
+
+
+<p>Well, the first step cannot be encapsulated in an IResult, but 2-4 rest can easily be encapsulated.</p>
+
+<figure class='code'><figcaption><span>DialogResult&lt;TResponse&gt;</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">public</span> <span class="k">class</span> <span class="nc">DialogResult</span><span class="p">&lt;</span><span class="n">TResponse</span><span class="p">&gt;</span> <span class="p">:</span> <span class="n">IResult</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">private</span> <span class="n">Func</span><span class="p">&lt;</span><span class="n">IDialogViewModel</span><span class="p">&lt;</span><span class="n">TResponse</span><span class="p">&gt;&gt;</span> <span class="n">_locateVM</span> <span class="p">=</span>
+</span><span class='line'>        <span class="p">()</span> <span class="p">=&gt;</span> <span class="k">new</span> <span class="n">DialogViewModel</span><span class="p">&lt;</span><span class="n">TResponse</span><span class="p">&gt;();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">public</span> <span class="nf">DialogResult</span><span class="p">(</span><span class="n">Dialog</span><span class="p">&lt;</span><span class="n">TResponse</span><span class="p">&gt;</span> <span class="n">dialog</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">Dialog</span> <span class="p">=</span> <span class="n">dialog</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">public</span> <span class="n">Dialog</span><span class="p">&lt;</span><span class="n">TResponse</span><span class="p">&gt;</span> <span class="n">Dialog</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">private</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">public</span> <span class="k">void</span> <span class="nf">Execute</span><span class="p">(</span><span class="n">ActionExecutionContext</span> <span class="n">context</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">IDialogViewModel</span><span class="p">&lt;</span><span class="n">TResponse</span><span class="p">&gt;</span> <span class="n">vm</span> <span class="p">=</span> <span class="n">_locateVM</span><span class="p">();</span>
+</span><span class='line'>        <span class="n">vm</span><span class="p">.</span><span class="n">Dialog</span> <span class="p">=</span> <span class="n">Dialog</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">Micro</span><span class="p">.</span><span class="n">Execute</span><span class="p">.</span><span class="n">OnUIThread</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="n">IoC</span><span class="p">.</span><span class="n">Get</span><span class="p">&lt;</span><span class="n">IWindowManager</span><span class="p">&gt;().</span><span class="n">ShowDialog</span><span class="p">(</span><span class="n">vm</span><span class="p">));</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">public</span> <span class="n">DialogResult</span><span class="p">&lt;</span><span class="n">TResponse</span><span class="p">&gt;</span> <span class="n">In</span><span class="p">(</span><span class="n">IDialogViewModel</span><span class="p">&lt;</span><span class="n">TResponse</span><span class="p">&gt;</span> <span class="n">dialogViewModel</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">_locateVM</span> <span class="p">=</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="n">dialogViewModel</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">public</span> <span class="n">DialogResult</span><span class="p">&lt;</span><span class="n">TResponse</span><span class="p">&gt;</span> <span class="n">In</span><span class="p">&lt;</span><span class="n">TDialogViewModel</span><span class="p">&gt;()</span>
+</span><span class='line'>        <span class="n">where</span> <span class="n">TDialogViewModel</span> <span class="p">:</span> <span class="n">IDialogViewModel</span><span class="p">&lt;</span><span class="n">TResponse</span><span class="p">&gt;</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">_locateVM</span> <span class="p">=</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="n">IoC</span><span class="p">.</span><span class="n">Get</span><span class="p">&lt;</span><span class="n">TDialogViewModel</span><span class="p">&gt;();</span>
+</span><span class='line'>        <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We do not only get reusable code, but also a nice way to change the implementation of IDialogViewModel&lt;> for specific dialogs if we want to.</p>
+
+<p>Last but not least we can write a small Extension Method to get even more readable code !</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">public</span> <span class="k">static</span> <span class="n">DialogResult</span><span class="p">&lt;</span><span class="n">TResponse</span><span class="p">&gt;</span> <span class="n">AsResult</span><span class="p">&lt;</span><span class="n">TResponse</span><span class="p">&gt;(</span><span class="k">this</span> <span class="n">Dialog</span><span class="p">&lt;</span><span class="n">TResponse</span><span class="p">&gt;</span> <span class="n">dialog</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="k">new</span> <span class="n">DialogResult</span><span class="p">&lt;</span><span class="n">TResponse</span><span class="p">&gt;(</span><span class="n">dialog</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And use it in the coroutine</p>
+
+<figure class='code'><figcaption><span>Demo</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">public</span> <span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">IResult</span><span class="p">&gt;</span> <span class="n">Foo</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">question</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Dialog</span><span class="p">&lt;</span><span class="n">Answer</span><span class="p">&gt;(</span><span class="n">DialogType</span><span class="p">.</span><span class="n">Question</span><span class="p">,</span>
+</span><span class='line'>                                      <span class="s">&quot;Isn&#39;t this a nice way to create a Dialog Window?&quot;</span><span class="p">,</span>
+</span><span class='line'>                                      <span class="n">Answer</span><span class="p">.</span><span class="n">Yes</span><span class="p">,</span>
+</span><span class='line'>                                      <span class="n">Answer</span><span class="p">.</span><span class="n">No</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">yield</span> <span class="k">return</span> <span class="n">question</span><span class="p">.</span><span class="n">AsResult</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">question</span><span class="p">.</span><span class="n">GivenResponse</span> <span class="p">==</span> <span class="n">Answer</span><span class="p">.</span><span class="n">Yes</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot; ^_^ &quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot; :*( &quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Handling Errors in Caliburn.Micro's IResult - Part II]]></title>
+    <link href="http://kmees.github.com/blog/2011/06/01/handling-errors-in-caliburn-dot-micros-iresult-part-ii/"/>
+    <updated>2011-06-01T23:01:00+02:00</updated>
+    <id>http://kmees.github.com/blog/2011/06/01/handling-errors-in-caliburn-dot-micros-iresult-part-ii</id>
+    <content type="html"><![CDATA[<h2>Preface</h2>
+
+<p>In my last post I gave two possible approaches and a preview of my final solution for handling errors in IResults. The syntax for my final solution was</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">yield</span> <span class="k">return</span> <span class="k">new</span> <span class="nf">ProcessDataResult</span><span class="p">()</span>
+</span><span class='line'>        <span class="p">.</span><span class="n">Rescue</span><span class="p">().</span><span class="n">With</span><span class="p">(</span><span class="n">coroutine</span><span class="p">:</span> <span class="n">IORescue</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">.</span><span class="n">Rescue</span><span class="p">().</span><span class="n">With</span><span class="p">(</span><span class="n">coroutine</span><span class="p">:</span> <span class="n">GeneralRescue</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This means that</p>
+
+<ul>
+<li>whenever the result completes with an error of type IOException, the IORescue coroutine is executed</li>
+<li>whenever the result completes with any other error, the GeneralRescue coroutine is executed</li>
+</ul>
+
+
+<p>So the behaviour of the Rescue is similar to a try/catch block</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">try</span> <span class="p">{}</span>
+</span><span class='line'><span class="k">catch</span> <span class="p">(</span><span class="n">IOException</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span> <span class="c1">//IORescue }</span>
+</span><span class='line'><span class="k">catch</span> <span class="p">(</span><span class="n">Exception</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span> <span class="c1">//GeneralRescue }</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<!--more-->
+
+
+<h2>Decorators to the Rescue !</h2>
+
+<p>Now, before we have a look at the implementation, you should make yourself familiar with the <a href="http://en.wikipedia.org/wiki/Decorator_pattern">Decorator Pattern</a> since we will use a Decorator to &#8216;extend&#8217; the behaviour of the Execute-Method of our Inner Result.</p>
+
+<p>Well, let&#8217;s start with a base class for our decorators.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">internal</span> <span class="k">class</span> <span class="nc">ResultDecoratorBase</span> <span class="p">:</span> <span class="n">IResult</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">private</span> <span class="k">readonly</span> <span class="n">IResult</span> <span class="n">_inner</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">protected</span> <span class="nf">ResultDecoratorBase</span><span class="p">(</span><span class="n">IResult</span> <span class="n">inner</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">inner</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span> <span class="k">throw</span> <span class="k">new</span> <span class="n">ArgumentNullException</span><span class="p">(</span><span class="s">&quot;inner&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">_inner</span> <span class="p">=</span> <span class="n">inner</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">public</span> <span class="n">IResult</span> <span class="n">Inner</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="k">get</span> <span class="p">{</span> <span class="k">return</span> <span class="n">_inner</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="cp">#region IResult Members</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">public</span> <span class="k">virtual</span> <span class="k">void</span> <span class="nf">Execute</span><span class="p">(</span><span class="n">ActionExecutionContext</span> <span class="n">context</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">var</span> <span class="n">wrapper</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SequentialResult</span><span class="p">(</span><span class="k">new</span> <span class="n">SingleResultEnumerator</span><span class="p">(</span><span class="n">_inner</span><span class="p">));</span>
+</span><span class='line'>        <span class="n">wrapper</span><span class="p">.</span><span class="n">Completed</span> <span class="p">+=</span> <span class="n">InnerCompleted</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">wrapper</span><span class="p">.</span><span class="n">Execute</span><span class="p">(</span><span class="n">context</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">public</span> <span class="k">virtual</span> <span class="k">event</span> <span class="n">EventHandler</span> <span class="n">Completed</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="cp">#endregion</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">protected</span> <span class="k">virtual</span> <span class="k">void</span> <span class="nf">OnCompleted</span><span class="p">(</span><span class="n">ResultCompletionEventArgs</span> <span class="n">args</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">Completed</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+</span><span class='line'>            <span class="n">Completed</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="n">args</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">protected</span> <span class="k">virtual</span> <span class="k">void</span> <span class="nf">InnerCompleted</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">ResultCompletionEventArgs</span> <span class="n">args</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="p">(</span><span class="n">sender</span> <span class="k">as</span> <span class="n">IResult</span><span class="p">).</span><span class="n">Completed</span> <span class="p">-=</span> <span class="n">InnerCompleted</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The base Decorator takes an arbitrary IResult and, when executed, wraps it in a SequentialResult (to get some benefits like build up by the IoC) and executes it. The InnerCompleted()-Method is the hook for the inheriting Decorators to perform their logic.</p>
+
+<h2>The Rescue Decorator</h2>
+
+<p>The Rescue Decorator will be generic (for the type that we want to catch) and takes a Function in its constructor which taked an exception as an argument and returns the Rescue Coroutine. We can also specify if we always want to cancel the Result after the rescue was executed.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="c1">/// &lt;summary&gt;</span>
+</span><span class='line'><span class="c1">///   A result decorator which executes a coroutine when the inner result completes with an error</span>
+</span><span class='line'><span class="c1">/// &lt;/summary&gt;</span>
+</span><span class='line'><span class="c1">/// &lt;typeparam name = &quot;TException&quot;&gt;The type of the exception we want to perform the rescue on&lt;/typeparam&gt;</span>
+</span><span class='line'><span class="k">internal</span> <span class="k">class</span> <span class="nc">RescueCoroutineDecorator</span><span class="p">&lt;</span><span class="n">TException</span><span class="p">&gt;</span> <span class="p">:</span> <span class="n">ResultDecoratorBase</span>
+</span><span class='line'>    <span class="n">where</span> <span class="n">TException</span> <span class="p">:</span> <span class="n">Exception</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">private</span> <span class="k">readonly</span> <span class="kt">bool</span> <span class="n">_cancelResult</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">private</span> <span class="k">readonly</span> <span class="n">Func</span><span class="p">&lt;</span><span class="n">TException</span><span class="p">,</span> <span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">IResult</span><span class="p">&gt;&gt;</span> <span class="n">_rescue</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">public</span> <span class="nf">RescueCoroutineDecorator</span><span class="p">(</span><span class="n">IResult</span> <span class="n">inner</span><span class="p">,</span> <span class="n">Func</span><span class="p">&lt;</span><span class="n">TException</span><span class="p">,</span> <span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">IResult</span><span class="p">&gt;&gt;</span> <span class="n">rescue</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">cancelResult</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">:</span> <span class="k">base</span><span class="p">(</span><span class="n">inner</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">rescue</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span> <span class="k">throw</span> <span class="k">new</span> <span class="n">ArgumentNullException</span><span class="p">(</span><span class="s">&quot;rescue&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">_rescue</span> <span class="p">=</span> <span class="n">rescue</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">_cancelResult</span> <span class="p">=</span> <span class="n">cancelResult</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In the InnerCompleted()-Method we check if the Inner Result completed with an error of type TException and if so, execute the Rescue Coroutine. If not, we ignore the error and raise the Completed-Event with the same args.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">protected</span> <span class="k">override</span> <span class="k">void</span> <span class="nf">InnerCompleted</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">ResultCompletionEventArgs</span> <span class="n">args</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">base</span><span class="p">.</span><span class="n">InnerCompleted</span><span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">args</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">args</span><span class="p">.</span><span class="n">Error</span> <span class="k">is</span> <span class="n">TException</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">var</span> <span class="n">error</span> <span class="p">=</span> <span class="p">(</span><span class="n">TException</span><span class="p">)</span><span class="n">args</span><span class="p">.</span><span class="n">Error</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">LogRescuedError</span><span class="p">(</span><span class="n">error</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">try</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="n">Rescue</span><span class="p">(</span><span class="n">error</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">catch</span> <span class="p">(</span><span class="n">Exception</span> <span class="n">e</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="n">Log</span><span class="p">.</span><span class="n">Error</span><span class="p">(</span><span class="n">e</span><span class="p">);</span>
+</span><span class='line'>            <span class="n">OnCompleted</span><span class="p">(</span><span class="k">new</span> <span class="n">ResultCompletionEventArgs</span> <span class="p">{</span> <span class="n">Error</span> <span class="p">=</span> <span class="n">e</span> <span class="p">});</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">OnCompleted</span><span class="p">(</span><span class="n">args</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">Rescue</span><span class="p">(</span><span class="n">TException</span> <span class="n">exception</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">rescueResult</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SequentialResult</span><span class="p">(</span><span class="n">_rescue</span><span class="p">(</span><span class="n">exception</span><span class="p">).</span><span class="n">GetEnumerator</span><span class="p">());</span>
+</span><span class='line'>    <span class="n">rescueResult</span><span class="p">.</span><span class="n">Completed</span> <span class="p">+=</span> <span class="n">RescueCompleted</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">rescueResult</span><span class="p">.</span><span class="n">Execute</span><span class="p">(</span><span class="n">_context</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then, when the Rescue Coroutine completed, the Decorator will also complete. Since we execute the Rescue inside the execution of the Decorator we can also check if the Rescue completes successfully and react accordingly (like setting the error on the EventArgs or cancel it)</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">RescueCompleted</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">ResultCompletionEventArgs</span> <span class="n">args</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="p">(</span><span class="n">sender</span> <span class="k">as</span> <span class="n">IResult</span><span class="p">).</span><span class="n">Completed</span> <span class="p">-=</span> <span class="n">RescueCompleted</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">OnCompleted</span><span class="p">(</span><span class="k">new</span> <span class="n">ResultCompletionEventArgs</span> <span class="p">{</span> <span class="n">Error</span> <span class="p">=</span> <span class="n">args</span><span class="p">.</span><span class="n">Error</span><span class="p">,</span> <span class="n">WasCancelled</span> <span class="p">=</span> <span class="n">args</span><span class="p">.</span><span class="n">WasCancelled</span> <span class="p">||</span> <span class="n">CancelResult</span> <span class="p">});</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The full code for the Rescue Decorator can be found here.</p>
+
+<h2>Recap</h2>
+
+<p>Well, with the Decorator Pattern it was possible to implement all the desired features in a nice and testable way. Furthermore, we can use same principle for executing a coroutine when the result is cancelled or when an exception is thrown inside the result.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Handling Errors in Caliburn.Micro's IResult - Part I]]></title>
+    <link href="http://kmees.github.com/blog/2011/05/31/handling-errors-in-caliburn-dot-micros-iresult-part-i/"/>
+    <updated>2011-05-31T22:01:00+02:00</updated>
+    <id>http://kmees.github.com/blog/2011/05/31/handling-errors-in-caliburn-dot-micros-iresult-part-i</id>
+    <content type="html"><![CDATA[<h2>The Problem</h2>
+
+<p>One of Caliburn.Micro&#8217;s nicest feature is, hands down, the concept of Actions. In that concept the <code>IResult</code> plays an important role, especially when using <em>Coroutines</em>. If you don&#8217;t know about them, you should definately <a href="http://devlicio.us/blogs/rob_eisenberg/archive/2010/08/21/caliburn-micro-soup-to-nuts-part-5-iresult-and-coroutines.aspx">read up on them here first</a>.</p>
+
+<p>So, let&#8217;s assume we are executing a Coroutine which does the following:</p>
+
+<ul>
+<li>show a loading screen to the user,</li>
+<li>start processing a lot of data</li>
+<li>hide the loading screen once the processing is finished.</li>
+</ul>
+
+
+<p>Since the processing is also likely to fail for whatever reason we want to handle the error by executing a <em>Rescue Coroutine</em>.</p>
+
+<figure class='code'><figcaption><span>Pseudo Coroutine</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">public</span> <span class="n">IEnumerable</span> <span class="nf">ProcessData</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">yield</span> <span class="k">return</span> <span class="k">new</span> <span class="nf">BusyResult</span><span class="p">(</span><span class="s">&quot;Processing...&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">yield</span> <span class="k">return</span> <span class="k">new</span> <span class="nf">ProcessDataResult</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">yield</span> <span class="k">return</span> <span class="k">new</span> <span class="nf">NotBusyResult</span><span class="p">();</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The implementation of those results is irrelevant since we want to have a look at how we can handle the error during the processing in a nice (reusable) way.</p>
+
+<!--more-->
+
+
+<h2>The First Attempt</h2>
+
+<p>Well, let&#8217;s see how we can handle it at all. The first approach is to ignore the built-in mechanism and expose an error property on the result which will then be checked during the execution of the Coroutine.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">public</span> <span class="n">IEnumerable</span> <span class="nf">ProcessData</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">yield</span> <span class="k">return</span> <span class="k">new</span> <span class="nf">BusyResult</span><span class="p">(</span><span class="s">&quot;Processing...&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">var</span> <span class="n">processDataResult</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ProcessDataResult</span><span class="p">();</span>
+</span><span class='line'>    <span class="k">yield</span> <span class="k">return</span> <span class="n">processDataResult</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">processDataResult</span><span class="p">.</span><span class="n">Error</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="c1">// We could use Coroutine.BeginExecute(Rescue().GetEnumerator()); but than the context would be null</span>
+</span><span class='line'>        <span class="k">foreach</span> <span class="p">(</span><span class="n">var</span> <span class="n">rescueResult</span> <span class="k">in</span> <span class="n">Rescue</span><span class="p">())</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="k">yield</span> <span class="k">return</span> <span class="n">rescueResult</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">yield</span> <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="k">yield</span> <span class="k">return</span> <span class="k">new</span> <span class="nf">NotBusyResult</span><span class="p">();</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">public</span> <span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">IResult</span><span class="p">&gt;</span> <span class="n">Rescue</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">yield</span> <span class="k">return</span> <span class="k">new</span> <span class="nf">NotBusyResult</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// more rescue stuff</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">public</span> <span class="k">class</span> <span class="nc">ProcessDataResult</span> <span class="p">:</span> <span class="n">IResult</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="n">Exception</span> <span class="n">Error</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">private</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">public</span> <span class="k">void</span> <span class="nf">Execute</span><span class="p">(</span><span class="n">ActionExecutionContext</span> <span class="n">context</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="k">try</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="c1">//process the data</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">catch</span> <span class="p">(</span><span class="n">Exception</span> <span class="n">e</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="n">Error</span> <span class="p">=</span> <span class="n">e</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">Completed</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="k">new</span> <span class="n">ResultCompletionEventArgs</span><span class="p">());</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">public</span> <span class="k">event</span> <span class="n">EventHandler</span><span class="p">&lt;</span><span class="n">ResultCompletionEventArgs</span><span class="p">&gt;</span> <span class="n">Completed</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Although this works, there are some <em>problems</em> with this approach.</p>
+
+<ul>
+<li>We need to add an error property to each result where an error is likely (which may not be always possible)</li>
+<li>The syntax for executing the Rescue Coroutine is quite ugly and not easy to comprehend</li>
+<li>The method itself gets exponentially more complex for every result which can fail</li>
+<li>Calling different rescues for different error is tideous</li>
+</ul>
+
+
+<h2>The Better Attempt</h2>
+
+<p>The second approach uses the built-in mechanism by raising the Completed Event with the Error roperty of the ResultCompletitionEventArgs set to the actual error.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">public</span> <span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">IResult</span><span class="p">&gt;</span> <span class="n">ProcessData</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">yield</span> <span class="k">return</span> <span class="k">new</span> <span class="nf">BusyResult</span><span class="p">(</span><span class="s">&quot;Processing...&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">var</span> <span class="n">processDataResult</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ProcessDataResult</span><span class="p">();</span>
+</span><span class='line'>    <span class="n">processDataResult</span><span class="p">.</span><span class="n">Completed</span> <span class="p">+=</span> <span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span> <span class="p">=&gt;</span>
+</span><span class='line'>                                       <span class="p">{</span>
+</span><span class='line'>                                           <span class="k">if</span> <span class="p">(</span><span class="n">args</span><span class="p">.</span><span class="n">Error</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+</span><span class='line'>                                               <span class="n">Coroutine</span><span class="p">.</span><span class="n">BeginExecute</span><span class="p">(</span><span class="n">Rescue</span><span class="p">().</span><span class="n">GetEnumerator</span><span class="p">());</span>
+</span><span class='line'>                                       <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">yield</span> <span class="k">return</span> <span class="n">processDataResult</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">yield</span> <span class="k">return</span> <span class="k">new</span> <span class="nf">NotBusyResult</span><span class="p">();</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">public</span> <span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">IResult</span><span class="p">&gt;</span> <span class="n">Rescue</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">yield</span> <span class="k">return</span> <span class="k">new</span> <span class="nf">NotBusyResult</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// more rescue stuff</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">public</span> <span class="k">class</span> <span class="nc">ProcessDataResult</span> <span class="p">:</span> <span class="n">IResult</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="k">void</span> <span class="nf">Execute</span><span class="p">(</span><span class="n">ActionExecutionContext</span> <span class="n">context</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="k">try</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="c1">//process the data</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">catch</span> <span class="p">(</span><span class="n">Exception</span> <span class="n">e</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="n">Completed</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="k">new</span> <span class="n">ResultCompletionEventArgs</span> <span class="p">{</span> <span class="n">Error</span> <span class="p">=</span> <span class="n">e</span> <span class="p">});</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">Completed</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="k">new</span> <span class="n">ResultCompletionEventArgs</span><span class="p">());</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">public</span> <span class="k">event</span> <span class="n">EventHandler</span><span class="p">&lt;</span><span class="n">ResultCompletionEventArgs</span><span class="p">&gt;</span> <span class="n">Completed</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>With this approach we don&#8217;t need to add an extra property to our Result which is a huge gain but there are still some <em>disadvantages</em>.</p>
+
+<ul>
+<li>We &#8216;lose&#8217; the context in the Rescue Coroutine</li>
+<li>Syntax still not optimal</li>
+<li>Calling different rescues is still tedious</li>
+</ul>
+
+
+<h2>The Final Solution</h2>
+
+<p>So, what we want is basically</p>
+
+<ul>
+<li>a nice syntax,</li>
+<li>something that works for every implementation of IResult,</li>
+<li>execute the Rescue Coroutine with the same context as the failing Coroutine,</li>
+<li>and a way to handle different types of errors</li>
+</ul>
+
+
+<p>Whew, that&#8217;s quite a bit to ask for. Let&#8217;s have a look at the first two points. Since we want it to work on <em>every</em> implementation of IResult, we cannot use inheritance but how about an Extension Method for IResults together with some <em>fluent syntax</em>?</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">public</span> <span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">IResult</span><span class="p">&gt;</span> <span class="n">ProcessData</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">yield</span> <span class="k">return</span> <span class="k">new</span> <span class="nf">BusyResult</span><span class="p">(</span><span class="s">&quot;Processing...&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">yield</span> <span class="k">return</span> <span class="k">new</span> <span class="nf">ProcessDataResult</span><span class="p">()</span>
+</span><span class='line'>        <span class="p">.</span><span class="n">Rescue</span><span class="p">&lt;</span><span class="n">IOException</span><span class="p">&gt;().</span><span class="n">With</span><span class="p">(</span><span class="n">coroutine</span><span class="p">:</span> <span class="n">IORescue</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">.</span><span class="n">Rescue</span><span class="p">().</span><span class="n">With</span><span class="p">(</span><span class="n">coroutine</span><span class="p">:</span> <span class="n">GeneralRescue</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">yield</span> <span class="k">return</span> <span class="k">new</span> <span class="nf">NotBusyResult</span><span class="p">();</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">public</span> <span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">IResult</span><span class="p">&gt;</span> <span class="n">IORescue</span><span class="p">(</span><span class="n">IOException</span> <span class="n">exception</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">yield</span> <span class="k">return</span> <span class="k">new</span> <span class="nf">NotBusyResult</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// more rescue stuff</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">public</span> <span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">IResult</span><span class="p">&gt;</span> <span class="n">GeneralRescue</span><span class="p">(</span><span class="n">Exception</span> <span class="n">exception</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">yield</span> <span class="k">return</span> <span class="k">new</span> <span class="nf">NotBusyResult</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// more rescue stuff</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That doesn&#8217;t look too bad, does it?</p>
+
+<p>But since this post got really long, I will show the implementation of the solution in the next part. So you either wait for the next post.</p>
+]]></content>
+  </entry>
+  
+</feed>

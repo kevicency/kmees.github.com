@@ -1,0 +1,600 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Handling Errors in Caliburn.Micro's IResult - Part I - Inspiration</title>
+  <meta name="author" content="Kevin Mees">
+
+  
+  <meta name="description" content="The Problem One of Caliburn.Micro&#8217;s nicest feature is, hands down, the concept of Actions. In that concept the IResult plays an important role &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://kmees.github.com/blog/2011/05/31/handling-errors-in-caliburn-dot-micros-iresult-part-i">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Inspiration" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-27373569-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Inspiration</a></h1>
+  
+    <h2>why you fail me !</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:kmees.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Handling Errors in Caliburn.Micro's IResult - Part I</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-05-31T22:01:00+02:00" pubdate data-updated="true">May 31<span>st</span>, 2011</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>The Problem</h2>
+
+<p>One of Caliburn.Micro&#8217;s nicest feature is, hands down, the concept of Actions. In that concept the <code>IResult</code> plays an important role, especially when using <em>Coroutines</em>. If you don&#8217;t know about them, you should definately <a href="http://devlicio.us/blogs/rob_eisenberg/archive/2010/08/21/caliburn-micro-soup-to-nuts-part-5-iresult-and-coroutines.aspx">read up on them here first</a>.</p>
+
+<p>So, let&#8217;s assume we are executing a Coroutine which does the following:</p>
+
+<ul>
+<li>show a loading screen to the user,</li>
+<li>start processing a lot of data</li>
+<li>hide the loading screen once the processing is finished.</li>
+</ul>
+
+
+<p>Since the processing is also likely to fail for whatever reason we want to handle the error by executing a <em>Rescue Coroutine</em>.</p>
+
+<figure class='code'><figcaption><span>Pseudo Coroutine</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">public</span> <span class="n">IEnumerable</span> <span class="nf">ProcessData</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">yield</span> <span class="k">return</span> <span class="k">new</span> <span class="nf">BusyResult</span><span class="p">(</span><span class="s">&quot;Processing...&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">yield</span> <span class="k">return</span> <span class="k">new</span> <span class="nf">ProcessDataResult</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">yield</span> <span class="k">return</span> <span class="k">new</span> <span class="nf">NotBusyResult</span><span class="p">();</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The implementation of those results is irrelevant since we want to have a look at how we can handle the error during the processing in a nice (reusable) way.</p>
+
+<!--more-->
+
+
+<h2>The First Attempt</h2>
+
+<p>Well, let&#8217;s see how we can handle it at all. The first approach is to ignore the built-in mechanism and expose an error property on the result which will then be checked during the execution of the Coroutine.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">public</span> <span class="n">IEnumerable</span> <span class="nf">ProcessData</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">yield</span> <span class="k">return</span> <span class="k">new</span> <span class="nf">BusyResult</span><span class="p">(</span><span class="s">&quot;Processing...&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">var</span> <span class="n">processDataResult</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ProcessDataResult</span><span class="p">();</span>
+</span><span class='line'>    <span class="k">yield</span> <span class="k">return</span> <span class="n">processDataResult</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">processDataResult</span><span class="p">.</span><span class="n">Error</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="c1">// We could use Coroutine.BeginExecute(Rescue().GetEnumerator()); but than the context would be null</span>
+</span><span class='line'>        <span class="k">foreach</span> <span class="p">(</span><span class="n">var</span> <span class="n">rescueResult</span> <span class="k">in</span> <span class="n">Rescue</span><span class="p">())</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="k">yield</span> <span class="k">return</span> <span class="n">rescueResult</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">yield</span> <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="k">yield</span> <span class="k">return</span> <span class="k">new</span> <span class="nf">NotBusyResult</span><span class="p">();</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">public</span> <span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">IResult</span><span class="p">&gt;</span> <span class="n">Rescue</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">yield</span> <span class="k">return</span> <span class="k">new</span> <span class="nf">NotBusyResult</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// more rescue stuff</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">public</span> <span class="k">class</span> <span class="nc">ProcessDataResult</span> <span class="p">:</span> <span class="n">IResult</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="n">Exception</span> <span class="n">Error</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">private</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">public</span> <span class="k">void</span> <span class="nf">Execute</span><span class="p">(</span><span class="n">ActionExecutionContext</span> <span class="n">context</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="k">try</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="c1">//process the data</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">catch</span> <span class="p">(</span><span class="n">Exception</span> <span class="n">e</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="n">Error</span> <span class="p">=</span> <span class="n">e</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">Completed</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="k">new</span> <span class="n">ResultCompletionEventArgs</span><span class="p">());</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">public</span> <span class="k">event</span> <span class="n">EventHandler</span><span class="p">&lt;</span><span class="n">ResultCompletionEventArgs</span><span class="p">&gt;</span> <span class="n">Completed</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Although this works, there are some <em>problems</em> with this approach.</p>
+
+<ul>
+<li>We need to add an error property to each result where an error is likely (which may not be always possible)</li>
+<li>The syntax for executing the Rescue Coroutine is quite ugly and not easy to comprehend</li>
+<li>The method itself gets exponentially more complex for every result which can fail</li>
+<li>Calling different rescues for different error is tideous</li>
+</ul>
+
+
+<h2>The Better Attempt</h2>
+
+<p>The second approach uses the built-in mechanism by raising the Completed Event with the Error roperty of the ResultCompletitionEventArgs set to the actual error.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">public</span> <span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">IResult</span><span class="p">&gt;</span> <span class="n">ProcessData</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">yield</span> <span class="k">return</span> <span class="k">new</span> <span class="nf">BusyResult</span><span class="p">(</span><span class="s">&quot;Processing...&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">var</span> <span class="n">processDataResult</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ProcessDataResult</span><span class="p">();</span>
+</span><span class='line'>    <span class="n">processDataResult</span><span class="p">.</span><span class="n">Completed</span> <span class="p">+=</span> <span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span> <span class="p">=&gt;</span>
+</span><span class='line'>                                       <span class="p">{</span>
+</span><span class='line'>                                           <span class="k">if</span> <span class="p">(</span><span class="n">args</span><span class="p">.</span><span class="n">Error</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+</span><span class='line'>                                               <span class="n">Coroutine</span><span class="p">.</span><span class="n">BeginExecute</span><span class="p">(</span><span class="n">Rescue</span><span class="p">().</span><span class="n">GetEnumerator</span><span class="p">());</span>
+</span><span class='line'>                                       <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">yield</span> <span class="k">return</span> <span class="n">processDataResult</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">yield</span> <span class="k">return</span> <span class="k">new</span> <span class="nf">NotBusyResult</span><span class="p">();</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">public</span> <span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">IResult</span><span class="p">&gt;</span> <span class="n">Rescue</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">yield</span> <span class="k">return</span> <span class="k">new</span> <span class="nf">NotBusyResult</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// more rescue stuff</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">public</span> <span class="k">class</span> <span class="nc">ProcessDataResult</span> <span class="p">:</span> <span class="n">IResult</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="k">void</span> <span class="nf">Execute</span><span class="p">(</span><span class="n">ActionExecutionContext</span> <span class="n">context</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="k">try</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="c1">//process the data</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">catch</span> <span class="p">(</span><span class="n">Exception</span> <span class="n">e</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="n">Completed</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="k">new</span> <span class="n">ResultCompletionEventArgs</span> <span class="p">{</span> <span class="n">Error</span> <span class="p">=</span> <span class="n">e</span> <span class="p">});</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">Completed</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="k">new</span> <span class="n">ResultCompletionEventArgs</span><span class="p">());</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">public</span> <span class="k">event</span> <span class="n">EventHandler</span><span class="p">&lt;</span><span class="n">ResultCompletionEventArgs</span><span class="p">&gt;</span> <span class="n">Completed</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>With this approach we don&#8217;t need to add an extra property to our Result which is a huge gain but there are still some <em>disadvantages</em>.</p>
+
+<ul>
+<li>We &#8216;lose&#8217; the context in the Rescue Coroutine</li>
+<li>Syntax still not optimal</li>
+<li>Calling different rescues is still tedious</li>
+</ul>
+
+
+<h2>The Final Solution</h2>
+
+<p>So, what we want is basically</p>
+
+<ul>
+<li>a nice syntax,</li>
+<li>something that works for every implementation of IResult,</li>
+<li>execute the Rescue Coroutine with the same context as the failing Coroutine,</li>
+<li>and a way to handle different types of errors</li>
+</ul>
+
+
+<p>Whew, that&#8217;s quite a bit to ask for. Let&#8217;s have a look at the first two points. Since we want it to work on <em>every</em> implementation of IResult, we cannot use inheritance but how about an Extension Method for IResults together with some <em>fluent syntax</em>?</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">public</span> <span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">IResult</span><span class="p">&gt;</span> <span class="n">ProcessData</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">yield</span> <span class="k">return</span> <span class="k">new</span> <span class="nf">BusyResult</span><span class="p">(</span><span class="s">&quot;Processing...&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">yield</span> <span class="k">return</span> <span class="k">new</span> <span class="nf">ProcessDataResult</span><span class="p">()</span>
+</span><span class='line'>        <span class="p">.</span><span class="n">Rescue</span><span class="p">&lt;</span><span class="n">IOException</span><span class="p">&gt;().</span><span class="n">With</span><span class="p">(</span><span class="n">coroutine</span><span class="p">:</span> <span class="n">IORescue</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">.</span><span class="n">Rescue</span><span class="p">().</span><span class="n">With</span><span class="p">(</span><span class="n">coroutine</span><span class="p">:</span> <span class="n">GeneralRescue</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">yield</span> <span class="k">return</span> <span class="k">new</span> <span class="nf">NotBusyResult</span><span class="p">();</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">public</span> <span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">IResult</span><span class="p">&gt;</span> <span class="n">IORescue</span><span class="p">(</span><span class="n">IOException</span> <span class="n">exception</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">yield</span> <span class="k">return</span> <span class="k">new</span> <span class="nf">NotBusyResult</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// more rescue stuff</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">public</span> <span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">IResult</span><span class="p">&gt;</span> <span class="n">GeneralRescue</span><span class="p">(</span><span class="n">Exception</span> <span class="n">exception</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">yield</span> <span class="k">return</span> <span class="k">new</span> <span class="nf">NotBusyResult</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// more rescue stuff</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That doesn&#8217;t look too bad, does it?</p>
+
+<p>But since this post got really long, I will show the implementation of the solution in the next part. So you either wait for the next post.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Kevin Mees</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-05-31T22:01:00+02:00" pubdate data-updated="true">May 31<span>st</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/c-/'>C#</a>, <a class='category' href='/blog/categories/caliburn-micro/'>Caliburn.Micro</a>, <a class='category' href='/blog/categories/mvvm/'>MVVM</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://kmees.github.com/blog/2011/05/31/handling-errors-in-caliburn-dot-micros-iresult-part-i/" data-via="kevin_mees" data-counturl="http://kmees.github.com/blog/2011/05/31/handling-errors-in-caliburn-dot-micros-iresult-part-i/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+      
+        <a class="basic-alignment right" href="/blog/2011/06/01/handling-errors-in-caliburn-dot-micros-iresult-part-ii/" title="next Post: Handling Errors in Caliburn.Micro's IResult - Part II">Handling Errors in Caliburn.Micro's IResult - Part II &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2011/11/29/migration-to-octopress/">Migration to Octopress</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/06/16/mvvm-dialogs-with-caliburn-dot-micro/">MVVM Dialogs with Caliburn.Micro</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/06/01/handling-errors-in-caliburn-dot-micros-iresult-part-ii/">Handling Errors in Caliburn.Micro's IResult - Part II</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/05/31/handling-errors-in-caliburn-dot-micros-iresult-part-i/">Handling Errors in Caliburn.Micro's IResult - Part I</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("kevin_mees", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/kevin_mees" class="twitter-follow-button" data-width="208px" data-show-count="false">Follow @kevin_mees</a>
+  
+</section>
+
+
+<section class="googleplus">
+  <h1>
+    <a href="https://plus.google.com/104563834307934930141?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2011 - Kevin Mees -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'kmees';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://kmees.github.com/blog/2011/05/31/handling-errors-in-caliburn-dot-micros-iresult-part-i/';
+        var disqus_url = 'http://kmees.github.com/blog/2011/05/31/handling-errors-in-caliburn-dot-micros-iresult-part-i/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

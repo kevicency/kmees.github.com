@@ -1,0 +1,663 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: MVVM | Inspiration]]></title>
+  <link href="http://kmees.github.com/blog/categories/mvvm/atom.xml" rel="self"/>
+  <link href="http://kmees.github.com/"/>
+  <updated>2011-11-29T23:56:23+01:00</updated>
+  <id>http://kmees.github.com/</id>
+  <author>
+    <name><![CDATA[Kevin Mees]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[MVVM Dialogs with Caliburn.Micro]]></title>
+    <link href="http://kmees.github.com/blog/2011/06/16/mvvm-dialogs-with-caliburn-dot-micro/"/>
+    <updated>2011-06-16T21:10:00+02:00</updated>
+    <id>http://kmees.github.com/blog/2011/06/16/mvvm-dialogs-with-caliburn-dot-micro</id>
+    <content type="html"><![CDATA[<h2>Background</h2>
+
+<p>In every applications life there comes a time when you need to show some kind of message to the user. Be it a question whether he really wants to delete something or a simple message that says that some operation was successful. The most simple way to do that is the good ol' <code>MessageBox.Show()</code> with its zillion overloads.</p>
+
+<p><code>csharp
+MessageBox.Show("Foo", "Bar", MessageBoxButton.OKCancel);
+</code></p>
+
+<p>But in the shiny MVVM World , polluting your ViewModels with MessageBoxes is usually frowned upon since it breaks a lot of stuff, especially automated unit testing and theming.</p>
+
+<p>You can find quite a lot solutions about how the MVVM<em>ize</em> MesasgeBoxes and dialog screens in general. Most of them involve wrapping the <code>MessageBox.Show()</code> in some kind of IService, setting up some kind of event infrastructure and other funky stuff. Surprisingly, all of those solutions completely ignore the first M in <strong>M</strong>VVM, namely the Model, and none really tackles the problem at its heart.</p>
+
+<!--more-->
+
+
+<h2>Implementation</h2>
+
+<h3>One Model to rule them all</h3>
+
+<p>Well, let's forget about all the View and ViewModel stuff for now. We will start by specifying what we actually want to achieve with a dialog.</p>
+
+<p>We want to display some message concerning some topic and a list of possible Responses from which the user can choose one.</p>
+
+<p>So, let's create a model with conforms to those specifications</p>
+
+<p>``` csharp Dialog&lt;TResponse&gt;
+public class Dialog<TResponse>
+{</p>
+
+<pre><code>public DialogType DialogType { get; set; }
+public string Subject { get; set; }
+public string Message { get; set; }
+
+public IEnumerable&lt;TResponse&gt; PossibleResponses { get; protected set; }
+public TResponse GivenResponse {get; set; }
+public bool IsResponseGiven { get; private set; }
+</code></pre>
+
+<p>}
+```</p>
+
+<p>``` csharp DialogType
+public enum DialogType
+{</p>
+
+<pre><code>None,
+Question,
+Warning,
+Information,
+Error
+</code></pre>
+
+<p>}
+```</p>
+
+<p>The DialogType in conjunction with the subject defines the topic and the rest is pretty much straightforward. We also need a IsResponseGiven Property so that we can distinguish between default and unset values because TResponse may or may not be a value type (and hence not nullable).</p>
+
+<h3>One ViewModel to bind them</h3>
+
+<p>The ViewModel is responsible for bringing the Responses in a bindable format and setting the response on the dialog when the user selects one. The ViewModel also handles the case where the user closes the window without giving any response at all.</p>
+
+<p>For supporting default (the user presses <code>Enter</code>) and cancel (the user presses <code>Escape</code>) responses,  I will use a convention based approach, namely defining the first response in the list as the default response and the last response as the cancel response.</p>
+
+<p>``` csharp BindableResponse&lt;TResponse&gt;
+public class BindableResponse<TResponse>
+{</p>
+
+<pre><code>public TResponse Response { get; set; }
+public bool IsDefault { get; set; }
+public bool IsCancel { get; set; }
+</code></pre>
+
+<p>}
+```</p>
+
+<p>``` csharp IDialogViewModel&lt;TResponse&gt;
+public interface IDialogViewModel<TResponse>
+{</p>
+
+<pre><code>bool IsClosed { get; set; }
+Dialog&lt;TResponse&gt; Dialog { get; set; }
+IObservableCollection&lt;BindableResponse&lt;TResponse&gt;&gt; Responses { get; }
+void Respond(BindableResponse&lt;TResponse&gt; bindableResponse);
+</code></pre>
+
+<p>}
+```</p>
+
+<p>The implementation is pretty straightforward and omitted for brevity but can be found here.</p>
+
+<h3>One View to show them all</h3>
+
+<p>I will present the WPF version of the view here because the SL version requires a workaround for the non existing <code>IsDefault</code>/<code>IsCancel</code> Properties of the Button. For those interested in the SL version, the source is here. I will also omit all irrelevant (styling) properties.</p>
+
+<p>``` xml DialogView
+&lt;Window x:Class="Caliburn.Micro.Contrib.Interaction.DialogView"</p>
+
+<pre><code>    Title="{Binding Dialog.Subject}"
+    Contrib:DialogCloser.DialogResult="{Binding CanClose}"&gt;
+&lt;Window.Icon&gt;
+    &lt;Binding Path="Dialog.DialogType"&gt;
+        &lt;Binding.Converter&gt;
+            &lt;Converter:DialogTypeToSystemIconConverter /&gt;
+        &lt;/Binding.Converter&gt;
+    &lt;/Binding&gt;
+&lt;/Window.Icon&gt;
+&lt;DockPanel Focusable="False" LastChildFill="True"&gt;
+    &lt;ItemsControl x:Name="Responses"&gt;
+        &lt;ItemsControl.ItemTemplate&gt;
+            &lt;DataTemplate&gt;
+                &lt;Button Content="{Binding Response}"
+                        IsCancel="{Binding IsCancel}"
+                        IsDefault="{Binding IsDefault}"
+                        Micro:Message.Attach="Respond($dataContext)" /&gt;
+            &lt;/DataTemplate&gt;
+        &lt;/ItemsControl.ItemTemplate&gt;
+    &lt;/ItemsControl&gt;
+    &lt;TextBlock Text="{Binding Dialog.Message}" /&gt;
+&lt;/DockPanel&gt;
+</code></pre>
+
+<p></Window>
+```</p>
+
+<p>The most important part is where we bind the Responses to an ItemsControl (by using Caliburn.Micros Convention Binding Feature) and create a Button for each Response which will call the Respond() Method on the ViewModel with the bound Response as a parameter. The Subject of the Dialog is bound to the Title of the Window and the DialogType is converted to an Icon.</p>
+
+<h3>And with the IResult show them</h3>
+
+<p>No Caliburn.Micro Extension with the corresponding IResult to use them !</p>
+
+<p>To actually show the dialog to the user, we would have to</p>
+
+<ul>
+<li>Create the dialog</li>
+<li>Import the IWindowManager in the ViewModel</li>
+<li>Create the ViewModel and pass it the dialog</li>
+<li>Invoke ShowDialog() on the IWindowManager with the ViewModel as a parameter</li>
+</ul>
+
+
+<p>Well, the first step cannot be encapsulated in an IResult, but 2-4 rest can easily be encapsulated.</p>
+
+<p>``` csharp DialogResult&lt;TResponse&gt;
+public class DialogResult<TResponse> : IResult
+{</p>
+
+<pre><code>private Func&lt;IDialogViewModel&lt;TResponse&gt;&gt; _locateVM =
+    () =&gt; new DialogViewModel&lt;TResponse&gt;();
+
+public DialogResult(Dialog&lt;TResponse&gt; dialog)
+{
+    Dialog = dialog;
+}
+
+public Dialog&lt;TResponse&gt; Dialog { get; private set; }
+
+public void Execute(ActionExecutionContext context)
+{
+    IDialogViewModel&lt;TResponse&gt; vm = _locateVM();
+    vm.Dialog = Dialog;
+    Micro.Execute.OnUIThread(() =&gt; IoC.Get&lt;IWindowManager&gt;().ShowDialog(vm));
+}
+
+public DialogResult&lt;TResponse&gt; In(IDialogViewModel&lt;TResponse&gt; dialogViewModel)
+{
+    _locateVM = () =&gt; dialogViewModel;
+    return this;
+}
+
+public DialogResult&lt;TResponse&gt; In&lt;TDialogViewModel&gt;()
+    where TDialogViewModel : IDialogViewModel&lt;TResponse&gt;
+{
+    _locateVM = () =&gt; IoC.Get&lt;TDialogViewModel&gt;();
+    return this;
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>We do not only get reusable code, but also a nice way to change the implementation of IDialogViewModel&lt;> for specific dialogs if we want to.</p>
+
+<p>Last but not least we can write a small Extension Method to get even more readable code !</p>
+
+<p>``` csharp
+public static DialogResult<TResponse> AsResult<TResponse>(this Dialog<TResponse> dialog)</p>
+
+<pre><code>    {
+        return new DialogResult&lt;TResponse&gt;(dialog);
+    }
+</code></pre>
+
+<p>```</p>
+
+<p>And use it in the coroutine</p>
+
+<p>``` csharp Demo
+public IEnumerable<IResult> Foo()
+{</p>
+
+<pre><code>var question = new Dialog&lt;Answer&gt;(DialogType.Question,
+                                  "Isn't this a nice way to create a Dialog Window?",
+                                  Answer.Yes,
+                                  Answer.No);
+
+yield return question.AsResult();
+
+if (question.GivenResponse == Answer.Yes)
+    Console.WriteLine(" ^_^ ");
+else
+    Console.WriteLine(" :*( ");
+</code></pre>
+
+<p>}
+```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Handling Errors in Caliburn.Micro's IResult - Part II]]></title>
+    <link href="http://kmees.github.com/blog/2011/06/01/handling-errors-in-caliburn-dot-micros-iresult-part-ii/"/>
+    <updated>2011-06-01T23:01:00+02:00</updated>
+    <id>http://kmees.github.com/blog/2011/06/01/handling-errors-in-caliburn-dot-micros-iresult-part-ii</id>
+    <content type="html"><![CDATA[<h2>Preface</h2>
+
+<p>In my last post I gave two possible approaches and a preview of my final solution for handling errors in IResults. The syntax for my final solution was</p>
+
+<p>``` csharp
+yield return new ProcessDataResult()</p>
+
+<pre><code>    .Rescue().With(coroutine: IORescue)
+    .Rescue().With(coroutine: GeneralRescue);
+</code></pre>
+
+<p>```</p>
+
+<p>This means that</p>
+
+<ul>
+<li>whenever the result completes with an error of type IOException, the IORescue coroutine is executed</li>
+<li>whenever the result completes with any other error, the GeneralRescue coroutine is executed</li>
+</ul>
+
+
+<p>So the behaviour of the Rescue is similar to a try/catch block</p>
+
+<p><code>csharp
+try {}
+catch (IOException e) { //IORescue }
+catch (Exception e) { //GeneralRescue }
+</code></p>
+
+<!--more-->
+
+
+<h2>Decorators to the Rescue !</h2>
+
+<p>Now, before we have a look at the implementation, you should make yourself familiar with the <a href="http://en.wikipedia.org/wiki/Decorator_pattern">Decorator Pattern</a> since we will use a Decorator to 'extend' the behaviour of the Execute-Method of our Inner Result.</p>
+
+<p>Well, let's start with a base class for our decorators.</p>
+
+<p>``` csharp
+internal class ResultDecoratorBase : IResult
+{</p>
+
+<pre><code>private readonly IResult _inner;
+
+protected ResultDecoratorBase(IResult inner)
+{
+    if (inner == null) throw new ArgumentNullException("inner");
+
+    _inner = inner;
+}
+
+public IResult Inner
+{
+    get { return _inner; }
+}
+
+#region IResult Members
+
+public virtual void Execute(ActionExecutionContext context)
+{
+    var wrapper = new SequentialResult(new SingleResultEnumerator(_inner));
+    wrapper.Completed += InnerCompleted;
+
+    wrapper.Execute(context);
+}
+
+public virtual event EventHandler Completed;
+
+#endregion
+
+protected virtual void OnCompleted(ResultCompletionEventArgs args)
+{
+    if (Completed != null)
+        Completed(this, args);
+}
+
+protected virtual void InnerCompleted(object sender, ResultCompletionEventArgs args)
+{
+    (sender as IResult).Completed -= InnerCompleted;
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>The base Decorator takes an arbitrary IResult and, when executed, wraps it in a SequentialResult (to get some benefits like build up by the IoC) and executes it. The InnerCompleted()-Method is the hook for the inheriting Decorators to perform their logic.</p>
+
+<h2>The Rescue Decorator</h2>
+
+<p>The Rescue Decorator will be generic (for the type that we want to catch) and takes a Function in its constructor which taked an exception as an argument and returns the Rescue Coroutine. We can also specify if we always want to cancel the Result after the rescue was executed.</p>
+
+<p>``` csharp
+/// <summary>
+///   A result decorator which executes a coroutine when the inner result completes with an error
+/// </summary>
+/// <typeparam name = "TException">The type of the exception we want to perform the rescue on</typeparam>
+internal class RescueCoroutineDecorator<TException> : ResultDecoratorBase</p>
+
+<pre><code>where TException : Exception
+</code></pre>
+
+<p>{</p>
+
+<pre><code>private readonly bool _cancelResult;
+private readonly Func&lt;TException, IEnumerable&lt;IResult&gt;&gt; _rescue;
+
+public RescueCoroutineDecorator(IResult inner, Func&lt;TException, IEnumerable&lt;IResult&gt;&gt; rescue, bool cancelResult)
+    : base(inner)
+{
+    if (rescue == null) throw new ArgumentNullException("rescue");
+
+    _rescue = rescue;
+    _cancelResult = cancelResult;
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>In the InnerCompleted()-Method we check if the Inner Result completed with an error of type TException and if so, execute the Rescue Coroutine. If not, we ignore the error and raise the Completed-Event with the same args.</p>
+
+<p>``` csharp
+protected override void InnerCompleted(object sender, ResultCompletionEventArgs args)
+{</p>
+
+<pre><code>base.InnerCompleted(sender, args);
+
+if (args.Error is TException)
+{
+    var error = (TException)args.Error;
+
+    LogRescuedError(error);
+
+    try
+    {
+        Rescue(error);
+    }
+    catch (Exception e)
+    {
+        Log.Error(e);
+        OnCompleted(new ResultCompletionEventArgs { Error = e });
+    }
+}
+else
+{
+    OnCompleted(args);
+}
+</code></pre>
+
+<p>}</p>
+
+<p>private void Rescue(TException exception)
+{</p>
+
+<pre><code>var rescueResult = new SequentialResult(_rescue(exception).GetEnumerator());
+rescueResult.Completed += RescueCompleted;
+
+rescueResult.Execute(_context);
+</code></pre>
+
+<p>}
+```</p>
+
+<p>Then, when the Rescue Coroutine completed, the Decorator will also complete. Since we execute the Rescue inside the execution of the Decorator we can also check if the Rescue completes successfully and react accordingly (like setting the error on the EventArgs or cancel it)</p>
+
+<p>``` csharp
+private void RescueCompleted(object sender, ResultCompletionEventArgs args)
+{</p>
+
+<pre><code>(sender as IResult).Completed -= RescueCompleted;
+
+OnCompleted(new ResultCompletionEventArgs { Error = args.Error, WasCancelled = args.WasCancelled || CancelResult });
+</code></pre>
+
+<p>}
+```</p>
+
+<p>The full code for the Rescue Decorator can be found here.</p>
+
+<h2>Recap</h2>
+
+<p>Well, with the Decorator Pattern it was possible to implement all the desired features in a nice and testable way. Furthermore, we can use same principle for executing a coroutine when the result is cancelled or when an exception is thrown inside the result.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Handling Errors in Caliburn.Micro's IResult - Part I]]></title>
+    <link href="http://kmees.github.com/blog/2011/05/31/handling-errors-in-caliburn-dot-micros-iresult-part-i/"/>
+    <updated>2011-05-31T22:01:00+02:00</updated>
+    <id>http://kmees.github.com/blog/2011/05/31/handling-errors-in-caliburn-dot-micros-iresult-part-i</id>
+    <content type="html"><![CDATA[<h2>The Problem</h2>
+
+<p>One of Caliburn.Micro's nicest feature is, hands down, the concept of Actions. In that concept the <code>IResult</code> plays an important role, especially when using <em>Coroutines</em>. If you don't know about them, you should definately <a href="http://devlicio.us/blogs/rob_eisenberg/archive/2010/08/21/caliburn-micro-soup-to-nuts-part-5-iresult-and-coroutines.aspx">read up on them here first</a>.</p>
+
+<p>So, let's assume we are executing a Coroutine which does the following:</p>
+
+<ul>
+<li>show a loading screen to the user,</li>
+<li>start processing a lot of data</li>
+<li>hide the loading screen once the processing is finished.</li>
+</ul>
+
+
+<p>Since the processing is also likely to fail for whatever reason we want to handle the error by executing a <em>Rescue Coroutine</em>.</p>
+
+<p>``` csharp Pseudo Coroutine
+public IEnumerable ProcessData()
+{</p>
+
+<pre><code>yield return new BusyResult("Processing...");
+
+yield return new ProcessDataResult();
+
+yield return new NotBusyResult();
+</code></pre>
+
+<p>}
+```
+The implementation of those results is irrelevant since we want to have a look at how we can handle the error during the processing in a nice (reusable) way.</p>
+
+<!--more-->
+
+
+<h2>The First Attempt</h2>
+
+<p>Well, let's see how we can handle it at all. The first approach is to ignore the built-in mechanism and expose an error property on the result which will then be checked during the execution of the Coroutine.</p>
+
+<p>``` csharp
+public IEnumerable ProcessData()
+{</p>
+
+<pre><code>yield return new BusyResult("Processing...");
+
+var processDataResult = new ProcessDataResult();
+yield return processDataResult;
+
+if (processDataResult.Error != null)
+{
+    // We could use Coroutine.BeginExecute(Rescue().GetEnumerator()); but than the context would be null
+    foreach (var rescueResult in Rescue())
+    {
+        yield return rescueResult;
+    }
+    yield break;
+}
+else
+{
+    yield return new NotBusyResult();
+}
+</code></pre>
+
+<p>}</p>
+
+<p>public IEnumerable<IResult> Rescue()
+{</p>
+
+<pre><code>yield return new NotBusyResult();
+
+// more rescue stuff
+</code></pre>
+
+<p>}</p>
+
+<p>public class ProcessDataResult : IResult
+{</p>
+
+<pre><code>public Exception Error { get; private set; }
+
+public void Execute(ActionExecutionContext context)
+{
+    try
+    {
+        //process the data
+    }
+    catch (Exception e)
+    {
+        Error = e;
+    }
+
+    Completed(this, new ResultCompletionEventArgs());
+}
+
+public event EventHandler&lt;ResultCompletionEventArgs&gt; Completed;
+</code></pre>
+
+<p>}
+```
+Although this works, there are some <em>problems</em> with this approach.</p>
+
+<ul>
+<li>We need to add an error property to each result where an error is likely (which may not be always possible)</li>
+<li>The syntax for executing the Rescue Coroutine is quite ugly and not easy to comprehend</li>
+<li>The method itself gets exponentially more complex for every result which can fail</li>
+<li>Calling different rescues for different error is tideous</li>
+</ul>
+
+
+<h2>The Better Attempt</h2>
+
+<p>The second approach uses the built-in mechanism by raising the Completed Event with the Error roperty of the ResultCompletitionEventArgs set to the actual error.</p>
+
+<p>``` csharp
+public IEnumerable<IResult> ProcessData()
+{</p>
+
+<pre><code>yield return new BusyResult("Processing...");
+
+var processDataResult = new ProcessDataResult();
+processDataResult.Completed += (sender, args) =&gt;
+                                   {
+                                       if (args.Error != null)
+                                           Coroutine.BeginExecute(Rescue().GetEnumerator());
+                                   };
+
+yield return processDataResult;
+
+yield return new NotBusyResult();
+</code></pre>
+
+<p>}</p>
+
+<p>public IEnumerable<IResult> Rescue()
+{</p>
+
+<pre><code>yield return new NotBusyResult();
+
+// more rescue stuff
+</code></pre>
+
+<p>}</p>
+
+<p>public class ProcessDataResult : IResult
+{</p>
+
+<pre><code>public void Execute(ActionExecutionContext context)
+{
+    try
+    {
+        //process the data
+    }
+    catch (Exception e)
+    {
+        Completed(this, new ResultCompletionEventArgs { Error = e });
+    }
+
+    Completed(this, new ResultCompletionEventArgs());
+}
+
+public event EventHandler&lt;ResultCompletionEventArgs&gt; Completed;
+</code></pre>
+
+<p>}
+```</p>
+
+<p>With this approach we don't need to add an extra property to our Result which is a huge gain but there are still some <em>disadvantages</em>.</p>
+
+<ul>
+<li>We 'lose' the context in the Rescue Coroutine</li>
+<li>Syntax still not optimal</li>
+<li>Calling different rescues is still tedious</li>
+</ul>
+
+
+<h2>The Final Solution</h2>
+
+<p>So, what we want is basically</p>
+
+<ul>
+<li>a nice syntax,</li>
+<li>something that works for every implementation of IResult,</li>
+<li>execute the Rescue Coroutine with the same context as the failing Coroutine,</li>
+<li>and a way to handle different types of errors</li>
+</ul>
+
+
+<p>Whew, that's quite a bit to ask for. Let's have a look at the first two points. Since we want it to work on <em>every</em> implementation of IResult, we cannot use inheritance but how about an Extension Method for IResults together with some <em>fluent syntax</em>?</p>
+
+<p>``` csharp
+public IEnumerable<IResult> ProcessData()
+{</p>
+
+<pre><code>yield return new BusyResult("Processing...");
+
+yield return new ProcessDataResult()
+    .Rescue&lt;IOException&gt;().With(coroutine: IORescue)
+    .Rescue().With(coroutine: GeneralRescue);
+
+yield return new NotBusyResult();
+</code></pre>
+
+<p>}</p>
+
+<p>public IEnumerable<IResult> IORescue(IOException exception)
+{</p>
+
+<pre><code>yield return new NotBusyResult();
+
+// more rescue stuff
+</code></pre>
+
+<p>}</p>
+
+<p>public IEnumerable<IResult> GeneralRescue(Exception exception)
+{</p>
+
+<pre><code>yield return new NotBusyResult();
+
+// more rescue stuff
+</code></pre>
+
+<p>}
+```</p>
+
+<p>That doesn't look too bad, does it?</p>
+
+<p>But since this post got really long, I will show the implementation of the solution in the next part. So you either wait for the next post.</p>
+]]></content>
+  </entry>
+  
+</feed>
