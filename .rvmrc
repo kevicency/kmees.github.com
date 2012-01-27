@@ -1,5 +1,1 @@
-<<<<<<< HEAD
 rvm --create use 1.9.2@octo > /dev/null
-=======
-rvm use 1.9.2
->>>>>>> bffb20c517e4753a8cc54bdb5f6481cd41cf6d19
