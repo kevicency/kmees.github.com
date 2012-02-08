@@ -9,6 +9,7 @@ categories:
 - Caliburn.Micro
 - WPF
 - SL
+- CMContrib
 ---
 ## Background
 
