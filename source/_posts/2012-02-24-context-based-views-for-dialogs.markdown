@@ -33,7 +33,7 @@ public override IEnumerable<IResult> AskAQuestion()
     // ...
 }
 ```
-
+<!--more-->
 ## One View to show them all (again)
 The call `.AsResult()` on a dialog wraps it in a `DialogViewModel` which is then
 passed to Caliburn.Micro's `IWindowManager` and shown as a modular dialog. The problem
