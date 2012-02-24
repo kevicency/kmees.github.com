@@ -1,0 +1,621 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>MVVM Dialogs with Caliburn.Micro - Kevin Mees</title>
+  <meta name="author" content="Kevin Mees">
+
+  
+  <meta name="description" content="Background In every applications life there comes a time when you need to show some kind of message to the user. Be it a question whether he really &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://kmees.github.com/blog/2011/06/16/mvvm-dialogs-with-caliburn-dot-micro">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Kevin Mees" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+
+<link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-27373569-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1>
+    <a href="/">
+      Kevin Mees
+    </a>
+  </h1>
+  
+    <h2>.NET Geek and Rubyist</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:kmees.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/projects/index.html">Projects</a></li>
+  <li><a href="/impressum.html">Impressum</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">MVVM Dialogs With Caliburn.Micro</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-06-16T21:10:00+02:00" pubdate data-updated="true">Jun 16<span>th</span>, 2011</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>Background</h2>
+
+<p>In every applications life there comes a time when you need to show some kind of message to the user. Be it a question whether he really wants to delete something or a simple message that says that some operation was successful. The most simple way to do that is the good ol&#8217; <code>MessageBox.Show()</code> with its zillion overloads.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="s">&quot;Foo&quot;</span><span class="p">,</span> <span class="s">&quot;Bar&quot;</span><span class="p">,</span> <span class="n">MessageBoxButton</span><span class="p">.</span><span class="n">OKCancel</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But in the shiny MVVM World , polluting your ViewModels with MessageBoxes is usually frowned upon since it breaks a lot of stuff, especially automated unit testing and theming.</p>
+
+<p>You can find quite a lot solutions about how the MVVM<em>ize</em> MesasgeBoxes and dialog screens in general. Most of them involve wrapping the <code>MessageBox.Show()</code> in some kind of IService, setting up some kind of event infrastructure and other funky stuff. Surprisingly, all of those solutions completely ignore the first M in <strong>M</strong>VVM, namely the Model, and none really tackles the problem at its heart.</p>
+
+<!--more-->
+
+
+<h2>Implementation</h2>
+
+<h3>One Model to rule them all</h3>
+
+<p>Well, let&#8217;s forget about all the View and ViewModel stuff for now. We will start by specifying what we actually want to achieve with a dialog.</p>
+
+<p>We want to display some message concerning some topic and a list of possible Responses from which the user can choose one.</p>
+
+<p>So, let&#8217;s create a model with conforms to those specifications</p>
+
+<figure class='code'><figcaption><span>Dialog&lt;TResponse&gt;</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">public</span> <span class="k">class</span> <span class="nc">Dialog</span><span class="p">&lt;</span><span class="n">TResponse</span><span class="p">&gt;</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="n">DialogType</span> <span class="n">DialogType</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>    <span class="k">public</span> <span class="kt">string</span> <span class="n">Subject</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>    <span class="k">public</span> <span class="kt">string</span> <span class="n">Message</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">public</span> <span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">TResponse</span><span class="p">&gt;</span> <span class="n">PossibleResponses</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">protected</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>    <span class="k">public</span> <span class="n">TResponse</span> <span class="n">GivenResponse</span> <span class="p">{</span><span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>    <span class="k">public</span> <span class="kt">bool</span> <span class="n">IsResponseGiven</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">private</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>DialogType</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">public</span> <span class="k">enum</span> <span class="n">DialogType</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">None</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">Question</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">Warning</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">Information</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">Error</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The DialogType in conjunction with the subject defines the topic and the rest is pretty much straightforward. We also need a IsResponseGiven Property so that we can distinguish between default and unset values because TResponse may or may not be a value type (and hence not nullable).</p>
+
+<h3>One ViewModel to bind them</h3>
+
+<p>The ViewModel is responsible for bringing the Responses in a bindable format and setting the response on the dialog when the user selects one. The ViewModel also handles the case where the user closes the window without giving any response at all.</p>
+
+<p>For supporting default (the user presses <code>Enter</code>) and cancel (the user presses <code>Escape</code>) responses,  I will use a convention based approach, namely defining the first response in the list as the default response and the last response as the cancel response.</p>
+
+<figure class='code'><figcaption><span>BindableResponse&lt;TResponse&gt;</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">public</span> <span class="k">class</span> <span class="nc">BindableResponse</span><span class="p">&lt;</span><span class="n">TResponse</span><span class="p">&gt;</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="n">TResponse</span> <span class="n">Response</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>    <span class="k">public</span> <span class="kt">bool</span> <span class="n">IsDefault</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>    <span class="k">public</span> <span class="kt">bool</span> <span class="n">IsCancel</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>IDialogViewModel&lt;TResponse&gt;</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">public</span> <span class="k">interface</span> <span class="n">IDialogViewModel</span><span class="p">&lt;</span><span class="n">TResponse</span><span class="p">&gt;</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">bool</span> <span class="n">IsClosed</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>    <span class="n">Dialog</span><span class="p">&lt;</span><span class="n">TResponse</span><span class="p">&gt;</span> <span class="n">Dialog</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>    <span class="n">IObservableCollection</span><span class="p">&lt;</span><span class="n">BindableResponse</span><span class="p">&lt;</span><span class="n">TResponse</span><span class="p">&gt;&gt;</span> <span class="n">Responses</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>    <span class="k">void</span> <span class="nf">Respond</span><span class="p">(</span><span class="n">BindableResponse</span><span class="p">&lt;</span><span class="n">TResponse</span><span class="p">&gt;</span> <span class="n">bindableResponse</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The implementation is pretty straightforward and omitted for brevity but can be found here.</p>
+
+<h3>One View to show them all</h3>
+
+<p>I will present the WPF version of the view here because the SL version requires a workaround for the non existing <code>IsDefault</code>/<code>IsCancel</code> Properties of the Button. For those interested in the SL version, the source is here. I will also omit all irrelevant (styling) properties.</p>
+
+<figure class='code'><figcaption><span>DialogView</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;Window</span> <span class="na">x:Class=</span><span class="s">&quot;Caliburn.Micro.Contrib.Interaction.DialogView&quot;</span>
+</span><span class='line'>        <span class="na">Title=</span><span class="s">&quot;{Binding Dialog.Subject}&quot;</span>
+</span><span class='line'>        <span class="na">Contrib:DialogCloser.DialogResult=</span><span class="s">&quot;{Binding CanClose}&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;Window.Icon&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;Binding</span> <span class="na">Path=</span><span class="s">&quot;Dialog.DialogType&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;Binding.Converter&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;Converter:DialogTypeToSystemIconConverter</span> <span class="nt">/&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/Binding.Converter&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/Binding&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/Window.Icon&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;DockPanel</span> <span class="na">Focusable=</span><span class="s">&quot;False&quot;</span> <span class="na">LastChildFill=</span><span class="s">&quot;True&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;ItemsControl</span> <span class="na">x:Name=</span><span class="s">&quot;Responses&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;ItemsControl.ItemTemplate&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;DataTemplate&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;Button</span> <span class="na">Content=</span><span class="s">&quot;{Binding Response}&quot;</span>
+</span><span class='line'>                            <span class="na">IsCancel=</span><span class="s">&quot;{Binding IsCancel}&quot;</span>
+</span><span class='line'>                            <span class="na">IsDefault=</span><span class="s">&quot;{Binding IsDefault}&quot;</span>
+</span><span class='line'>                            <span class="na">Micro:Message.Attach=</span><span class="s">&quot;Respond($dataContext)&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/DataTemplate&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/ItemsControl.ItemTemplate&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/ItemsControl&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;TextBlock</span> <span class="na">Text=</span><span class="s">&quot;{Binding Dialog.Message}&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/DockPanel&gt;</span>
+</span><span class='line'><span class="nt">&lt;/Window&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The most important part is where we bind the Responses to an ItemsControl (by using Caliburn.Micros Convention Binding Feature) and create a Button for each Response which will call the Respond() Method on the ViewModel with the bound Response as a parameter. The Subject of the Dialog is bound to the Title of the Window and the DialogType is converted to an Icon.</p>
+
+<h3>And with the IResult show them</h3>
+
+<p>No Caliburn.Micro Extension with the corresponding IResult to use them !</p>
+
+<p>To actually show the dialog to the user, we would have to</p>
+
+<ul>
+<li>Create the dialog</li>
+<li>Import the IWindowManager in the ViewModel</li>
+<li>Create the ViewModel and pass it the dialog</li>
+<li>Invoke ShowDialog() on the IWindowManager with the ViewModel as a parameter</li>
+</ul>
+
+
+<p>Well, the first step cannot be encapsulated in an IResult, but 2-4 rest can easily be encapsulated.</p>
+
+<figure class='code'><figcaption><span>DialogResult&lt;TResponse&gt;</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">public</span> <span class="k">class</span> <span class="nc">DialogResult</span><span class="p">&lt;</span><span class="n">TResponse</span><span class="p">&gt;</span> <span class="p">:</span> <span class="n">IResult</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">private</span> <span class="n">Func</span><span class="p">&lt;</span><span class="n">IDialogViewModel</span><span class="p">&lt;</span><span class="n">TResponse</span><span class="p">&gt;&gt;</span> <span class="n">_locateVM</span> <span class="p">=</span>
+</span><span class='line'>        <span class="p">()</span> <span class="p">=&gt;</span> <span class="k">new</span> <span class="n">DialogViewModel</span><span class="p">&lt;</span><span class="n">TResponse</span><span class="p">&gt;();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">public</span> <span class="nf">DialogResult</span><span class="p">(</span><span class="n">Dialog</span><span class="p">&lt;</span><span class="n">TResponse</span><span class="p">&gt;</span> <span class="n">dialog</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">Dialog</span> <span class="p">=</span> <span class="n">dialog</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">public</span> <span class="n">Dialog</span><span class="p">&lt;</span><span class="n">TResponse</span><span class="p">&gt;</span> <span class="n">Dialog</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">private</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">public</span> <span class="k">void</span> <span class="nf">Execute</span><span class="p">(</span><span class="n">ActionExecutionContext</span> <span class="n">context</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">IDialogViewModel</span><span class="p">&lt;</span><span class="n">TResponse</span><span class="p">&gt;</span> <span class="n">vm</span> <span class="p">=</span> <span class="n">_locateVM</span><span class="p">();</span>
+</span><span class='line'>        <span class="n">vm</span><span class="p">.</span><span class="n">Dialog</span> <span class="p">=</span> <span class="n">Dialog</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">Micro</span><span class="p">.</span><span class="n">Execute</span><span class="p">.</span><span class="n">OnUIThread</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="n">IoC</span><span class="p">.</span><span class="n">Get</span><span class="p">&lt;</span><span class="n">IWindowManager</span><span class="p">&gt;().</span><span class="n">ShowDialog</span><span class="p">(</span><span class="n">vm</span><span class="p">));</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">public</span> <span class="n">DialogResult</span><span class="p">&lt;</span><span class="n">TResponse</span><span class="p">&gt;</span> <span class="n">In</span><span class="p">(</span><span class="n">IDialogViewModel</span><span class="p">&lt;</span><span class="n">TResponse</span><span class="p">&gt;</span> <span class="n">dialogViewModel</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">_locateVM</span> <span class="p">=</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="n">dialogViewModel</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">public</span> <span class="n">DialogResult</span><span class="p">&lt;</span><span class="n">TResponse</span><span class="p">&gt;</span> <span class="n">In</span><span class="p">&lt;</span><span class="n">TDialogViewModel</span><span class="p">&gt;()</span>
+</span><span class='line'>        <span class="n">where</span> <span class="n">TDialogViewModel</span> <span class="p">:</span> <span class="n">IDialogViewModel</span><span class="p">&lt;</span><span class="n">TResponse</span><span class="p">&gt;</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">_locateVM</span> <span class="p">=</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="n">IoC</span><span class="p">.</span><span class="n">Get</span><span class="p">&lt;</span><span class="n">TDialogViewModel</span><span class="p">&gt;();</span>
+</span><span class='line'>        <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We do not only get reusable code, but also a nice way to change the implementation of IDialogViewModel&lt;> for specific dialogs if we want to.</p>
+
+<p>Last but not least we can write a small Extension Method to get even more readable code !</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">public</span> <span class="k">static</span> <span class="n">DialogResult</span><span class="p">&lt;</span><span class="n">TResponse</span><span class="p">&gt;</span> <span class="n">AsResult</span><span class="p">&lt;</span><span class="n">TResponse</span><span class="p">&gt;(</span><span class="k">this</span> <span class="n">Dialog</span><span class="p">&lt;</span><span class="n">TResponse</span><span class="p">&gt;</span> <span class="n">dialog</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="k">new</span> <span class="n">DialogResult</span><span class="p">&lt;</span><span class="n">TResponse</span><span class="p">&gt;(</span><span class="n">dialog</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And use it in the coroutine</p>
+
+<figure class='code'><figcaption><span>Demo</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">public</span> <span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">IResult</span><span class="p">&gt;</span> <span class="n">Foo</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">question</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Dialog</span><span class="p">&lt;</span><span class="n">Answer</span><span class="p">&gt;(</span><span class="n">DialogType</span><span class="p">.</span><span class="n">Question</span><span class="p">,</span>
+</span><span class='line'>                                      <span class="s">&quot;Isn&#39;t this a nice way to create a Dialog Window?&quot;</span><span class="p">,</span>
+</span><span class='line'>                                      <span class="n">Answer</span><span class="p">.</span><span class="n">Yes</span><span class="p">,</span>
+</span><span class='line'>                                      <span class="n">Answer</span><span class="p">.</span><span class="n">No</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">yield</span> <span class="k">return</span> <span class="n">question</span><span class="p">.</span><span class="n">AsResult</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">question</span><span class="p">.</span><span class="n">GivenResponse</span> <span class="p">==</span> <span class="n">Answer</span><span class="p">.</span><span class="n">Yes</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot; ^_^ &quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot; :*( &quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Kevin Mees</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-06-16T21:10:00+02:00" pubdate data-updated="true">Jun 16<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/c-/'>C#</a>, <a class='category' href='/blog/categories/cmcontrib/'>CMContrib</a>, <a class='category' href='/blog/categories/caliburn-micro/'>Caliburn.Micro</a>, <a class='category' href='/blog/categories/mvvm/'>MVVM</a>, <a class='category' href='/blog/categories/sl/'>SL</a>, <a class='category' href='/blog/categories/wpf/'>WPF</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://kmees.github.com/blog/2011/06/16/mvvm-dialogs-with-caliburn-dot-micro/" data-via="kevin_mees" data-counturl="http://kmees.github.com/blog/2011/06/16/mvvm-dialogs-with-caliburn-dot-micro/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2011/06/01/handling-errors-in-caliburn-dot-micros-iresult-part-ii/" title="Previous Post: Handling Errors in Caliburn.Micro's IResult - Part II">&laquo; Handling Errors in Caliburn.Micro's IResult - Part II</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2011/11/29/migration-to-octopress/" title="next Post: Migration to Octopress">Migration to Octopress &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/02/24/context-based-views-for-dialogs/">Context-Based Views for Dialogs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/02/08/cmcontrib-1-dot-0-released/">CMContrib 1.0 released</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/11/29/migration-to-octopress/">Migration to Octopress</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/06/16/mvvm-dialogs-with-caliburn-dot-micro/">MVVM Dialogs with Caliburn.Micro</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/06/01/handling-errors-in-caliburn-dot-micros-iresult-part-ii/">Handling Errors in Caliburn.Micro's IResult - Part II</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("kevin_mees", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/kevin_mees" class="twitter-follow-button" data-show-count="false">Follow @kevin_mees</a>
+  
+</section>
+
+
+<section>
+  <h1>Github Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/kmees">@kmees</a> on Github
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'kmees',
+            count: 5,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Stack Overflow</h1>
+  <a href="http://stackoverflow.com/users/874207/kev"><img src="http://stackoverflow.com/users/flair/874207.png" width="208" height="58" alt="profile for kev at Stack Overflow, Q&amp;A for professional and enthusiast programmers" title="profile for kev at Stack Overflow, Q&amp;A for professional and enthusiast programmers"></a>
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Kevin Mees -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> -
+  <span class="credit">Design by <a href="http://melandri.net/">Alessandro Melandri</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'kmees';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://kmees.github.com/blog/2011/06/16/mvvm-dialogs-with-caliburn-dot-micro/';
+        var disqus_url = 'http://kmees.github.com/blog/2011/06/16/mvvm-dialogs-with-caliburn-dot-micro/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
