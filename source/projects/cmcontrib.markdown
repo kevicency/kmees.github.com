@@ -7,6 +7,8 @@ footer: true
 
 <a href="http://github.com/kmees/cmcontrib"><img style="position: absolute; top: 0; right: 0; border: 0; box-shadow: 0pt 0pt 0pt transparent;" src="https://a248.e.akamai.net/assets.github.com/img/7afbc8b248c68eb468279e8c17986ad46549fb71/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub"></a>
 
+Extensions for the [Caliburn.Micro](http://caliburnmicro.codeplex.com/) MVVM Framework.
+
 ## Nuget Package
 The CMContrib NuGet package is available at the NuGet gallery under the name [Caliburn.Micro-Contrib](http://nuget.org/packages/Caliburn.Micro-Contrib)
 
