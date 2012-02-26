@@ -4,7 +4,7 @@
   <title><![CDATA[Category: WPF | Kevin Mees]]></title>
   <link href="http://kmees.github.com/blog/categories/wpf/atom.xml" rel="self"/>
   <link href="http://kmees.github.com/"/>
-  <updated>2012-02-26T19:04:40+01:00</updated>
+  <updated>2012-02-26T19:09:27+01:00</updated>
   <id>http://kmees.github.com/</id>
   <author>
     <name><![CDATA[Kevin Mees]]></name>
@@ -20,7 +20,9 @@
     <id>http://kmees.github.com/blog/2012/02/26/cmcontrib-wpf-demo-goin-metro</id>
     <content type="html"><![CDATA[<p>Inspired by the <a href="https://github.com/Code52/DownmarkerWPF">DownmarkerWPF</a>, I
 decided to change the Style of the CMContrib WPF Demo to Metro. I used the same
-Metro framework, namely <a href="https://github.com/MahApps/MahApps.Metro">MahApps.Metro</a> as DownmarkerWPF which is really cool. The only control that I wasn't able to 'metroize' was the <em>WebBrowser</em> control which displays the code. Its scrollbars still have the old Windows look. Anyway, I'm quite happy with the result especially since this is my first Metro app. Any feedback is appreciated !</p>
+Metro framework, namely <a href="https://github.com/MahApps/MahApps.Metro">MahApps.Metro</a> as DownmarkerWPF which is really cool. The only control that I wasn't able to 'metroize' was the <em>WebBrowser</em> control which displays the code. Its scrollbars still have the old Windows look. Another small letdown is that there is no free <em>Pivot</em> control available for WPF but it was quite easy to create a simplified version of it which was sufficient for my needs.</p>
+
+<p>Anyway, I'm quite happy with the result especially since this is my first Metro app. Any feedback is appreciated !</p>
 
 <!--more-->
 
