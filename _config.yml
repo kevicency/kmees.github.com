@@ -45,7 +45,8 @@ titlecase: true       # Converts page and post titles to titlecase
 
 # list each of the sidebar modules you want to include, in the order you want them to appear.
 # To add custom asides, create files in /source/_includes/custom/asides/ and add them to the list like 'custom/asides/custom_aside_name.html'
-default_asides: [asides/recent_posts.html, asides/twitter.html, asides/github.html, asides/stackoverflow.html]
+default_asides: [asides/recent_posts.html, asides/twitter.html, asides/github.html, asides/nuget.html, asides/stackoverflow.html]
+
 
 # Each layout uses the default asides, but they can have their own asides instead. Simply uncomment the lines below
 # and add an array with the asides you want to use.
@@ -62,6 +63,12 @@ github_user: "kmees"
 github_repo_count: 5
 github_show_profile_link: true
 github_skip_forks: true
+
+# NuGet packages
+nuget_user: "kmees"
+nuget_author: "Kevin Mees"
+nuget_package_count: 5
+nuget_show_profile_link: true
 
 # Twitter
 twitter_user: "kevin_mees"
