@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Octopress | Kevin Mees]]></title>
+  <link href="http://kmees.github.com/blog/categories/octopress/atom.xml" rel="self"/>
+  <link href="http://kmees.github.com/"/>
+  <updated>2012-02-29T15:51:04+01:00</updated>
+  <id>http://kmees.github.com/</id>
+  <author>
+    <name><![CDATA[Kevin Mees]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[NuGet Aside for Octopress]]></title>
+    <link href="http://kmees.github.com/blog/2012/02/29/nuget-aside-for-octopress/"/>
+    <updated>2012-02-29T15:37:00+01:00</updated>
+    <id>http://kmees.github.com/blog/2012/02/29/nuget-aside-for-octopress</id>
+    <content type="html"><![CDATA[<p>I just finished as aside for <a href="http://www.octopress.org">Octopress</a> that list the
+Top N downloaded packages where you are an author. It also adds a link to your
+NuGet gallery profile if you have one. The style is basically the same as the style of the github aside.</p>
+
+<p>Since there is no official way to publish 3rd party add-ons for Octopress yet, I
+created a <a href="https://github.com/kmees/Octopress-NuGet-Aside">github repository</a> with the required files and setup instructions in the <a href="https://github.com/kmees/Octopress-NuGet-Aside/blob/master/README.md">ReadMe</a>.</p>
+]]></content>
+  </entry>
+  
+</feed>
