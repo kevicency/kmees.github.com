@@ -68,7 +68,6 @@ github_skip_forks: true
 nuget_user: "kmees"
 nuget_author: "Kevin Mees"
 nuget_package_count: 5
-nuget_show_profile_link: true
 
 # Twitter
 twitter_user: "kevin_mees"

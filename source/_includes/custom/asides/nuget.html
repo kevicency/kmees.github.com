@@ -1,10 +1,10 @@
-{% if site.nuget_user %}
+{% if site.nuget_author %}
 <section>
   <h1>NuGet Packages</h1>
   <ul id="nuget_pkgs">
     <li class="loading">Status updating...</li>
   </ul>
-  {% if site.nuget_show_profile_link %}
+  {% if site.nuget_user %}
   <a
     href="http://nuget.org/profiles/{{site.github_user}}">@{{site.github_user}}</a> on NuGet Gallery
   {% endif %}
