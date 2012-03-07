@@ -4,7 +4,7 @@
   <title><![CDATA[Kevin Mees]]></title>
   <link href="http://kmees.github.com/atom.xml" rel="self"/>
   <link href="http://kmees.github.com/"/>
-  <updated>2012-03-01T17:47:47+01:00</updated>
+  <updated>2012-03-07T17:42:05+01:00</updated>
   <id>http://kmees.github.com/</id>
   <author>
     <name><![CDATA[Kevin Mees]]></name>
@@ -12,6 +12,21 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[7DRL 2012: Challenge Accepted]]></title>
+    <link href="http://kmees.github.com/blog/2012/03/07/7drl-2012-challenge-accepted/"/>
+    <updated>2012-03-07T17:11:00+01:00</updated>
+    <id>http://kmees.github.com/blog/2012/03/07/7drl-2012-challenge-accepted</id>
+    <content type="html"><![CDATA[<p><img class="center" src="http://kmees.github.com/images/posts/challenge_accepted.png"></p>
+
+<p>From March 10th to March 18th, this years <a href="http://roguebasin.roguelikedevelopment.org/index.php/Seven_Day_Roguelike_Challenge">Seven Day Roguelike Challenge</a> takes place. The goal of the challenge is to create a roguelike game in, well, seven days. I actually tried to participate in last years challenge, but due to a car accident about a week before the challenge, I wasn&#8217;t really able to focus on it. Hopefully, this years challenge runs smoothly for me such that I can get a game finished.</p>
+
+<p>I will try to blog about my progress on each of the seven days if I can manage to find some spare
+time. I&#8217;m also thinking about streaming/recording the development process but I don&#8217;t know if I can
+get everything set up in time. In any case, the project will of course be hosted on github !</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet Aside for Octopress]]></title>
