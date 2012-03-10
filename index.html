@@ -9,7 +9,7 @@
   <meta name="author" content="Kevin Mees">
 
   
-  <meta name="description" content="From March 10th to March 18th, this years Seven Day Roguelike Challenge takes place. The goal of the challenge is to create a roguelike game in, &hellip;">
+  <meta name="description" content="Although I didn&#8217;t have that much time lately, I came up with an idea that is worth prototyping in a 7DRL. I was a huge fan of the MechWarrior &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,6 +82,109 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/10/7drl-2012-day-0-introducing-mechrl/">7DRL 2012 - Day 0: Introducing MechRL</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-10T22:37:00+01:00" pubdate data-updated="true">Mar 10<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/03/10/7drl-2012-day-0-introducing-mechrl/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Although I didn&#8217;t have that much time lately, I came up with an idea that is worth prototyping in a 7DRL. I was a huge fan of the MechWarrior franchise back in the late 90s and early 2000s. After watching the <a href="http://www.youtube.com/watch?v=udEAEARD-Fo">Hawken Gameplay Video</a> some time ago, I got a bit nostalgic and thought about doing a <em>MechWarriorlike Roguelike</em>. Through the lack of a better name (naming things is hard!), I&#8217;ll simply call it MechRL.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/03/10/7drl-2012-day-0-introducing-mechrl/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/10/7drl-2012-choose-your-weapons/">7DRL 2012 - Day 0: Weapons of Choice</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-10T13:37:00+01:00" pubdate data-updated="true">Mar 10<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/03/10/7drl-2012-choose-your-weapons/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Alright, I&#8217;m gonna start my 7DRL Challenge tomorrow around noon. I wanted to start today, but I
+spent most of day setting up my system and testing the libraries I want to use. My development
+environment will be:</p>
+
+<ul>
+<li>OS: Virtualized Ubuntu 11.10</li>
+<li>Platform: Ruby
+
+<ul>
+<li>Gosu (Game Framework)</li>
+<li>Rspec (BDD Framework)</li>
+<li>Autotest</li>
+</ul>
+</li>
+<li>VCS: Git</li>
+<li>Editor: GVim</li>
+</ul>
+
+
+<p>I&#8217;ll try to develop the game using BDD and a test-first approach albeit it might slow me down in the beginning. But I hope that in the end it will pay off by having less bugs and broken features. Anyway, the plan is to spend the last day on polishing stuff instead of debugging.</p>
+
+<p>The project will be hosted on <a href="https://github.com/kmees/MechRL">Github</a> and I was able to setup
+XSplit, so I&#8217;ll stream while coding. Will be interesting to see if I get at least one viewer :). My <a href="http://www.twitch.tv/">twich.tv</a> channel can be found <a href="http://www.twitch.tv/kmees">here</a>.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -508,84 +611,9 @@ hopefully, leads to more posts !</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/05/31/handling-errors-in-caliburn-dot-micros-iresult-part-i/">Handling Errors in Caliburn.Micro&#8217;s IResult - Part I</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-05-31T22:01:00+02:00" pubdate data-updated="true">May 31<span>st</span>, 2011</time>
-        
-         | <a href="/blog/2011/05/31/handling-errors-in-caliburn-dot-micros-iresult-part-i/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>The Problem</h2>
-
-<p>One of Caliburn.Micro&#8217;s nicest feature is, hands down, the concept of Actions. In that concept the <code>IResult</code> plays an important role, especially when using <em>Coroutines</em>. If you don&#8217;t know about them, you should definately <a href="http://devlicio.us/blogs/rob_eisenberg/archive/2010/08/21/caliburn-micro-soup-to-nuts-part-5-iresult-and-coroutines.aspx">read up on them here first</a>.</p>
-
-<p>So, let&#8217;s assume we are executing a Coroutine which does the following:</p>
-
-<ul>
-<li>show a loading screen to the user,</li>
-<li>start processing a lot of data</li>
-<li>hide the loading screen once the processing is finished.</li>
-</ul>
-
-
-<p>Since the processing is also likely to fail for whatever reason we want to handle the error by executing a <em>Rescue Coroutine</em>.</p>
-
-<figure class='code'><figcaption><span>Pseudo Coroutine</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">public</span> <span class="n">IEnumerable</span> <span class="nf">ProcessData</span><span class="p">()</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">yield</span> <span class="k">return</span> <span class="k">new</span> <span class="nf">BusyResult</span><span class="p">(</span><span class="s">&quot;Processing...&quot;</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">yield</span> <span class="k">return</span> <span class="k">new</span> <span class="nf">ProcessDataResult</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">yield</span> <span class="k">return</span> <span class="k">new</span> <span class="nf">NotBusyResult</span><span class="p">();</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The implementation of those results is irrelevant since we want to have a look at how we can handle the error during the processing in a nice (reusable) way.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2011/05/31/handling-errors-in-caliburn-dot-micros-iresult-part-i/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
+    
+      <a class="prev" href="/blog/page/2/">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
@@ -598,6 +626,14 @@ hopefully, leads to more posts !</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2012/03/10/7drl-2012-day-0-introducing-mechrl/">7DRL 2012 - Day 0: Introducing MechRL</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/10/7drl-2012-choose-your-weapons/">7DRL 2012 - Day 0: Weapons of Choice</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/03/07/7drl-2012-challenge-accepted/">7DRL 2012: Challenge Accepted</a>
       </li>
     
@@ -607,14 +643,6 @@ hopefully, leads to more posts !</p>
     
       <li class="post">
         <a href="/blog/2012/02/26/cmcontrib-wpf-demo-goin-metro/">CMContrib WPF Demo goin&#8217; Metro</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/02/24/context-based-views-for-dialogs/">Context-Based Views for Dialogs</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/02/08/cmcontrib-1-dot-0-released/">CMContrib 1.0 released</a>
       </li>
     
   </ul>

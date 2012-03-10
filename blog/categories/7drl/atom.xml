@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 7DRL | Kevin Mees]]></title>
   <link href="http://kmees.github.com/blog/categories/7drl/atom.xml" rel="self"/>
   <link href="http://kmees.github.com/"/>
-  <updated>2012-03-07T17:42:05+01:00</updated>
+  <updated>2012-03-10T23:47:38+01:00</updated>
   <id>http://kmees.github.com/</id>
   <author>
     <name><![CDATA[Kevin Mees]]></name>
@@ -12,6 +12,81 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[7DRL 2012 - Day 0: Introducing MechRL]]></title>
+    <link href="http://kmees.github.com/blog/2012/03/10/7drl-2012-day-0-introducing-mechrl/"/>
+    <updated>2012-03-10T22:37:00+01:00</updated>
+    <id>http://kmees.github.com/blog/2012/03/10/7drl-2012-day-0-introducing-mechrl</id>
+    <content type="html"><![CDATA[<p>Although I didn't have that much time lately, I came up with an idea that is worth prototyping in a 7DRL. I was a huge fan of the MechWarrior franchise back in the late 90s and early 2000s. After watching the <a href="http://www.youtube.com/watch?v=udEAEARD-Fo">Hawken Gameplay Video</a> some time ago, I got a bit nostalgic and thought about doing a <em>MechWarriorlike Roguelike</em>. Through the lack of a better name (naming things is hard!), I'll simply call it MechRL.</p>
+
+<!--more-->
+
+
+<h2>Mechanics</h2>
+
+<p>The movement of the mechs in MechWarrior was similar to that of a car in racing game. You had to accelerate/decelerate your mech and you weren't able to change directions immediately but you rather had to turn. The movement paramters like v_max and inertia where also influenced by the weight of the mech.</p>
+
+<p>Another interesting mechanic was the combat which was closely related to movement. You were only able to shoot in the direction your mech was facing. Some mechs were able to turn their torso seperately from their legs which allowed you to perform some neat run-by attacks.</p>
+
+<p>Those two mechanics embody the core mechanics for my roguelike. It will be quite interesesting to
+see how these mechanics work in a turn-based environment. In case it won't work well, I might try a
+hybrid approach instead of a turn-based one. The actual combat won't also be skill shot based like in
+MechWarrior but something like VATS in Fallout 3.</p>
+
+<h2>Dungeon Design</h2>
+
+<p>The usual dungeon crawler'ish design for a roguelike won't really work for MechRL. Instead, I opt
+for a non-linear mission design which drives a very simple story. I have about 7-10 missions planned
+  currently. Most of the missions will all take place on the same map whose layout will be randomly
+  generated. There will also be some kind of outpost which serves as the mission hub and a place to customize/upgrade your mech.</p>
+
+<h2>Character Progress</h2>
+
+<p>That brings me to the progression of your mech throughout the game. In the beginning, you will choose one of
+~three starter mechs that differ in their playstyle (fast and agil, slow and heavy
+armed,...). You will then be able to update the weapons and armor with stuff you find or completely
+replace parts of the mech. There won't be alot of <strike>character</strike>mech stats but each part
+of your mech will have its own durability.</p>
+
+<h2>User Interface</h2>
+
+<p>As for the UI, although the game won't run in a console, I will likely stick to ASCII art most of
+the time. I'm not that at graphic design and it simply costs to much time that I won't have. I'll
+also focus on keyboard input first and only add mouse support if I have some time left.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[7DRL 2012 - Day 0: Weapons of Choice]]></title>
+    <link href="http://kmees.github.com/blog/2012/03/10/7drl-2012-choose-your-weapons/"/>
+    <updated>2012-03-10T13:37:00+01:00</updated>
+    <id>http://kmees.github.com/blog/2012/03/10/7drl-2012-choose-your-weapons</id>
+    <content type="html"><![CDATA[<p>Alright, I'm gonna start my 7DRL Challenge tomorrow around noon. I wanted to start today, but I
+spent most of day setting up my system and testing the libraries I want to use. My development
+environment will be:</p>
+
+<ul>
+<li>OS: Virtualized Ubuntu 11.10</li>
+<li>Platform: Ruby
+
+<ul>
+<li>Gosu (Game Framework)</li>
+<li>Rspec (BDD Framework)</li>
+<li>Autotest</li>
+</ul>
+</li>
+<li>VCS: Git</li>
+<li>Editor: GVim</li>
+</ul>
+
+
+<p>I'll try to develop the game using BDD and a test-first approach albeit it might slow me down in the beginning. But I hope that in the end it will pay off by having less bugs and broken features. Anyway, the plan is to spend the last day on polishing stuff instead of debugging.</p>
+
+<p>The project will be hosted on <a href="https://github.com/kmees/MechRL">Github</a> and I was able to setup
+XSplit, so I'll stream while coding. Will be interesting to see if I get at least one viewer :). My <a href="http://www.twitch.tv/">twich.tv</a> channel can be found <a href="http://www.twitch.tv/kmees">here</a>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[7DRL 2012: Challenge Accepted]]></title>

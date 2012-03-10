@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: 7DRL - Kevin Mees</title>
+  <title>7DRL 2012 - Day 0: Introducing MechRL - Kevin Mees</title>
   <meta name="author" content="Kevin Mees">
 
   
-  <meta name="description" content="Category: 7DRL">
+  <meta name="description" content="Although I didn&#8217;t have that much time lately, I came up with an idea that is worth prototyping in a 7DRL. I was a huge fan of the MechWarrior &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://kmees.github.comblog/categories/7drl">
+  <link rel="canonical" href="http://kmees.github.com/blog/2012/03/10/7drl-2012-day-0-introducing-mechrl">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -81,64 +81,130 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: 7DRL</h1>
+    
+      <h1 class="entry-title">7DRL 2012 - Day 0: Introducing MechRL</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-10T22:37:00+01:00" pubdate data-updated="true">Mar 10<span>th</span>, 2012</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>Although I didn&#8217;t have that much time lately, I came up with an idea that is worth prototyping in a 7DRL. I was a huge fan of the MechWarrior franchise back in the late 90s and early 2000s. After watching the <a href="http://www.youtube.com/watch?v=udEAEARD-Fo">Hawken Gameplay Video</a> some time ago, I got a bit nostalgic and thought about doing a <em>MechWarriorlike Roguelike</em>. Through the lack of a better name (naming things is hard!), I&#8217;ll simply call it MechRL.</p>
 
-  
-  <h2>2012</h2>
-
-<article>
-  
-<h1><a href="/blog/2012/03/10/7drl-2012-day-0-introducing-mechrl/">7DRL 2012 - Day 0: Introducing MechRL</a></h1>
-<time datetime="2012-03-10T22:37:00+01:00" pubdate><span class='month'>Mar</span> <span class='day'>10</span> <span class='year'>2012</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/7drl/'>7DRL</a></span>
-</footer>
+<!--more-->
 
 
-</article>
+<h2>Mechanics</h2>
 
+<p>The movement of the mechs in MechWarrior was similar to that of a car in racing game. You had to accelerate/decelerate your mech and you weren&#8217;t able to change directions immediately but you rather had to turn. The movement paramters like v_max and inertia where also influenced by the weight of the mech.</p>
 
+<p>Another interesting mechanic was the combat which was closely related to movement. You were only able to shoot in the direction your mech was facing. Some mechs were able to turn their torso seperately from their legs which allowed you to perform some neat run-by attacks.</p>
 
-<article>
-  
-<h1><a href="/blog/2012/03/10/7drl-2012-choose-your-weapons/">7DRL 2012 - Day 0: Weapons of Choice</a></h1>
-<time datetime="2012-03-10T13:37:00+01:00" pubdate><span class='month'>Mar</span> <span class='day'>10</span> <span class='year'>2012</span></time>
+<p>Those two mechanics embody the core mechanics for my roguelike. It will be quite interesesting to
+see how these mechanics work in a turn-based environment. In case it won&#8217;t work well, I might try a
+hybrid approach instead of a turn-based one. The actual combat won&#8217;t also be skill shot based like in
+MechWarrior but something like VATS in Fallout 3.</p>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/7drl/'>7DRL</a></span>
-</footer>
+<h2>Dungeon Design</h2>
 
+<p>The usual dungeon crawler&#8217;ish design for a roguelike won&#8217;t really work for MechRL. Instead, I opt
+for a non-linear mission design which drives a very simple story. I have about 7-10 missions planned
+  currently. Most of the missions will all take place on the same map whose layout will be randomly
+  generated. There will also be some kind of outpost which serves as the mission hub and a place to customize/upgrade your mech.</p>
 
-</article>
+<h2>Character Progress</h2>
 
+<p>That brings me to the progression of your mech throughout the game. In the beginning, you will choose one of
+~three starter mechs that differ in their playstyle (fast and agil, slow and heavy
+armed,&#8230;). You will then be able to update the weapons and armor with stuff you find or completely
+replace parts of the mech. There won&#8217;t be alot of <strike>character</strike>mech stats but each part
+of your mech will have its own durability.</p>
 
+<h2>User Interface</h2>
 
-<article>
-  
-<h1><a href="/blog/2012/03/07/7drl-2012-challenge-accepted/">7DRL 2012: Challenge Accepted</a></h1>
-<time datetime="2012-03-07T17:11:00+01:00" pubdate><span class='month'>Mar</span> <span class='day'>07</span> <span class='year'>2012</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/7drl/'>7DRL</a></span>
-</footer>
-
-
-</article>
-
+<p>As for the UI, although the game won&#8217;t run in a console, I will likely stick to ASCII art most of
+the time. I&#8217;m not that at graphic design and it simply costs to much time that I won&#8217;t have. I&#8217;ll
+also focus on keyboard input first and only add mouse support if I have some time left.</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Kevin Mees</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-10T22:37:00+01:00" pubdate data-updated="true">Mar 10<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/7drl/'>7DRL</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://kmees.github.com/blog/2012/03/10/7drl-2012-day-0-introducing-mechrl/" data-via="kevin_mees" data-counturl="http://kmees.github.com/blog/2012/03/10/7drl-2012-day-0-introducing-mechrl/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/03/10/7drl-2012-choose-your-weapons/" title="Previous Post: 7DRL 2012 - Day 0: Weapons of Choice">&laquo; 7DRL 2012 - Day 0: Weapons of Choice</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -280,7 +346,10 @@
       var disqus_shortname = 'kmees';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://kmees.github.com/blog/2012/03/10/7drl-2012-day-0-introducing-mechrl/';
+        var disqus_url = 'http://kmees.github.com/blog/2012/03/10/7drl-2012-day-0-introducing-mechrl/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
