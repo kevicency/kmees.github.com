@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: 7DRL | Kevin Mees]]></title>
-  <link href="http://kmees.github.com/blog/categories/7drl/atom.xml" rel="self"/>
+  <title><![CDATA[Category: MechRL | Kevin Mees]]></title>
+  <link href="http://kmees.github.com/blog/categories/mechrl/atom.xml" rel="self"/>
   <link href="http://kmees.github.com/"/>
   <updated>2012-03-11T13:55:58+01:00</updated>
   <id>http://kmees.github.com/</id>
@@ -54,52 +54,6 @@ of your mech will have its own durability.</p>
 <p>As for the UI, although the game won't run in a console, I will likely stick to ASCII art most of
 the time. I'm not that at graphic design and it simply costs to much time that I won't have. I'll
 also focus on keyboard input first and only add mouse support if I have some time left.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[7DRL 2012 - Day 0: Weapons of Choice]]></title>
-    <link href="http://kmees.github.com/blog/2012/03/10/7drl-2012-choose-your-weapons/"/>
-    <updated>2012-03-10T13:37:00+01:00</updated>
-    <id>http://kmees.github.com/blog/2012/03/10/7drl-2012-choose-your-weapons</id>
-    <content type="html"><![CDATA[<p>Alright, I'm gonna start my 7DRL Challenge tomorrow around noon. I wanted to start today, but I
-spent most of day setting up my system and testing the libraries I want to use. My development
-environment will be:</p>
-
-<ul>
-<li>OS: Virtualized Ubuntu 11.10</li>
-<li>Platform: Ruby
-
-<ul>
-<li>Gosu (Game Framework)</li>
-<li>Rspec (BDD Framework)</li>
-<li>Autotest</li>
-</ul>
-</li>
-<li>VCS: Git</li>
-<li>Editor: GVim</li>
-</ul>
-
-
-<p>I'll try to develop the game using BDD and a test-first approach albeit it might slow me down in the beginning. But I hope that in the end it will pay off by having less bugs and broken features. Anyway, the plan is to spend the last day on polishing stuff instead of debugging.</p>
-
-<p>The project will be hosted on <a href="https://github.com/kmees/MechRL">Github</a> and I was able to setup
-XSplit, so I'll stream while coding. Will be interesting to see if I get at least one viewer :). My <a href="http://www.twitch.tv/">twich.tv</a> channel can be found <a href="http://www.twitch.tv/kmees">here</a>.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[7DRL 2012: Challenge Accepted]]></title>
-    <link href="http://kmees.github.com/blog/2012/03/07/7drl-2012-challenge-accepted/"/>
-    <updated>2012-03-07T17:11:00+01:00</updated>
-    <id>http://kmees.github.com/blog/2012/03/07/7drl-2012-challenge-accepted</id>
-    <content type="html"><![CDATA[<p><img class="center" src="/images/posts/challenge_accepted.png"></p>
-
-<p>From March 10th to March 18th, this years <a href="http://roguebasin.roguelikedevelopment.org/index.php/Seven_Day_Roguelike_Challenge">Seven Day Roguelike Challenge</a> takes place. The goal of the challenge is to create a roguelike game in, well, seven days. I actually tried to participate in last years challenge, but due to a car accident about a week before the challenge, I wasn't really able to focus on it. Hopefully, this years challenge runs smoothly for me such that I can get a game finished.</p>
-
-<p>I will try to blog about my progress on each of the seven days if I can manage to find some spare
-time. I'm also thinking about streaming/recording the development process but I don't know if I can
-get everything set up in time. In any case, the project will of course be hosted on github !</p>
 ]]></content>
   </entry>
   
