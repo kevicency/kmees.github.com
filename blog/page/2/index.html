@@ -9,7 +9,7 @@
   <meta name="author" content="Kevin Mees">
 
   
-  <meta name="description" content="The Problem One of Caliburn.Micro&#8217;s nicest feature is, hands down, the concept of Actions. In that concept the IResult plays an important role &hellip;">
+  <meta name="description" content="Preface In my last post I gave two possible approaches and a preview of my final solution for handling errors in IResults. The syntax for my final &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,6 +82,81 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/06/01/handling-errors-in-caliburn-dot-micros-iresult-part-ii/">Handling Errors in Caliburn.Micro&#8217;s IResult - Part II</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-06-01T23:01:00+02:00" pubdate data-updated="true">Jun 1<span>st</span>, 2011</time>
+        
+         | <a href="/blog/2011/06/01/handling-errors-in-caliburn-dot-micros-iresult-part-ii/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Preface</h2>
+
+<p>In my last post I gave two possible approaches and a preview of my final solution for handling errors in IResults. The syntax for my final solution was</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">yield</span> <span class="k">return</span> <span class="k">new</span> <span class="nf">ProcessDataResult</span><span class="p">()</span>
+</span><span class='line'>        <span class="p">.</span><span class="n">Rescue</span><span class="p">().</span><span class="n">With</span><span class="p">(</span><span class="n">coroutine</span><span class="p">:</span> <span class="n">IORescue</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">.</span><span class="n">Rescue</span><span class="p">().</span><span class="n">With</span><span class="p">(</span><span class="n">coroutine</span><span class="p">:</span> <span class="n">GeneralRescue</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This means that</p>
+
+<ul>
+<li>whenever the result completes with an error of type IOException, the IORescue coroutine is executed</li>
+<li>whenever the result completes with any other error, the GeneralRescue coroutine is executed</li>
+</ul>
+
+
+<p>So the behaviour of the Rescue is similar to a try/catch block</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">try</span> <span class="p">{}</span>
+</span><span class='line'><span class="k">catch</span> <span class="p">(</span><span class="n">IOException</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span> <span class="c1">//IORescue }</span>
+</span><span class='line'><span class="k">catch</span> <span class="p">(</span><span class="n">Exception</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span> <span class="c1">//GeneralRescue }</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2011/06/01/handling-errors-in-caliburn-dot-micros-iresult-part-ii/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -175,6 +250,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2012/03/13/7drl-2012-day-1-and-2-recap/">7DRL 2012 Day 1&amp;2: Recap</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/03/10/7drl-2012-day-0-introducing-mechrl/">7DRL 2012 - Day 0: Introducing MechRL</a>
       </li>
     
@@ -188,10 +267,6 @@
     
       <li class="post">
         <a href="/blog/2012/02/29/nuget-aside-for-octopress/">NuGet Aside for Octopress</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/02/26/cmcontrib-wpf-demo-goin-metro/">CMContrib WPF Demo goin&#8217; Metro</a>
       </li>
     
   </ul>
