@@ -5,6 +5,7 @@ date: 2012-03-10 22:37
 comments: true
 categories: 
 - 7DRL
+- MechRL
 ---
 Although I didn't have that much time lately, I came up with an idea that is worth prototyping in a 7DRL. I was a huge fan of the MechWarrior franchise back in the late 90s and early 2000s. After watching the [Hawken Gameplay Video](http://www.youtube.com/watch?v=udEAEARD-Fo) some time ago, I got a bit nostalgic and thought about doing a *MechWarriorlike Roguelike*. Through the lack of a better name (naming things is hard!), I'll simply call it MechRL.
 
