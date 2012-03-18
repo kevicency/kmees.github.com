@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: SL - Kevin Mees</title>
+  <title>7DRL 2012: It's over ! - Kevin Mees</title>
   <meta name="author" content="Kevin Mees">
 
   
-  <meta name="description" content="Category: SL">
+  <meta name="description" content="It&#8217;s Sunday, March 18th and exactly 7 days ago I started my 7DRL Challenge. Sadly, I wasn&#8217;t able to
+finish my roguelike in time but it &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://kmees.github.comblog/categories/sl">
+  <link rel="canonical" href="http://kmees.github.com/blog/2012/03/18/7drl-2012-its-over">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -81,53 +82,152 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: SL</h1>
+    
+      <h1 class="entry-title">7DRL 2012: It's Over !</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-18T14:00:00+01:00" pubdate data-updated="true">Mar 18<span>th</span>, 2012</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>It&#8217;s Sunday, March 18th and exactly 7 days ago I started my 7DRL Challenge. Sadly, I wasn&#8217;t able to
+finish my roguelike in time but it was fun nevertheless. If I had to put a number on the
+completeness of the game, I would say it&#8217;s about 33% finished, but not really playable since I spent (wasted?) too much on time on the implementation of the Mech class and the UI instead of adding content/combat. In retrospect, I see a lot of room for improvements and I will write them down here such that I won&#8217;t do the same mistakes twice in next years 7DRL !</p>
 
-  
-  <h2>2012</h2>
-
-<article>
-  
-<h1><a href="/blog/2012/02/24/context-based-views-for-dialogs/">Context-Based Views for Dialogs</a></h1>
-<time datetime="2012-02-24T11:32:00+01:00" pubdate><span class='month'>Feb</span> <span class='day'>24</span> <span class='year'>2012</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/cmcontrib/'>CMContrib</a>, <a class='category' href='/blog/categories/mvvm/'>MVVM</a>, <a class='category' href='/blog/categories/sl/'>SL</a>, <a class='category' href='/blog/categories/wpf/'>WPF</a></span>
-</footer>
+<!--more-->
 
 
-</article>
+<h2>Lessons Learned</h2>
 
+<h3>#1 - Have a plan</h3>
 
+<p>The biggest mistake I did was not having a plan ready for the challenge. I had a very rough idea
+about what I wanted to do but my &#8216;design document&#8217; was basically non-existent and I followed a
+&#8216;design-as-you-code&#8217; philosophy. This led to a lot of wasted time because for each design iteration
+I scrapped parts of the code and rewrote them. The fact that I also wrote specs which I had to fix
+after scrapping code made it even worse. The specs were in general quite useful though because I
+didn&#8217;t encounter any weird bugs and was quite confident in my code base over the course of the
+challenge</p>
 
-  
-  <h2>2011</h2>
+<h3>#2 - Stick to your plan</h3>
 
-<article>
-  
-<h1><a href="/blog/2011/06/16/mvvm-dialogs-with-caliburn-dot-micro/">MVVM Dialogs with Caliburn.Micro</a></h1>
-<time datetime="2011-06-16T21:10:00+02:00" pubdate><span class='month'>Jun</span> <span class='day'>16</span> <span class='year'>2011</span></time>
+<p>When you have a plan, you should really stick to your plan because there is probably not enough time
+for implementing that cool idea that just came to your mind. So instead of immediately implementing
+  it, you should write it down and <em>maybe</em> implement at the end <em>if</em> there is some time left. I
+  basically spent all of day 5 on implementing a mech ascii art in the UI and coloring it based on the
+  amount of damage it has taken. Although its looks cool, a simple bar or numeric value would have done
+  the same job and would have cost me only a fraction of the time.</p>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/c-/'>C#</a>, <a class='category' href='/blog/categories/cmcontrib/'>CMContrib</a>, <a class='category' href='/blog/categories/caliburn-micro/'>Caliburn.Micro</a>, <a class='category' href='/blog/categories/mvvm/'>MVVM</a>, <a class='category' href='/blog/categories/sl/'>SL</a>, <a class='category' href='/blog/categories/wpf/'>WPF</a></span>
-</footer>
+<h3>#3 - Go offline</h3>
 
+<p>Whenever I opened my browser to have a look at the Ruby/Gosu docs or searching for a specific
+problem on Stackoverflow I just couldn&#8217;t resist to have a quick glance at my mails, or Facebook, or
+7drl.org, or &#8230;, you know the story. This was a <em>huge</em> time sink. My most productive three hours
+were at starbucks where I had no working internet and did just focus on <a href="http://programming-motherfucker.com/">Programming, Motherfucker !</a> This also leads me to lesson #4</p>
 
-</article>
+<h3>#4 - Lock your room</h3>
 
+<p>I don&#8217;t know how often I explained my girlfriend that whenever she interrupts my flow by asking me
+&#8216;where I put here whatever&#8217; or wanting me to &#8216;just open that tin&#8217; I totally lose my train of thought
+and need at least 15-30 minutes to get back to the state I was in. This usually also leads to nasty
+bugs because you just forgot something that you wanted (needed) to do. I really think
+non-programmers just can&#8217;t understand that stuff</p>
+
+<h3>#5 - Know your frameworks</h3>
+
+<p>I lost about half a day by getting familiar with Gosu and would have lost even more if I would have
+used Chingu or the Ruby wrapper for libtcod. But reinventing the wheel and implementing all by
+yourself just doesn&#8217;t work either. So, getting to know the frameworks you want to use beforehand is
+crucial.</p>
+
+<h3>#6 - Don&#8217;t drink and code</h3>
+
+<p>Yeah&#8230;didn&#8217;t work :)</p>
+
+<h2>7 days of coding and all I&#8217;ve got are those lousy screenshots</h2>
+
+<p><img class="center" src="/images/posts/mechrl_1.png" width="640" height="480">
+<img class="center" src="/images/posts/mechrl_2.png" width="640" height="480"></p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Kevin Mees</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-18T14:00:00+01:00" pubdate data-updated="true">Mar 18<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/7drl/'>7DRL</a>, <a class='category' href='/blog/categories/mechrl/'>MechRL</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://kmees.github.com/blog/2012/03/18/7drl-2012-its-over/" data-via="kevin_mees" data-counturl="http://kmees.github.com/blog/2012/03/18/7drl-2012-its-over/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/03/13/7drl-2012-day-1-and-2-recap/" title="Previous Post: 7DRL 2012 Day 1&amp;2: Recap">&laquo; 7DRL 2012 Day 1&amp;2: Recap</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -269,7 +369,10 @@
       var disqus_shortname = 'kmees';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://kmees.github.com/blog/2012/03/18/7drl-2012-its-over/';
+        var disqus_url = 'http://kmees.github.com/blog/2012/03/18/7drl-2012-its-over/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

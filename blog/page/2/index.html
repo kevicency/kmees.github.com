@@ -9,7 +9,7 @@
   <meta name="author" content="Kevin Mees">
 
   
-  <meta name="description" content="Preface In my last post I gave two possible approaches and a preview of my final solution for handling errors in IResults. The syntax for my final &hellip;">
+  <meta name="description" content="Background In every applications life there comes a time when you need to show some kind of message to the user. Be it a question whether he really &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,6 +82,60 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/06/16/mvvm-dialogs-with-caliburn-dot-micro/">MVVM Dialogs With Caliburn.Micro</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-06-16T21:10:00+02:00" pubdate data-updated="true">Jun 16<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/06/16/mvvm-dialogs-with-caliburn-dot-micro/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Background</h2>
+
+<p>In every applications life there comes a time when you need to show some kind of message to the user. Be it a question whether he really wants to delete something or a simple message that says that some operation was successful. The most simple way to do that is the good ol&#8217; <code>MessageBox.Show()</code> with its zillion overloads.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="s">&quot;Foo&quot;</span><span class="p">,</span> <span class="s">&quot;Bar&quot;</span><span class="p">,</span> <span class="n">MessageBoxButton</span><span class="p">.</span><span class="n">OKCancel</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But in the shiny MVVM World , polluting your ViewModels with MessageBoxes is usually frowned upon since it breaks a lot of stuff, especially automated unit testing and theming.</p>
+
+<p>You can find quite a lot solutions about how the MVVM<em>ize</em> MesasgeBoxes and dialog screens in general. Most of them involve wrapping the <code>MessageBox.Show()</code> in some kind of IService, setting up some kind of event infrastructure and other funky stuff. Surprisingly, all of those solutions completely ignore the first M in <strong>M</strong>VVM, namely the Model, and none really tackles the problem at its heart.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2011/06/16/mvvm-dialogs-with-caliburn-dot-micro/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -250,6 +304,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2012/03/18/7drl-2012-its-over/">7DRL 2012: It&#8217;s over !</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/03/13/7drl-2012-day-1-and-2-recap/">7DRL 2012 Day 1&amp;2: Recap</a>
       </li>
     
@@ -263,10 +321,6 @@
     
       <li class="post">
         <a href="/blog/2012/03/07/7drl-2012-challenge-accepted/">7DRL 2012: Challenge Accepted</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/02/29/nuget-aside-for-octopress/">NuGet Aside for Octopress</a>
       </li>
     
   </ul>
