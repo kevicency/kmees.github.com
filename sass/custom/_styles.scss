@@ -120,6 +120,25 @@ body > footer{
 }
 
 
+/* ----- Projects ----- */
+
+.project {
+  margin-bottom: 0.2em;
+  margin-top: 1.2em;
+}
+
+.project > a {
+  font-size: 1.8em;
+  text-decoration: none;
+  color: #555555 !important;
+}
+
+.project > a:hover { color: #1863A1; }
+
+.project-type {
+  font-size: 1.2em;
+}
+
 /* ----- 404 ----- */
 
 
