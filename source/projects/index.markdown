@@ -13,7 +13,7 @@ footer: false
 Extensions for the [Caliburn.Micro](http://caliburnmicro.codeplex.com/) MVVM Framework.
 
 <h3 class="project">
-  <a href="https://github.com/kmees/unicodetiles.rb">Unicodetiles.rb</a>
+  <a href="./unicodetiles.html">Unicodetiles.rb</a>
 </h3>
 Ruby Port of [unicodetiles.js](http://tapio.github.com/unicodetiles.js/), a text character based tile engine for creating roguelike games.
 
