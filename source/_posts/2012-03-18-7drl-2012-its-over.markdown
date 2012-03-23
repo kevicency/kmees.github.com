@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "7DRL 2012: It's over !"
+title: "7DRL 2012 - It's over !"
 date: 2012-03-18 14:00
 comments: true
 categories: 

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "7DRL 2012: Challenge Accepted"
+title: "7DRL 2012 - Challenge Accepted"
 date: 2012-03-07 17:11
 comments: true
 categories: 
