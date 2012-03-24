@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Caliburn.Micro | Kevin Mees]]></title>
   <link href="http://kmees.github.com/blog/categories/caliburn-micro/atom.xml" rel="self"/>
   <link href="http://kmees.github.com/"/>
-  <updated>2012-03-24T15:56:54+01:00</updated>
+  <updated>2012-03-24T19:34:47+01:00</updated>
   <id>http://kmees.github.com/</id>
   <author>
     <name><![CDATA[Kevin Mees]]></name>
@@ -12,6 +12,19 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[CMContrib 1.0.1 Released]]></title>
+    <link href="http://kmees.github.com/blog/2012/03/24/cmcontrib-1-dot-0-1-released/"/>
+    <updated>2012-03-24T19:30:00+01:00</updated>
+    <id>http://kmees.github.com/blog/2012/03/24/cmcontrib-1-dot-0-1-released</id>
+    <content type="html"><![CDATA[<p>I just released a new version of <a href="./projects/cmcontrib.html" title="">CMContrib</a> on
+<a href="http://nuget.org/packages/Caliburn.Micro-Contrib">NuGet</a>. The new version just has some minor fixes
+but the CMContrib assembly is now <em>strongly named</em> !</p>
+
+<p>Grab it while it's hot !</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[CMContrib 1.0 released]]></title>
