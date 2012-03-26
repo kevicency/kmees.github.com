@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 7DRL | Kevin Mees]]></title>
   <link href="http://kmees.github.com/blog/categories/7drl/atom.xml" rel="self"/>
   <link href="http://kmees.github.com/"/>
-  <updated>2012-03-24T19:34:47+01:00</updated>
+  <updated>2012-03-26T10:53:00+02:00</updated>
   <id>http://kmees.github.com/</id>
   <author>
     <name><![CDATA[Kevin Mees]]></name>
@@ -12,6 +12,23 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[unicodetiles.rb]]></title>
+    <link href="http://kmees.github.com/blog/2012/03/26/unicodetiles-dot-rb/"/>
+    <updated>2012-03-26T10:29:00+02:00</updated>
+    <id>http://kmees.github.com/blog/2012/03/26/unicodetiles-dot-rb</id>
+    <content type="html"><![CDATA[<p>After my miserable fail at the 7DRL 2012 I had the urge to get at least something get at least
+something useful done. So I decided to port <a href="http://tapio.github.com/unicodetiles.js/">unicodetiles.js</a>, a lightweight, character based tile engine for JavaScript to Ruby. Luckily, tapio, the author of unicodetiles.js, made it easy for me to find a name for the ruby port and it shall henceforth be called <a href="./projects/unicodetiles.html">unicodetiles.rb</a>.</p>
+
+<p>Porting the JavaScript code to Ruby went quite smoothly and I tried to 'rubify' the code wherever possible. I decided to implement the renderer on top of the gosu gem because it gave me all the tools I needed, especially the Gosu::Font class came in quite handy. The port is feature equivalent to the JavaScript version and the examples are exactly the same. I plan on adding some more features and use it for my next (7 Day?) Roguelike project and I will also release a gem in the next few days when everything is implemented and tested.</p>
+
+<p>Unicodetiles.rb also works quite well as a replacement for ncurses, a popular framework for writing
+fancy console applications used by a lot of roguelikes. The downside to ncurses is, that it is quite
+hard (or even impossible) to get running under Windows which really hampers the popularity of some
+roguelikes.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[7DRL 2012 - It's over !]]></title>
@@ -189,21 +206,6 @@ environment will be:</p>
 
 <p>The project will be hosted on <a href="https://github.com/kmees/MechRL">Github</a> and I was able to setup
 XSplit, so I'll stream while coding. Will be interesting to see if I get at least one viewer :). My <a href="http://www.twitch.tv/">twich.tv</a> channel can be found <a href="http://www.twitch.tv/kmees">here</a>.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[7DRL 2012 - Challenge Accepted]]></title>
-    <link href="http://kmees.github.com/blog/2012/03/07/7drl-2012-challenge-accepted/"/>
-    <updated>2012-03-07T17:11:00+01:00</updated>
-    <id>http://kmees.github.com/blog/2012/03/07/7drl-2012-challenge-accepted</id>
-    <content type="html"><![CDATA[<p><img class="center" src="/images/posts/challenge_accepted.png"></p>
-
-<p>From March 10th to March 18th, this years <a href="http://roguebasin.roguelikedevelopment.org/index.php/Seven_Day_Roguelike_Challenge">Seven Day Roguelike Challenge</a> takes place. The goal of the challenge is to create a roguelike game in, well, seven days. I actually tried to participate in last years challenge, but due to a car accident about a week before the challenge, I wasn't really able to focus on it. Hopefully, this years challenge runs smoothly for me such that I can get a game finished.</p>
-
-<p>I will try to blog about my progress on each of the seven days if I can manage to find some spare
-time. I'm also thinking about streaming/recording the development process but I don't know if I can
-get everything set up in time. In any case, the project will of course be hosted on github !</p>
 ]]></content>
   </entry>
   

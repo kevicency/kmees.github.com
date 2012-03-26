@@ -4,7 +4,7 @@
   <title><![CDATA[Kevin Mees]]></title>
   <link href="http://kmees.github.com/atom.xml" rel="self"/>
   <link href="http://kmees.github.com/"/>
-  <updated>2012-03-24T19:34:47+01:00</updated>
+  <updated>2012-03-26T10:53:00+02:00</updated>
   <id>http://kmees.github.com/</id>
   <author>
     <name><![CDATA[Kevin Mees]]></name>
@@ -12,6 +12,23 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[unicodetiles.rb]]></title>
+    <link href="http://kmees.github.com/blog/2012/03/26/unicodetiles-dot-rb/"/>
+    <updated>2012-03-26T10:29:00+02:00</updated>
+    <id>http://kmees.github.com/blog/2012/03/26/unicodetiles-dot-rb</id>
+    <content type="html"><![CDATA[<p>After my miserable fail at the 7DRL 2012 I had the urge to get at least something get at least
+something useful done. So I decided to port <a href="http://tapio.github.com/unicodetiles.js/">unicodetiles.js</a>, a lightweight, character based tile engine for JavaScript to Ruby. Luckily, tapio, the author of unicodetiles.js, made it easy for me to find a name for the ruby port and it shall henceforth be called <a href="./projects/unicodetiles.html">unicodetiles.rb</a>.</p>
+
+<p>Porting the JavaScript code to Ruby went quite smoothly and I tried to &#8216;rubify&#8217; the code wherever possible. I decided to implement the renderer on top of the gosu gem because it gave me all the tools I needed, especially the Gosu::Font class came in quite handy. The port is feature equivalent to the JavaScript version and the examples are exactly the same. I plan on adding some more features and use it for my next (7 Day?) Roguelike project and I will also release a gem in the next few days when everything is implemented and tested.</p>
+
+<p>Unicodetiles.rb also works quite well as a replacement for ncurses, a popular framework for writing
+fancy console applications used by a lot of roguelikes. The downside to ncurses is, that it is quite
+hard (or even impossible) to get running under Windows which really hampers the popularity of some
+roguelikes.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[CMContrib 1.0.1 Released]]></title>
