@@ -24,8 +24,8 @@ var nuget = (function(){
           for(var i=0, length=entries.length; i<length; i++) {
             var pkg = $(entries[i]);
             var title = pkg.find("title").text();
-            var isDuplicate = !packages.every(function(x){ x.name !== title; });
-            if (!isDuplicate) {
+            var existingRepo = packages.filter(function(x) { return x.name === title; })[0];
+            if (!existingRepo) {
               var url = pkg.find("properties > GalleryDetailsUrl").text();
               url = url.substring(0, url.lastIndexOf("/")+1);
               var package = {
@@ -35,6 +35,10 @@ var nuget = (function(){
                 downloadCount : parseInt(pkg.find("properties > DownloadCount").text())
               };
               packages.push(package);
+            } else {
+              var dlc = parseInt(pkg.find("properties > DownloadCount").text())
+              if (dlc > existingRepo.downloadCount)
+                existingRepo.downloadCount = dlc;
             }
           }
 
