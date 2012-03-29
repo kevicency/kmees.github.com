@@ -11,9 +11,16 @@ var nuget = (function(){
     }
     t.innerHTML = fragment;
   }
+
+  function salt(){
+    var now = new Date();
+    var saltDate = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
+    return saltDate.getTime();
+  }
+
   return {
     showPackages: function(options){
-      var feed = new google.feeds.Feed("http://nuget.org/api/v2/Search?searchTerm='Author="+escape(options.author)+"'&targetFramework='%20'&includePrerelease=false");
+      var feed = new google.feeds.Feed("http://nuget.org/api/v2/Search?searchTerm='Author="+escape(options.author)+"'&targetFramework='%20'&includePrerelease=false&" + salt());
       feed.setResultFormat(google.feeds.Feed.XML_FORMAT);
       feed.load(function(result) {
           var xDoc = result.xmlDocument;
