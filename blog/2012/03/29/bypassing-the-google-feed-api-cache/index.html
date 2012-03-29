@@ -5,12 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>7DRL 2012 - Day 0: Weapons of Choice - Kevin Mees</title>
+  <title>Bypassing the Google Feed API Cache - Kevin Mees</title>
   <meta name="author" content="Kevin Mees">
 
   
-  <meta name="description" content="Alright, I&#8217;m gonna start my 7DRL Challenge tomorrow around noon. I wanted to start today, but I
-spent most of day setting up my system and &hellip;">
+  <meta name="description" content="I noticed recently that the download count of the packages in my NuGet Aside didn&#8217;t update properly. As I mentioned earlier, I use the Google &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +18,7 @@ spent most of day setting up my system and &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://kmees.github.com/blog/2012/03/10/7drl-2012-choose-your-weapons">
+  <link rel="canonical" href="http://kmees.github.com/blog/2012/03/29/bypassing-the-google-feed-api-cache">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -86,7 +85,7 @@ spent most of day setting up my system and &hellip;">
   
   <header>
     
-      <h1 class="entry-title">7DRL 2012 - Day 0: Weapons of Choice</h1>
+      <h1 class="entry-title">Bypassing the Google Feed API Cache</h1>
     
     
       <p class="meta">
@@ -102,7 +101,7 @@ spent most of day setting up my system and &hellip;">
   
 
 
-<time datetime="2012-03-10T13:37:00+01:00" pubdate data-updated="true">Mar 10<span>th</span>, 2012</time>
+<time datetime="2012-03-29T23:22:00+02:00" pubdate data-updated="true">Mar 29<span>th</span>, 2012</time>
         
          | <a href="#disqus_thread">Comments</a>
         
@@ -111,29 +110,29 @@ spent most of day setting up my system and &hellip;">
   </header>
 
 
-<div class="entry-content"><p>Alright, I&#8217;m gonna start my 7DRL Challenge tomorrow around noon. I wanted to start today, but I
-spent most of day setting up my system and testing the libraries I want to use. My development
-environment will be:</p>
+<div class="entry-content"><p><img class="center" src="/images/posts/google_feed_api_meme.png"></p>
 
-<ul>
-<li>OS: Virtualized Ubuntu 11.10</li>
-<li>Platform: Ruby
+<p>I noticed recently that the download count of the packages in my <a href="https://github.com/kmees/Octopress-NuGet-Aside">NuGet Aside</a> didn&#8217;t update properly. As I <a href="/blog/2012/02/29/nuget-aside-for-octopress/">mentioned earlier</a>, I use the <a href="https://developers.google.com/feed/">Google Feed API</a> to get the data from the NuGet Gallery feed of an author. This indicrection is needed because the NuGet Gallery API doesn&#8217;t support the <strong>jsonp</strong> response type (yet). Anyway, the problem is that Google caches the feeds heavily and only adds new entries but doesn&#8217;t update existing ones. This means that the packages keep their download count of the first request.</p>
 
-<ul>
-<li>Gosu (Game Framework)</li>
-<li>Rspec (BDD Framework)</li>
-<li>Autotest</li>
-</ul>
-</li>
-<li>VCS: Git</li>
-<li>Editor: GVim</li>
-</ul>
+<!--more-->
 
 
-<p>I&#8217;ll try to develop the game using BDD and a test-first approach albeit it might slow me down in the beginning. But I hope that in the end it will pay off by having less bugs and broken features. Anyway, the plan is to spend the last day on polishing stuff instead of debugging.</p>
+<p>After some experiments, I concluded that the caching behavior is solely based on the feed URL and modifying the URL in a way that it &#8216;looks&#8217; different but still returns the same data circumvents the cache. I created a salt function that returns a large number based on the current time which I just append to the URL as an additional query parameter (that gets ignored by the API).</p>
 
-<p>The project will be hosted on <a href="https://github.com/kmees/MechRL">Github</a> and I was able to setup
-XSplit, so I&#8217;ll stream while coding. Will be interesting to see if I get at least one viewer :). My <a href="http://www.twitch.tv/">twich.tv</a> channel can be found <a href="http://www.twitch.tv/kmees">here</a>.</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">salt</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">now</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">();</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">saltDate</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">(</span><span class="nx">now</span><span class="p">.</span><span class="nx">getUTCFullYear</span><span class="p">(),</span> <span class="nx">now</span><span class="p">.</span><span class="nx">getUTCMonth</span><span class="p">(),</span> <span class="nx">now</span><span class="p">.</span><span class="nx">getUTCDate</span><span class="p">());</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nx">saltDate</span><span class="p">.</span><span class="nx">getTime</span><span class="p">();</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>As you may notice, the function returns the same number throughout the whole day. This way, the feed can still be cached but the data gets updated every day which is a good compromise !</p>
 </div>
 
 
@@ -156,12 +155,12 @@ XSplit, so I&#8217;ll stream while coding. Will be interesting to see if I get a
   
 
 
-<time datetime="2012-03-10T13:37:00+01:00" pubdate data-updated="true">Mar 10<span>th</span>, 2012</time>
+<time datetime="2012-03-29T23:22:00+02:00" pubdate data-updated="true">Mar 29<span>th</span>, 2012</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/7drl/'>7DRL</a>
+    <a class='category' href='/blog/categories/nuget/'>NuGet</a>, <a class='category' href='/blog/categories/octopress/'>Octopress</a>
   
 </span>
 
@@ -170,7 +169,7 @@ XSplit, so I&#8217;ll stream while coding. Will be interesting to see if I get a
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://kmees.github.com/blog/2012/03/10/7drl-2012-choose-your-weapons/" data-via="kevin_mees" data-counturl="http://kmees.github.com/blog/2012/03/10/7drl-2012-choose-your-weapons/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://kmees.github.com/blog/2012/03/29/bypassing-the-google-feed-api-cache/" data-via="kevin_mees" data-counturl="http://kmees.github.com/blog/2012/03/29/bypassing-the-google-feed-api-cache/" >Tweet</a>
   
   
   
@@ -181,10 +180,8 @@ XSplit, so I&#8217;ll stream while coding. Will be interesting to see if I get a
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2012/03/07/7drl-2012-challenge-accepted/" title="Previous Post: 7DRL 2012 - Challenge Accepted">&laquo; 7DRL 2012 - Challenge Accepted</a>
+        <a class="basic-alignment left" href="/blog/2012/03/26/unicodetiles-dot-rb/" title="Previous Post: unicodetiles.rb">&laquo; unicodetiles.rb</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2012/03/10/7drl-2012-day-0-introducing-mechrl/" title="next Post: 7DRL 2012 - Day 0: Introducing MechRL">7DRL 2012 - Day 0: Introducing MechRL &raquo;</a>
       
     </p>
   </footer>
@@ -337,8 +334,8 @@ XSplit, so I&#8217;ll stream while coding. Will be interesting to see if I get a
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://kmees.github.com/blog/2012/03/10/7drl-2012-choose-your-weapons/';
-        var disqus_url = 'http://kmees.github.com/blog/2012/03/10/7drl-2012-choose-your-weapons/';
+        var disqus_identifier = 'http://kmees.github.com/blog/2012/03/29/bypassing-the-google-feed-api-cache/';
+        var disqus_url = 'http://kmees.github.com/blog/2012/03/29/bypassing-the-google-feed-api-cache/';
         var disqus_script = 'embed.js';
       
     (function () {

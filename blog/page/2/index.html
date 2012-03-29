@@ -9,8 +9,9 @@
   <meta name="author" content="Kevin Mees">
 
   
-  <meta name="description" content="I just uploaded CMContrib 1.0 to NuGet. I also created a CMContrib project
-page with additional info about the features and a Silverlight Demo with &hellip;">
+  <meta name="description" content="Retrospect In my CMContrib Project I use a MVVM approach for
+showing dialogs to the user. The model for the dialog has a dialog type
+(Question, Error &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -83,6 +84,86 @@ page with additional info about the features and a Silverlight Demo with &hellip
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/02/24/context-based-views-for-dialogs/">Context-Based Views for Dialogs</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-24T11:32:00+01:00" pubdate data-updated="true">Feb 24<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/02/24/context-based-views-for-dialogs/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Retrospect</h2>
+
+<p>In my <a href="/projects/cmcontrib.html">CMContrib Project</a> I use a MVVM approach for
+showing dialogs to the user. The model for the dialog has a <em>dialog type</em>
+(Question, Error,&#8230;), a <em>subject</em> (or title), a <em>message</em> and a list of
+possible <em>responses</em> the user can choose from. The default response in CMContrib
+is an Answer enum with values for <em>Ok, Cancel, Yes</em> and all the other standard
+answers but you can also use a complex type as a response.</p>
+
+<p>Here&#8217;s an example of how to ask the user a question and cancel the coroutine
+when the user responses with <em>No</em>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">public</span> <span class="k">override</span> <span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">IResult</span><span class="p">&gt;</span> <span class="n">AskAQuestion</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">question</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Question</span><span class="p">(</span><span class="s">&quot;The Subject&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s">&quot;The Message&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="n">Answer</span><span class="p">.</span><span class="n">Yes</span><span class="p">,</span>
+</span><span class='line'>        <span class="n">Answer</span><span class="p">.</span><span class="n">No</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">yield</span> <span class="k">return</span> <span class="n">question</span><span class="p">.</span><span class="n">AsResult</span><span class="p">()</span>
+</span><span class='line'>        <span class="p">.</span><span class="n">CancelOnResponse</span><span class="p">(</span><span class="n">Answer</span><span class="p">.</span><span class="n">No</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// ...</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/02/24/context-based-views-for-dialogs/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -387,6 +468,10 @@ hopefully, leads to more posts !</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2012/03/29/bypassing-the-google-feed-api-cache/">Bypassing the Google Feed API Cache</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/03/26/unicodetiles-dot-rb/">unicodetiles.rb</a>
       </li>
     
@@ -400,10 +485,6 @@ hopefully, leads to more posts !</p>
     
       <li class="post">
         <a href="/blog/2012/03/13/7drl-2012-day-1-and-2-recap/">7DRL 2012 - Day 1&amp;2: Recap</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/03/10/7drl-2012-day-0-introducing-mechrl/">7DRL 2012 - Day 0: Introducing MechRL</a>
       </li>
     
   </ul>

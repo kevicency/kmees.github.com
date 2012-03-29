@@ -11,9 +11,16 @@ var nuget = (function(){
     }
     t.innerHTML = fragment;
   }
+
+  function salt(){
+    var now = new Date();
+    var saltDate = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
+    return saltDate.getTime();
+  }
+
   return {
     showPackages: function(options){
-      var feed = new google.feeds.Feed("http://nuget.org/api/v2/Search?searchTerm='Author="+escape(options.author)+"'&targetFramework='%20'&includePrerelease=false");
+      var feed = new google.feeds.Feed("http://nuget.org/api/v2/Search?searchTerm='Author="+escape(options.author)+"'&targetFramework='%20'&includePrerelease=false&" + salt());
       feed.setResultFormat(google.feeds.Feed.XML_FORMAT);
       feed.load(function(result) {
           var xDoc = result.xmlDocument;
@@ -24,8 +31,8 @@ var nuget = (function(){
           for(var i=0, length=entries.length; i<length; i++) {
             var pkg = $(entries[i]);
             var title = pkg.find("title").text();
-            var existingRepo = packages.filter(function(x) { return x.name === title; })[0];
-            if (!existingRepo) {
+            var isDuplicate = !packages.every(function(x){ x.name !== title; });
+            if (!isDuplicate) {
               var url = pkg.find("properties > GalleryDetailsUrl").text();
               url = url.substring(0, url.lastIndexOf("/")+1);
               var package = {
@@ -35,10 +42,6 @@ var nuget = (function(){
                 downloadCount : parseInt(pkg.find("properties > DownloadCount").text())
               };
               packages.push(package);
-            } else {
-              var dlc = parseInt(pkg.find("properties > DownloadCount").text())
-              if (dlc > existingRepo.downloadCount)
-                existingRepo.downloadCount = dlc;
             }
           }
 
