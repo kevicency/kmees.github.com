@@ -38,3 +38,9 @@ See [JavaScript online examples](http://tapio.github.com/unicodetiles.js/example
 
 ## Installation
 See [ReadMe](https://github.com/kmees/unicodetiles.rb/blob/master/Readme.md)
+
+## Screenshots
+
+{% img center /images/projects/unicodetiles_forest.png %}
+{% img center /images/projects/unicodetiles_shader.png %}
+
