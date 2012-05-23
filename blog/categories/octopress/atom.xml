@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Octopress | Kevin Mees]]></title>
   <link href="http://kmees.github.com/blog/categories/octopress/atom.xml" rel="self"/>
   <link href="http://kmees.github.com/"/>
-  <updated>2012-03-30T13:16:08+02:00</updated>
+  <updated>2012-05-23T09:41:08+02:00</updated>
   <id>http://kmees.github.com/</id>
   <author>
     <name><![CDATA[Kevin Mees]]></name>
@@ -18,7 +18,7 @@
     <link href="http://kmees.github.com/blog/2012/03/29/bypassing-the-google-feed-api-cache/"/>
     <updated>2012-03-29T23:22:00+02:00</updated>
     <id>http://kmees.github.com/blog/2012/03/29/bypassing-the-google-feed-api-cache</id>
-    <content type="html"><![CDATA[<p><img class="center" src="/images/posts/google_feed_api_meme.png"></p>
+    <content type="html"><![CDATA[<p><img class="center" src="/images/posts/google_feed_api_meme.png" /></p>
 
 <p>I noticed recently that the download count of the packages in my <a href="https://github.com/kmees/Octopress-NuGet-Aside">NuGet Aside</a> didn't update properly. As I <a href="/blog/2012/02/29/nuget-aside-for-octopress/">mentioned earlier</a>, I use the <a href="https://developers.google.com/feed/">Google Feed API</a> to get the data from the NuGet Gallery feed of an author. This indicrection is needed because the NuGet Gallery API doesn't support the <strong>jsonp</strong> response type (yet). Anyway, the problem is that Google caches the feeds heavily and only adds new entries but doesn't update existing ones. This means that the packages keep their download count of the first request.</p>
 

@@ -27,8 +27,20 @@ finish my roguelike in time but it &hellip;">
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="Kevin Mees" type="application/atom+xml">
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-
 <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+<!-- Add jQuery library -->
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="/stylesheets/jquery.fancybox.css?v=2.0.4" type="text/css" media="screen" />
+<script type="text/javascript" src="/javascripts/jquery.fancybox.js?v=2.0.4"></script>
+<!-- Add fancyBox jQuery -->
+<script type="text/javascript">
+  jQuery.noConflict();    // prevents conflicts with Ender.js, use jQuery instead of $
+  jQuery(document).ready(function() {
+      jQuery(".fancybox").fancybox();
+  });
+</script>
+<!-- End fancyBox insert -->
 
   
   <script type="text/javascript">
@@ -167,8 +179,8 @@ crucial.</p>
 
 <h2>7 days of coding and all I&#8217;ve got are those lousy screenshots</h2>
 
-<p><img class="center" src="/images/posts/mechrl_1.png" width="640" height="480">
-<img class="center" src="/images/posts/mechrl_2.png" width="640" height="480"></p>
+<p><img class="center" src="/images/posts/mechrl_1.png" width="640" height="480" />
+<img class="center" src="/images/posts/mechrl_2.png" width="640" height="480" /></p>
 </div>
 
 
