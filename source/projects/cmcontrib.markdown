@@ -2,6 +2,7 @@
 layout: page
 title: "CMContrib"
 sharing: true
+comments: true
 footer: true
 ---
 

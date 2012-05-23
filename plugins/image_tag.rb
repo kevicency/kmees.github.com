@@ -39,12 +39,29 @@ module Jekyll
 
     def render(context)
       if @img
-        "<img #{@img.collect {|k,v| "#{k}=\"#{v}\"" if v}.join(" ")}>"
+        "<img #{@img.collect {|k,v| "#{k}=\"#{v}\"" if v}.join(" ")} />"
       else
         "Error processing input, expected syntax: {% img [class name(s)] [http[s]:/]/path/to/image [width [height]] [title text | \"title text\" [\"alt text\"]] %}"
+      end
+    end
+  end
+
+  class FancyImageTag < ImageTag
+    def initialize(tag_name, markup, tokens)
+      super(tag_name, markup, tokens)
+    end
+
+    def render(context)
+      if @img
+        img_render = super(context)
+        title_attr = "title=\"#{@img['title']}\"" if @img['title']
+        return "<a class=\"fancybox\" href=\"#{@img['src']}\" #{title_attr}>#{img_render}</a>"
+      else
+        "Error processing input, expected syntax: {% fancy_img [class name(s)] [http[s]:/]/path/to/image [width [height]] [title text | \"title text\" [\"alt text\"]] %}"
       end
     end
   end
 end
 
 Liquid::Template.register_tag('img', Jekyll::ImageTag)
+Liquid::Template.register_tag('fancy_img', Jekyll::FancyImageTag)
