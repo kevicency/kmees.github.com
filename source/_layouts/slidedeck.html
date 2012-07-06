@@ -1,0 +1,53 @@
+{% capture root_url %}{{ site.root | strip_slash }}{% endcapture %}
+{% include slidedeck_head.html %}
+<body {% if page.body_id %} id="{{ page.body_id }}" {% endif %} {% if page.sidebar == false %} class="no-sidebar" {% endif %} {% if page.sidebar == 'collapse' or site.sidebar == 'collapse' %} class="collapse-sidebar sidebar-footer" {% endif %}>
+  <header role="banner">{% include header.html %}</header>
+  <nav role="navigation">{% include navigation.html %}</nav>
+  <div id="main">
+    <div id="slide-content">
+      <div class="deck-container">
+        {{ content | expand_urls: root_url }}
+
+        <!-- deck.navigation snippet -->
+        <a href="#" class="deck-prev-link" title="Previous">&#8592;</a>
+        <a href="#" class="deck-next-link" title="Next">&#8594;</a>
+
+        <!-- deck.status snippet -->
+        <p class="deck-status">
+          <span class="deck-status-current"></span>
+          /
+          <span class="deck-status-total"></span>
+        </p>
+
+        <!-- deck.goto snippet -->
+        <form action="." method="get" class="goto-form">
+          <label for="goto-slide">Go to slide:</label>
+          <input type="text" name="slidenum" id="goto-slide" list="goto-datalist">
+          <datalist id="goto-datalist"></datalist>
+          <input type="submit" value="Go">
+        </form>
+
+        <!-- deck.hash snippet -->
+        <a href="." title="Permalink to this slide" class="deck-permalink">#</a>
+
+        <!-- Deck Core and extensions -->
+        <script src="{{ root_url }}/deck.js/core/deck.core.js"></script>
+        <script src="{{ root_url }}/deck.js/extensions/hash/deck.hash.js"></script>
+        <script src="{{ root_url }}/deck.js/extensions/menu/deck.menu.js"></script>
+        <script src="{{ root_url }}/deck.js/extensions/goto/deck.goto.js"></script>
+        <script src="{{ root_url }}/deck.js/extensions/status/deck.status.js"></script>
+        <script src="{{ root_url }}/deck.js/extensions/navigation/deck.navigation.js"></script>
+
+        <!-- Initialize the deck -->
+        <script>
+          $(function() {
+            $.deck('.slide');
+          });
+        </script>
+      </div>
+    </div>
+  </div>
+  <footer role="contentinfo">{% include footer.html %}</footer>
+  {% include after_footer.html %}
+</body>
+</html">
