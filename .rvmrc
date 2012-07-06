@@ -1,1 +1,1 @@
-rvm --create use 1.9.2@octo > /dev/null
+rvm --create use 1.9.3-head@octo > /dev/null
