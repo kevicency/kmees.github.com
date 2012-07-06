@@ -2,98 +2,102 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>
-            http://kmees.github.com/blog/2011/05/31/handling-errors-in-caliburn-dot-micros-iresult-part-i/
+            http://kmees.github.com/2011/05/31/handling-errors-in-caliburn-dot-micros-iresult-part-i/
         </loc>
-        <lastmod>2012-02-26T14:45:41+01:00</lastmod>
+        <lastmod>2012-07-06T13:37:13+02:00</lastmod>
     </url>
     <url>
         <loc>
-            http://kmees.github.com/blog/2011/06/01/handling-errors-in-caliburn-dot-micros-iresult-part-ii/
+            http://kmees.github.com/2011/06/01/handling-errors-in-caliburn-dot-micros-iresult-part-ii/
         </loc>
-        <lastmod>2012-02-26T14:45:41+01:00</lastmod>
+        <lastmod>2012-07-06T13:37:13+02:00</lastmod>
     </url>
     <url>
-        <loc>http://kmees.github.com/blog/2011/06/16/mvvm-dialogs-with-caliburn-dot-micro/</loc>
-        <lastmod>2012-02-26T14:45:41+01:00</lastmod>
+        <loc>http://kmees.github.com/2011/06/16/mvvm-dialogs-with-caliburn-dot-micro/</loc>
+        <lastmod>2012-07-06T13:37:13+02:00</lastmod>
     </url>
     <url>
-        <loc>http://kmees.github.com/blog/2011/11/29/migration-to-octopress/</loc>
-        <lastmod>2012-02-26T14:45:41+01:00</lastmod>
+        <loc>http://kmees.github.com/2011/11/29/migration-to-octopress/</loc>
+        <lastmod>2012-07-06T13:37:13+02:00</lastmod>
     </url>
     <url>
-        <loc>http://kmees.github.com/blog/2012/02/08/cmcontrib-1-dot-0-released/</loc>
-        <lastmod>2012-02-29T15:38:19+01:00</lastmod>
+        <loc>http://kmees.github.com/2012/02/08/cmcontrib-1-dot-0-released/</loc>
+        <lastmod>2012-07-06T13:37:13+02:00</lastmod>
     </url>
     <url>
-        <loc>http://kmees.github.com/blog/2012/02/24/context-based-views-for-dialogs/</loc>
-        <lastmod>2012-02-26T14:45:41+01:00</lastmod>
+        <loc>http://kmees.github.com/2012/02/24/context-based-views-for-dialogs/</loc>
+        <lastmod>2012-07-06T13:37:13+02:00</lastmod>
     </url>
     <url>
-        <loc>http://kmees.github.com/blog/2012/02/26/cmcontrib-wpf-demo-goin-metro/</loc>
-        <lastmod>2012-02-26T19:09:23+01:00</lastmod>
+        <loc>http://kmees.github.com/2012/02/26/cmcontrib-wpf-demo-goin-metro/</loc>
+        <lastmod>2012-07-06T13:37:13+02:00</lastmod>
     </url>
     <url>
-        <loc>http://kmees.github.com/blog/2012/02/29/nuget-aside-for-octopress/</loc>
-        <lastmod>2012-02-29T15:50:45+01:00</lastmod>
+        <loc>http://kmees.github.com/2012/02/29/nuget-aside-for-octopress/</loc>
+        <lastmod>2012-07-06T13:37:13+02:00</lastmod>
     </url>
     <url>
-        <loc>http://kmees.github.com/blog/2012/03/07/7drl-2012-challenge-accepted/</loc>
-        <lastmod>2012-03-23T13:36:44+01:00</lastmod>
+        <loc>http://kmees.github.com/2012/03/07/7drl-2012-challenge-accepted/</loc>
+        <lastmod>2012-07-06T13:37:13+02:00</lastmod>
     </url>
     <url>
-        <loc>http://kmees.github.com/blog/2012/03/10/7drl-2012-choose-your-weapons/</loc>
-        <lastmod>2012-03-10T23:43:57+01:00</lastmod>
+        <loc>http://kmees.github.com/2012/03/10/7drl-2012-choose-your-weapons/</loc>
+        <lastmod>2012-07-06T13:37:13+02:00</lastmod>
     </url>
     <url>
-        <loc>http://kmees.github.com/blog/2012/03/10/7drl-2012-day-0-introducing-mechrl/</loc>
-        <lastmod>2012-03-11T13:55:47+01:00</lastmod>
+        <loc>http://kmees.github.com/2012/03/10/7drl-2012-day-0-introducing-mechrl/</loc>
+        <lastmod>2012-07-06T13:37:13+02:00</lastmod>
     </url>
     <url>
-        <loc>http://kmees.github.com/blog/2012/03/13/7drl-2012-day-1-and-2-recap/</loc>
-        <lastmod>2012-03-23T13:36:44+01:00</lastmod>
+        <loc>http://kmees.github.com/2012/03/13/7drl-2012-day-1-and-2-recap/</loc>
+        <lastmod>2012-07-06T13:37:13+02:00</lastmod>
     </url>
     <url>
-        <loc>http://kmees.github.com/blog/2012/03/18/7drl-2012-its-over/</loc>
-        <lastmod>2012-03-23T13:36:44+01:00</lastmod>
+        <loc>http://kmees.github.com/2012/03/18/7drl-2012-its-over/</loc>
+        <lastmod>2012-07-06T13:37:13+02:00</lastmod>
     </url>
     <url>
-        <loc>http://kmees.github.com/blog/2012/03/24/cmcontrib-1-dot-0-1-released/</loc>
-        <lastmod>2012-03-24T19:34:10+01:00</lastmod>
+        <loc>http://kmees.github.com/2012/03/24/cmcontrib-1-dot-0-1-released/</loc>
+        <lastmod>2012-07-06T13:37:13+02:00</lastmod>
     </url>
     <url>
-        <loc>http://kmees.github.com/blog/2012/03/26/unicodetiles-dot-rb/</loc>
-        <lastmod>2012-03-26T10:52:37+02:00</lastmod>
+        <loc>http://kmees.github.com/2012/03/26/unicodetiles-dot-rb/</loc>
+        <lastmod>2012-07-06T13:37:13+02:00</lastmod>
     </url>
     <url>
-        <loc>http://kmees.github.com/blog/2012/03/29/bypassing-the-google-feed-api-cache/</loc>
-        <lastmod>2012-03-29T23:57:06+02:00</lastmod>
+        <loc>http://kmees.github.com/2012/03/29/bypassing-the-google-feed-api-cache/</loc>
+        <lastmod>2012-07-06T13:37:13+02:00</lastmod>
     </url>
     <url>
         <loc>http://kmees.github.com/impressum.html</loc>
-        <lastmod>2012-02-26T14:45:41+01:00</lastmod>
+        <lastmod>2012-07-06T13:37:13+02:00</lastmod>
+    </url>
+    <url>
+        <loc>http://kmees.github.com/slides/rugsaar-octopress.html</loc>
+        <lastmod>2012-07-06T12:56:03+02:00</lastmod>
     </url>
     <url>
         <loc>http://kmees.github.com/projects/</loc>
-        <lastmod>2012-05-23T09:40:19+02:00</lastmod>
+        <lastmod>2012-07-06T13:37:13+02:00</lastmod>
     </url>
     <url>
         <loc>http://kmees.github.com/projects/nmagnify.html</loc>
-        <lastmod>2012-05-05T00:50:06+02:00</lastmod>
+        <lastmod>2012-07-06T13:37:13+02:00</lastmod>
     </url>
     <url>
         <loc>http://kmees.github.com/projects/unicodetiles.html</loc>
-        <lastmod>2012-03-30T13:12:22+02:00</lastmod>
+        <lastmod>2012-07-06T13:37:13+02:00</lastmod>
     </url>
     <url>
         <loc>http://kmees.github.com/projects/cmcontrib.html</loc>
-        <lastmod>2012-05-04T17:43:55+02:00</lastmod>
+        <lastmod>2012-07-06T13:37:13+02:00</lastmod>
+    </url>
+    <url>
+        <loc>http://kmees.github.com/archives/</loc>
+        <lastmod>2012-07-06T13:37:13+02:00</lastmod>
     </url>
     <url>
         <loc>http://kmees.github.com/</loc>
-        <lastmod>2012-03-29T23:57:06+02:00</lastmod>
-    </url>
-    <url>
-        <loc>http://kmees.github.com/blog/archives/</loc>
-        <lastmod>2012-03-29T23:57:06+02:00</lastmod>
+        <lastmod>2012-07-06T13:37:13+02:00</lastmod>
     </url>
 </urlset>

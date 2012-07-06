@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-
   <title><![CDATA[Kevin Mees]]></title>
   <link href="http://kmees.github.com/atom.xml" rel="self"/>
   <link href="http://kmees.github.com/"/>
-  <updated>2012-05-23T09:41:08+02:00</updated>
+  <updated>2012-07-06T15:13:55+02:00</updated>
   <id>http://kmees.github.com/</id>
   <author>
     <name><![CDATA[Kevin Mees]]></name>
@@ -13,12 +12,18 @@
   <generator uri="http://octopress.org/">Octopress</generator>
 
   
-  <entry>
-    <title type="html"><![CDATA[Bypassing the Google Feed API Cache]]></title>
-    <link href="http://kmees.github.com/blog/2012/03/29/bypassing-the-google-feed-api-cache/"/>
-    <updated>2012-03-29T23:22:00+02:00</updated>
-    <id>http://kmees.github.com/blog/2012/03/29/bypassing-the-google-feed-api-cache</id>
-    <content type="html"><![CDATA[<p><img class="center" src="http://kmees.github.com/images/posts/google_feed_api_meme.png" /></p>
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[Bypassing the Google Feed API Cache]]></title>
+<link href="http://kmees.github.com/2012/03/29/bypassing-the-google-feed-api-cache/"/>
+<updated>2012-03-29T23:22:00+02:00</updated>
+<id>http://kmees.github.com/2012/03/29/bypassing-the-google-feed-api-cache</id>
+
+      <content type="html"><![CDATA[<p><img class="center" src="http://kmees.github.com/images/posts/google_feed_api_meme.png"></p>
 
 <p>I noticed recently that the download count of the packages in my <a href="https://github.com/kmees/Octopress-NuGet-Aside">NuGet Aside</a> didn&#8217;t update properly. As I <a href="http://kmees.github.com/blog/2012/02/29/nuget-aside-for-octopress/">mentioned earlier</a>, I use the <a href="https://developers.google.com/feed/">Google Feed API</a> to get the data from the NuGet Gallery feed of an author. This indicrection is needed because the NuGet Gallery API doesn&#8217;t support the <strong>jsonp</strong> response type (yet). Anyway, the problem is that Google caches the feeds heavily and only adds new entries but doesn&#8217;t update existing ones. This means that the packages keep their download count of the first request.</p>
 
@@ -27,7 +32,7 @@
 
 <p>After some experiments, I concluded that the caching behavior is solely based on the feed URL and modifying the URL in a way that it &#8216;looks&#8217; different but still returns the same data circumvents the cache. I created a salt function that returns a large number based on the current time which I just append to the URL as an additional query parameter (that gets ignored by the API).</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -41,15 +46,21 @@
 
 
 <p>As you may notice, the function returns the same number throughout the whole day. This way, the feed can still be cached but the data gets updated every day which is a good compromise !</p>
-]]></content>
-  </entry>
+<p><a rel="bookmark" href="http://kmees.github.com/2012/03/29/bypassing-the-google-feed-api-cache/">&#9875; Permalink</a></p>]]></content>
+    </entry>
   
-  <entry>
-    <title type="html"><![CDATA[unicodetiles.rb]]></title>
-    <link href="http://kmees.github.com/blog/2012/03/26/unicodetiles-dot-rb/"/>
-    <updated>2012-03-26T10:29:00+02:00</updated>
-    <id>http://kmees.github.com/blog/2012/03/26/unicodetiles-dot-rb</id>
-    <content type="html"><![CDATA[<p>After my miserable fail at the 7DRL 2012 I had the urge to get at least something get at least
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[unicodetiles.rb]]></title>
+<link href="http://kmees.github.com/2012/03/26/unicodetiles-dot-rb/"/>
+<updated>2012-03-26T10:29:00+02:00</updated>
+<id>http://kmees.github.com/2012/03/26/unicodetiles-dot-rb</id>
+
+      <content type="html"><![CDATA[<p>After my miserable fail at the 7DRL 2012 I had the urge to get at least something get at least
 something useful done. So I decided to port <a href="http://tapio.github.com/unicodetiles.js/">unicodetiles.js</a>, a lightweight, character based tile engine for JavaScript to Ruby. Luckily, tapio, the author of unicodetiles.js, made it easy for me to find a name for the ruby port and it shall henceforth be called <a href="./projects/unicodetiles.html">unicodetiles.rb</a>.</p>
 
 <p>Porting the JavaScript code to Ruby went quite smoothly and I tried to &#8216;rubify&#8217; the code wherever possible. I decided to implement the renderer on top of the gosu gem because it gave me all the tools I needed, especially the Gosu::Font class came in quite handy. The port is feature equivalent to the JavaScript version and the examples are exactly the same. I plan on adding some more features and use it for my next (7 Day?) Roguelike project and I will also release a gem in the next few days when everything is implemented and tested.</p>
@@ -58,28 +69,40 @@ something useful done. So I decided to port <a href="http://tapio.github.com/uni
 fancy console applications used by a lot of roguelikes. The downside to ncurses is, that it is quite
 hard (or even impossible) to get running under Windows which really hampers the popularity of some
 roguelikes.</p>
-]]></content>
-  </entry>
+<p><a rel="bookmark" href="http://kmees.github.com/2012/03/26/unicodetiles-dot-rb/">&#9875; Permalink</a></p>]]></content>
+    </entry>
   
-  <entry>
-    <title type="html"><![CDATA[CMContrib 1.0.1 Released]]></title>
-    <link href="http://kmees.github.com/blog/2012/03/24/cmcontrib-1-dot-0-1-released/"/>
-    <updated>2012-03-24T19:30:00+01:00</updated>
-    <id>http://kmees.github.com/blog/2012/03/24/cmcontrib-1-dot-0-1-released</id>
-    <content type="html"><![CDATA[<p>I just released a new version of <a href="./projects/cmcontrib.html" title="">CMContrib</a> on
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[CMContrib 1.0.1 Released]]></title>
+<link href="http://kmees.github.com/2012/03/24/cmcontrib-1-dot-0-1-released/"/>
+<updated>2012-03-24T19:30:00+01:00</updated>
+<id>http://kmees.github.com/2012/03/24/cmcontrib-1-dot-0-1-released</id>
+
+      <content type="html"><![CDATA[<p>I just released a new version of <a href="./projects/cmcontrib.html" title="">CMContrib</a> on
 <a href="http://nuget.org/packages/Caliburn.Micro-Contrib">NuGet</a>. The new version just has some minor fixes
 but the CMContrib assembly is now <em>strongly named</em> !</p>
 
 <p>Grab it while it&#8217;s hot !</p>
-]]></content>
-  </entry>
+<p><a rel="bookmark" href="http://kmees.github.com/2012/03/24/cmcontrib-1-dot-0-1-released/">&#9875; Permalink</a></p>]]></content>
+    </entry>
   
-  <entry>
-    <title type="html"><![CDATA[7DRL 2012 - It's over !]]></title>
-    <link href="http://kmees.github.com/blog/2012/03/18/7drl-2012-its-over/"/>
-    <updated>2012-03-18T14:00:00+01:00</updated>
-    <id>http://kmees.github.com/blog/2012/03/18/7drl-2012-its-over</id>
-    <content type="html"><![CDATA[<p>It&#8217;s Sunday, March 18th and exactly 7 days ago I started my 7DRL Challenge. Sadly, I wasn&#8217;t able to
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[7DRL 2012 - It's over !]]></title>
+<link href="http://kmees.github.com/2012/03/18/7drl-2012-its-over/"/>
+<updated>2012-03-18T14:00:00+01:00</updated>
+<id>http://kmees.github.com/2012/03/18/7drl-2012-its-over</id>
+
+      <content type="html"><![CDATA[<p>It&#8217;s Sunday, March 18th and exactly 7 days ago I started my 7DRL Challenge. Sadly, I wasn&#8217;t able to
 finish my roguelike in time but it was fun nevertheless. If I had to put a number on the
 completeness of the game, I would say it&#8217;s about 33% finished, but not really playable since I spent (wasted?) too much on time on the implementation of the Mech class and the UI instead of adding content/combat. In retrospect, I see a lot of room for improvements and I will write them down here such that I won&#8217;t do the same mistakes twice in next years 7DRL !</p>
 
@@ -135,17 +158,23 @@ crucial.</p>
 
 <h2>7 days of coding and all I&#8217;ve got are those lousy screenshots</h2>
 
-<p><img class="center" src="http://kmees.github.com/images/posts/mechrl_1.png" width="640" height="480" />
-<img class="center" src="http://kmees.github.com/images/posts/mechrl_2.png" width="640" height="480" /></p>
-]]></content>
-  </entry>
+<p><img class="center" src="http://kmees.github.com/images/posts/mechrl_1.png" width="640" height="480">
+<img class="center" src="http://kmees.github.com/images/posts/mechrl_2.png" width="640" height="480"></p>
+<p><a rel="bookmark" href="http://kmees.github.com/2012/03/18/7drl-2012-its-over/">&#9875; Permalink</a></p>]]></content>
+    </entry>
   
-  <entry>
-    <title type="html"><![CDATA[7DRL 2012 - Day 1&amp;2: Recap]]></title>
-    <link href="http://kmees.github.com/blog/2012/03/13/7drl-2012-day-1-and-2-recap/"/>
-    <updated>2012-03-13T13:01:00+01:00</updated>
-    <id>http://kmees.github.com/blog/2012/03/13/7drl-2012-day-1-and-2-recap</id>
-    <content type="html"><![CDATA[<h2>Day 1</h2>
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[7DRL 2012 - Day 1&amp;2: Recap]]></title>
+<link href="http://kmees.github.com/2012/03/13/7drl-2012-day-1-and-2-recap/"/>
+<updated>2012-03-13T13:01:00+01:00</updated>
+<id>http://kmees.github.com/2012/03/13/7drl-2012-day-1-and-2-recap</id>
+
+      <content type="html"><![CDATA[<h2>Day 1</h2>
 
 <p>I started the challenge on Sunday at around 2 pm. My Goal for the day was to get the player on the
 screen and implement the mechlike movement. I had something running quite fast, after about an hour,
@@ -175,15 +204,21 @@ still way~~~ behind my non-existent schedule (that might be one of the main prob
 
 <p>I hope to get something presentable out of Day 3 to upload some (interesting) screenshots but I&#8217;m
 rather skeptical</p>
-]]></content>
-  </entry>
+<p><a rel="bookmark" href="http://kmees.github.com/2012/03/13/7drl-2012-day-1-and-2-recap/">&#9875; Permalink</a></p>]]></content>
+    </entry>
   
-  <entry>
-    <title type="html"><![CDATA[7DRL 2012 - Day 0: Introducing MechRL]]></title>
-    <link href="http://kmees.github.com/blog/2012/03/10/7drl-2012-day-0-introducing-mechrl/"/>
-    <updated>2012-03-10T22:37:00+01:00</updated>
-    <id>http://kmees.github.com/blog/2012/03/10/7drl-2012-day-0-introducing-mechrl</id>
-    <content type="html"><![CDATA[<p>Although I didn&#8217;t have that much time lately, I came up with an idea that is worth prototyping in a 7DRL. I was a huge fan of the MechWarrior franchise back in the late 90s and early 2000s. After watching the <a href="http://www.youtube.com/watch?v=udEAEARD-Fo">Hawken Gameplay Video</a> some time ago, I got a bit nostalgic and thought about doing a <em>MechWarriorlike Roguelike</em>. Through the lack of a better name (naming things is hard!), I&#8217;ll simply call it MechRL.</p>
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[7DRL 2012 - Day 0: Introducing MechRL]]></title>
+<link href="http://kmees.github.com/2012/03/10/7drl-2012-day-0-introducing-mechrl/"/>
+<updated>2012-03-10T22:37:00+01:00</updated>
+<id>http://kmees.github.com/2012/03/10/7drl-2012-day-0-introducing-mechrl</id>
+
+      <content type="html"><![CDATA[<p>Although I didn&#8217;t have that much time lately, I came up with an idea that is worth prototyping in a 7DRL. I was a huge fan of the MechWarrior franchise back in the late 90s and early 2000s. After watching the <a href="http://www.youtube.com/watch?v=udEAEARD-Fo">Hawken Gameplay Video</a> some time ago, I got a bit nostalgic and thought about doing a <em>MechWarriorlike Roguelike</em>. Through the lack of a better name (naming things is hard!), I&#8217;ll simply call it MechRL.</p>
 
 <!--more-->
 
@@ -219,15 +254,21 @@ of your mech will have its own durability.</p>
 <p>As for the UI, although the game won&#8217;t run in a console, I will likely stick to ASCII art most of
 the time. I&#8217;m not that at graphic design and it simply costs to much time that I won&#8217;t have. I&#8217;ll
 also focus on keyboard input first and only add mouse support if I have some time left.</p>
-]]></content>
-  </entry>
+<p><a rel="bookmark" href="http://kmees.github.com/2012/03/10/7drl-2012-day-0-introducing-mechrl/">&#9875; Permalink</a></p>]]></content>
+    </entry>
   
-  <entry>
-    <title type="html"><![CDATA[7DRL 2012 - Day 0: Weapons of Choice]]></title>
-    <link href="http://kmees.github.com/blog/2012/03/10/7drl-2012-choose-your-weapons/"/>
-    <updated>2012-03-10T13:37:00+01:00</updated>
-    <id>http://kmees.github.com/blog/2012/03/10/7drl-2012-choose-your-weapons</id>
-    <content type="html"><![CDATA[<p>Alright, I&#8217;m gonna start my 7DRL Challenge tomorrow around noon. I wanted to start today, but I
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[7DRL 2012 - Day 0: Weapons of Choice]]></title>
+<link href="http://kmees.github.com/2012/03/10/7drl-2012-choose-your-weapons/"/>
+<updated>2012-03-10T13:37:00+01:00</updated>
+<id>http://kmees.github.com/2012/03/10/7drl-2012-choose-your-weapons</id>
+
+      <content type="html"><![CDATA[<p>Alright, I&#8217;m gonna start my 7DRL Challenge tomorrow around noon. I wanted to start today, but I
 spent most of day setting up my system and testing the libraries I want to use. My development
 environment will be:</p>
 
@@ -250,44 +291,62 @@ environment will be:</p>
 
 <p>The project will be hosted on <a href="https://github.com/kmees/MechRL">Github</a> and I was able to setup
 XSplit, so I&#8217;ll stream while coding. Will be interesting to see if I get at least one viewer :). My <a href="http://www.twitch.tv/">twich.tv</a> channel can be found <a href="http://www.twitch.tv/kmees">here</a>.</p>
-]]></content>
-  </entry>
+<p><a rel="bookmark" href="http://kmees.github.com/2012/03/10/7drl-2012-choose-your-weapons/">&#9875; Permalink</a></p>]]></content>
+    </entry>
   
-  <entry>
-    <title type="html"><![CDATA[7DRL 2012 - Challenge Accepted]]></title>
-    <link href="http://kmees.github.com/blog/2012/03/07/7drl-2012-challenge-accepted/"/>
-    <updated>2012-03-07T17:11:00+01:00</updated>
-    <id>http://kmees.github.com/blog/2012/03/07/7drl-2012-challenge-accepted</id>
-    <content type="html"><![CDATA[<p><img class="center" src="http://kmees.github.com/images/posts/challenge_accepted.png" /></p>
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[7DRL 2012 - Challenge Accepted]]></title>
+<link href="http://kmees.github.com/2012/03/07/7drl-2012-challenge-accepted/"/>
+<updated>2012-03-07T17:11:00+01:00</updated>
+<id>http://kmees.github.com/2012/03/07/7drl-2012-challenge-accepted</id>
+
+      <content type="html"><![CDATA[<p><img class="center" src="http://kmees.github.com/images/posts/challenge_accepted.png"></p>
 
 <p>From March 10th to March 18th, this years <a href="http://roguebasin.roguelikedevelopment.org/index.php/Seven_Day_Roguelike_Challenge">Seven Day Roguelike Challenge</a> takes place. The goal of the challenge is to create a roguelike game in, well, seven days. I actually tried to participate in last years challenge, but due to a car accident about a week before the challenge, I wasn&#8217;t really able to focus on it. Hopefully, this years challenge runs smoothly for me such that I can get a game finished.</p>
 
 <p>I will try to blog about my progress on each of the seven days if I can manage to find some spare
 time. I&#8217;m also thinking about streaming/recording the development process but I don&#8217;t know if I can
 get everything set up in time. In any case, the project will of course be hosted on github !</p>
-]]></content>
-  </entry>
+<p><a rel="bookmark" href="http://kmees.github.com/2012/03/07/7drl-2012-challenge-accepted/">&#9875; Permalink</a></p>]]></content>
+    </entry>
   
-  <entry>
-    <title type="html"><![CDATA[NuGet Aside for Octopress]]></title>
-    <link href="http://kmees.github.com/blog/2012/02/29/nuget-aside-for-octopress/"/>
-    <updated>2012-02-29T15:37:00+01:00</updated>
-    <id>http://kmees.github.com/blog/2012/02/29/nuget-aside-for-octopress</id>
-    <content type="html"><![CDATA[<p>I just finished as aside for <a href="http://www.octopress.org">Octopress</a> that list the
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[NuGet Aside for Octopress]]></title>
+<link href="http://kmees.github.com/2012/02/29/nuget-aside-for-octopress/"/>
+<updated>2012-02-29T15:37:00+01:00</updated>
+<id>http://kmees.github.com/2012/02/29/nuget-aside-for-octopress</id>
+
+      <content type="html"><![CDATA[<p>I just finished as aside for <a href="http://www.octopress.org">Octopress</a> that list the
 Top N downloaded packages where you are an author. It also adds a link to your
 NuGet gallery profile if you have one. The style is basically the same as the style of the github aside.</p>
 
 <p>Since there is no official way to publish 3rd party add-ons for Octopress yet, I
 created a <a href="https://github.com/kmees/Octopress-NuGet-Aside">github repository</a> with the required files and setup instructions in the <a href="https://github.com/kmees/Octopress-NuGet-Aside/blob/master/README.md">ReadMe</a>.</p>
-]]></content>
-  </entry>
+<p><a rel="bookmark" href="http://kmees.github.com/2012/02/29/nuget-aside-for-octopress/">&#9875; Permalink</a></p>]]></content>
+    </entry>
   
-  <entry>
-    <title type="html"><![CDATA[CMContrib WPF Demo goin' Metro]]></title>
-    <link href="http://kmees.github.com/blog/2012/02/26/cmcontrib-wpf-demo-goin-metro/"/>
-    <updated>2012-02-26T18:45:00+01:00</updated>
-    <id>http://kmees.github.com/blog/2012/02/26/cmcontrib-wpf-demo-goin-metro</id>
-    <content type="html"><![CDATA[<p>Inspired by the <a href="https://github.com/Code52/DownmarkerWPF">DownmarkerWPF</a>, I
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[CMContrib WPF Demo goin' Metro]]></title>
+<link href="http://kmees.github.com/2012/02/26/cmcontrib-wpf-demo-goin-metro/"/>
+<updated>2012-02-26T18:45:00+01:00</updated>
+<id>http://kmees.github.com/2012/02/26/cmcontrib-wpf-demo-goin-metro</id>
+
+      <content type="html"><![CDATA[<p>Inspired by the <a href="https://github.com/Code52/DownmarkerWPF">DownmarkerWPF</a>, I
 decided to change the Style of the CMContrib WPF Demo to Metro. I used the same
 Metro framework, namely <a href="https://github.com/MahApps/MahApps.Metro">MahApps.Metro</a> as DownmarkerWPF which is really cool. The only control that I wasn&#8217;t able to &#8216;metroize&#8217; was the <em>WebBrowser</em> control which displays the code. Its scrollbars still have the old Windows look. Another small letdown is that there is no free <em>Pivot</em> control available for WPF but it was quite easy to create a simplified version of it which was sufficient for my needs.</p>
 
@@ -298,20 +357,26 @@ Metro framework, namely <a href="https://github.com/MahApps/MahApps.Metro">MahAp
 
 <h2>Metro Style</h2>
 
-<p><img src="http://kmees.github.com/images/posts/wpfdemo_metro.png" width="640" height="480" /></p>
+<p><img class="" src="http://kmees.github.com/images/posts/wpfdemo_metro.png" width="640" height="480"></p>
 
 <h2>Old Style</h2>
 
-<p><img src="http://kmees.github.com/images/posts/wpfdemo_old.png" width="640" height="480" /></p>
-]]></content>
-  </entry>
+<p><img class="" src="http://kmees.github.com/images/posts/wpfdemo_old.png" width="640" height="480"></p>
+<p><a rel="bookmark" href="http://kmees.github.com/2012/02/26/cmcontrib-wpf-demo-goin-metro/">&#9875; Permalink</a></p>]]></content>
+    </entry>
   
-  <entry>
-    <title type="html"><![CDATA[Context-Based Views for Dialogs]]></title>
-    <link href="http://kmees.github.com/blog/2012/02/24/context-based-views-for-dialogs/"/>
-    <updated>2012-02-24T11:32:00+01:00</updated>
-    <id>http://kmees.github.com/blog/2012/02/24/context-based-views-for-dialogs</id>
-    <content type="html"><![CDATA[<h2>Retrospect</h2>
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[Context-Based Views for Dialogs]]></title>
+<link href="http://kmees.github.com/2012/02/24/context-based-views-for-dialogs/"/>
+<updated>2012-02-24T11:32:00+01:00</updated>
+<id>http://kmees.github.com/2012/02/24/context-based-views-for-dialogs</id>
+
+      <content type="html"><![CDATA[<h2>Retrospect</h2>
 
 <p>In my <a href="http://kmees.github.com/projects/cmcontrib.html">CMContrib Project</a> I use a MVVM approach for
 showing dialogs to the user. The model for the dialog has a <em>dialog type</em>
@@ -323,7 +388,7 @@ answers but you can also use a complex type as a response.</p>
 <p>Here&#8217;s an example of how to ask the user a question and cancel the coroutine
 when the user responses with <em>No</em>.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -337,7 +402,7 @@ when the user responses with <em>No</em>.</p>
 <span class='line-number'>12</span>
 </pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">public</span> <span class="k">override</span> <span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">IResult</span><span class="p">&gt;</span> <span class="n">AskAQuestion</span><span class="p">()</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">var</span> <span class="n">question</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Question</span><span class="p">(</span><span class="s">&quot;The Subject&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">question</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Question</span><span class="p">(</span><span class="s">&quot;The Subject&quot;</span><span class="p">,</span>
 </span><span class='line'>        <span class="s">&quot;The Message&quot;</span><span class="p">,</span>
 </span><span class='line'>        <span class="n">Answer</span><span class="p">.</span><span class="n">Yes</span><span class="p">,</span>
 </span><span class='line'>        <span class="n">Answer</span><span class="p">.</span><span class="n">No</span><span class="p">);</span>
@@ -348,6 +413,8 @@ when the user responses with <em>No</em>.</p>
 </span><span class='line'>    <span class="c1">// ...</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
+
+
 
 
 <!--more-->
@@ -361,7 +428,7 @@ with that approach is, that the same default view, which is <code>Caliburn.Micro
 
 <p>But fear not, because Caliburn already has a solution to that problem, namely <em>view contexts</em>, which are explained <a href="http://devlicio.us/blogs/rob_eisenberg/archive/2010/11/18/caliburn-micro-soup-to-nuts-part-6d-a-billy-hollis-hybrid-shell.aspx">here</a>. Since each dialog already has a <em>dialog type</em> we can use that as our view context. The change to show the context based view instead of the default view couldn&#8217;t be easier, it&#8217;s just one line in the <code>DialogResult</code></p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -403,7 +470,7 @@ one of the names. If none is found, <code>null</code> will be returned and Calib
 shows the &#8220;Could not locate view for &#8230;&#8221; error view that you might have seen
 before.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -427,7 +494,7 @@ before.</p>
 <span class='line-number'>22</span>
 <span class='line-number'>23</span>
 </pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">public</span> <span class="k">static</span> <span class="n">Func</span><span class="p">&lt;</span><span class="n">Type</span><span class="p">,</span> <span class="n">DependencyObject</span><span class="p">,</span> <span class="kt">object</span><span class="p">,</span> <span class="n">Type</span><span class="p">&gt;</span> <span class="n">LocateTypeForModelType</span> <span class="p">=</span> <span class="p">(</span><span class="n">modelType</span><span class="p">,</span> <span class="n">displayLocation</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">var</span> <span class="n">viewTypeName</span> <span class="p">=</span> <span class="n">modelType</span><span class="p">.</span><span class="n">FullName</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">viewTypeName</span> <span class="p">=</span> <span class="n">modelType</span><span class="p">.</span><span class="n">FullName</span><span class="p">;</span>
 </span><span class='line'>
 </span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">Execute</span><span class="p">.</span><span class="n">InDesignMode</span><span class="p">)</span> <span class="p">{</span>
 </span><span class='line'>        <span class="n">viewTypeName</span> <span class="p">=</span> <span class="n">ModifyModelTypeAtDesignTime</span><span class="p">(</span><span class="n">viewTypeName</span><span class="p">);</span>
@@ -440,8 +507,8 @@ before.</p>
 </span><span class='line'>            <span class="p">:</span> <span class="n">viewTypeName</span><span class="p">.</span><span class="n">IndexOf</span><span class="p">(</span><span class="s">&quot;`&quot;</span><span class="p">)</span>
 </span><span class='line'>        <span class="p">);</span>
 </span><span class='line'>
-</span><span class='line'>    <span class="n">var</span> <span class="n">viewTypeList</span> <span class="p">=</span> <span class="n">TransformName</span><span class="p">(</span><span class="n">viewTypeName</span><span class="p">,</span> <span class="n">context</span><span class="p">);</span>
-</span><span class='line'>    <span class="n">var</span> <span class="n">viewType</span> <span class="p">=</span> <span class="n">viewTypeList</span><span class="p">.</span><span class="n">Join</span><span class="p">(</span><span class="n">AssemblySource</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">SelectMany</span><span class="p">(</span><span class="n">a</span> <span class="p">=&gt;</span> <span class="n">a</span><span class="p">.</span><span class="n">GetExportedTypes</span><span class="p">()),</span> <span class="n">n</span> <span class="p">=&gt;</span> <span class="n">n</span><span class="p">,</span> <span class="n">t</span> <span class="p">=&gt;</span> <span class="n">t</span><span class="p">.</span><span class="n">FullName</span><span class="p">,</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="n">t</span><span class="p">).</span><span class="n">FirstOrDefault</span><span class="p">();</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">viewTypeList</span> <span class="p">=</span> <span class="n">TransformName</span><span class="p">(</span><span class="n">viewTypeName</span><span class="p">,</span> <span class="n">context</span><span class="p">);</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">viewType</span> <span class="p">=</span> <span class="n">viewTypeList</span><span class="p">.</span><span class="n">Join</span><span class="p">(</span><span class="n">AssemblySource</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">SelectMany</span><span class="p">(</span><span class="n">a</span> <span class="p">=&gt;</span> <span class="n">a</span><span class="p">.</span><span class="n">GetExportedTypes</span><span class="p">()),</span> <span class="n">n</span> <span class="p">=&gt;</span> <span class="n">n</span><span class="p">,</span> <span class="n">t</span> <span class="p">=&gt;</span> <span class="n">t</span><span class="p">.</span><span class="n">FullName</span><span class="p">,</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="n">t</span><span class="p">).</span><span class="n">FirstOrDefault</span><span class="p">();</span>
 </span><span class='line'>
 </span><span class='line'>    <span class="k">if</span><span class="p">(</span><span class="n">viewType</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span> <span class="p">{</span>
 </span><span class='line'>        <span class="n">Log</span><span class="p">.</span><span class="n">Warn</span><span class="p">(</span><span class="s">&quot;View not found. Searched: {0}.&quot;</span><span class="p">,</span> <span class="kt">string</span><span class="p">.</span><span class="n">Join</span><span class="p">(</span><span class="s">&quot;, &quot;</span><span class="p">,</span> <span class="n">viewTypeList</span><span class="p">.</span><span class="n">ToArray</span><span class="p">()));</span>
@@ -459,7 +526,7 @@ without a view context.
 I opted for the second options because it is easier to implement and other
 function that use <code>TransformName</code> benefit from that change, too.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -475,7 +542,7 @@ function that use <code>TransformName</code> benefit from that change, too.</p>
 </span><span class='line'>
 </span><span class='line'><span class="k">static</span> <span class="n">IEnumerable</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;</span> <span class="n">FallbackNameTransform</span><span class="p">(</span><span class="kt">string</span> <span class="n">typeName</span><span class="p">,</span> <span class="kt">object</span> <span class="n">context</span><span class="p">)</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">var</span> <span class="n">names</span> <span class="p">=</span> <span class="n">_baseTransformName</span><span class="p">(</span><span class="n">typeName</span><span class="p">,</span> <span class="n">context</span><span class="p">);</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">names</span> <span class="p">=</span> <span class="n">_baseTransformName</span><span class="p">(</span><span class="n">typeName</span><span class="p">,</span> <span class="n">context</span><span class="p">);</span>
 </span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">context</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
 </span><span class='line'>    <span class="p">{</span>
 </span><span class='line'>        <span class="n">names</span> <span class="p">=</span> <span class="n">names</span><span class="p">.</span><span class="n">Union</span><span class="p">(</span><span class="n">_baseTransformName</span><span class="p">(</span><span class="n">typeName</span><span class="p">,</span> <span class="k">null</span><span class="p">));</span>
@@ -498,7 +565,7 @@ the view context by concatenating the <code>ContextPrefix</code> and <code>Dialo
 fluent configuration for the prefix to the <code>DialogResult</code> gives us this nice
 syntax to for showing the <code>FooQuestion</code> view.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -510,7 +577,7 @@ syntax to for showing the <code>FooQuestion</code> view.</p>
 <span class='line-number'>10</span>
 </pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">public</span> <span class="k">override</span> <span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">IResult</span><span class="p">&gt;</span> <span class="n">Execute</span><span class="p">()</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">var</span> <span class="n">question</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Dialog</span><span class="p">&lt;</span><span class="n">SpecialAnswer</span><span class="p">&gt;(</span><span class="n">DialogType</span><span class="p">.</span><span class="n">Question</span><span class="p">,</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">question</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Dialog</span><span class="p">&lt;</span><span class="n">SpecialAnswer</span><span class="p">&gt;(</span><span class="n">DialogType</span><span class="p">.</span><span class="n">Question</span><span class="p">,</span>
 </span><span class='line'>        <span class="s">&quot;Why am I so uncreative&quot;</span><span class="p">,</span>
 </span><span class='line'>        <span class="k">new</span> <span class="nf">SpecialAnswer</span><span class="p">(</span><span class="s">&quot;Because!&quot;</span><span class="p">),</span>
 </span><span class='line'>        <span class="k">new</span> <span class="nf">SpecialAnswer</span><span class="p">(</span><span class="s">&quot;Dunno.&quot;</span><span class="p">));</span>
@@ -527,9 +594,8 @@ syntax to for showing the <code>FooQuestion</code> view.</p>
 
 <p>In case you don&#8217;t want to put your custom dialog views in the <code>Caliburn.Micro.Contrib.Dialogs</code> namespace, just add a namespace alias the <code>ViewLocator</code></p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="n">ViewLocator</span><span class="p">.</span><span class="n">AddSubNamespaceMapping</span><span class="p">(</span><span class="s">&quot;Caliburn.Micro.Contrib.Dialogs&quot;</span><span class="p">,</span> <span class="s">&quot;My.Namespace.Views&quot;</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>ViewLocator.AddSubNamespaceMapping("Caliburn.Micro.Contrib.Dialogs", "My.Namespace.Views");</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>II: Online Silverlight Demo</h3>
@@ -537,43 +603,61 @@ syntax to for showing the <code>FooQuestion</code> view.</p>
 <p>Although I added an example for this feature to the Silverlight demo, it
 currently crashes each browser when embedded in a page. Out-of-browser works
 though. If you know why, tell me ! Will update the demo once it works.</p>
-]]></content>
-  </entry>
+<p><a rel="bookmark" href="http://kmees.github.com/2012/02/24/context-based-views-for-dialogs/">&#9875; Permalink</a></p>]]></content>
+    </entry>
   
-  <entry>
-    <title type="html"><![CDATA[CMContrib 1.0 released]]></title>
-    <link href="http://kmees.github.com/blog/2012/02/08/cmcontrib-1-dot-0-released/"/>
-    <updated>2012-02-08T22:38:00+01:00</updated>
-    <id>http://kmees.github.com/blog/2012/02/08/cmcontrib-1-dot-0-released</id>
-    <content type="html"><![CDATA[<p>I just uploaded <a href="http://nuget.org/packages/Caliburn.Micro-Contrib">CMContrib 1.0</a> to NuGet. I also created a <a href="http://kmees.github.com/projects/cmcontrib.html">CMContrib project
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[CMContrib 1.0 released]]></title>
+<link href="http://kmees.github.com/2012/02/08/cmcontrib-1-dot-0-released/"/>
+<updated>2012-02-08T22:38:00+01:00</updated>
+<id>http://kmees.github.com/2012/02/08/cmcontrib-1-dot-0-released</id>
+
+      <content type="html"><![CDATA[<p>I just uploaded <a href="http://nuget.org/packages/Caliburn.Micro-Contrib">CMContrib 1.0</a> to NuGet. I also created a <a href="http://kmees.github.com/projects/cmcontrib.html">CMContrib project
 page</a> with additional info about the features and a Silverlight Demo with samples for each feature.</p>
-]]></content>
-  </entry>
+<p><a rel="bookmark" href="http://kmees.github.com/2012/02/08/cmcontrib-1-dot-0-released/">&#9875; Permalink</a></p>]]></content>
+    </entry>
   
-  <entry>
-    <title type="html"><![CDATA[Migration to Octopress]]></title>
-    <link href="http://kmees.github.com/blog/2011/11/29/migration-to-octopress/"/>
-    <updated>2011-11-29T23:44:00+01:00</updated>
-    <id>http://kmees.github.com/blog/2011/11/29/migration-to-octopress</id>
-    <content type="html"><![CDATA[<p>I am currently migrating my blog from <em>Wordpress</em> to <em>Octopress</em>. The main
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[Migration to Octopress]]></title>
+<link href="http://kmees.github.com/2011/11/29/migration-to-octopress/"/>
+<updated>2011-11-29T23:44:00+01:00</updated>
+<id>http://kmees.github.com/2011/11/29/migration-to-octopress</id>
+
+      <content type="html"><![CDATA[<p>I am currently migrating my blog from <em>Wordpress</em> to <em>Octopress</em>. The main
 reason for the migration is the awful (at least for coding blogs) post editor in
 Wordpress. With the migration I can write the posts in Markdown and Vim which,
 hopefully, leads to more posts !</p>
 
 <p>And because Octopress is new and shiny and geeky !</p>
-]]></content>
-  </entry>
+<p><a rel="bookmark" href="http://kmees.github.com/2011/11/29/migration-to-octopress/">&#9875; Permalink</a></p>]]></content>
+    </entry>
   
-  <entry>
-    <title type="html"><![CDATA[MVVM Dialogs with Caliburn.Micro]]></title>
-    <link href="http://kmees.github.com/blog/2011/06/16/mvvm-dialogs-with-caliburn-dot-micro/"/>
-    <updated>2011-06-16T21:10:00+02:00</updated>
-    <id>http://kmees.github.com/blog/2011/06/16/mvvm-dialogs-with-caliburn-dot-micro</id>
-    <content type="html"><![CDATA[<h2>Background</h2>
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[MVVM Dialogs with Caliburn.Micro]]></title>
+<link href="http://kmees.github.com/2011/06/16/mvvm-dialogs-with-caliburn-dot-micro/"/>
+<updated>2011-06-16T21:10:00+02:00</updated>
+<id>http://kmees.github.com/2011/06/16/mvvm-dialogs-with-caliburn-dot-micro</id>
+
+      <content type="html"><![CDATA[<h2>Background</h2>
 
 <p>In every applications life there comes a time when you need to show some kind of message to the user. Be it a question whether he really wants to delete something or a simple message that says that some operation was successful. The most simple way to do that is the good ol&#8217; <code>MessageBox.Show()</code> with its zillion overloads.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="s">&quot;Foo&quot;</span><span class="p">,</span> <span class="s">&quot;Bar&quot;</span><span class="p">,</span> <span class="n">MessageBoxButton</span><span class="p">.</span><span class="n">OKCancel</span><span class="p">);</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -595,7 +679,7 @@ hopefully, leads to more posts !</p>
 
 <p>So, let&#8217;s create a model with conforms to those specifications</p>
 
-<figure class='code'><figcaption><span>Dialog&lt;TResponse&gt;</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Dialog&lt;TResponse&gt;</span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -620,7 +704,7 @@ hopefully, leads to more posts !</p>
 
 
 
-<figure class='code'><figcaption><span>DialogType</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>DialogType</span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -647,7 +731,7 @@ hopefully, leads to more posts !</p>
 
 <p>For supporting default (the user presses <code>Enter</code>) and cancel (the user presses <code>Escape</code>) responses,  I will use a convention based approach, namely defining the first response in the list as the default response and the last response as the cancel response.</p>
 
-<figure class='code'><figcaption><span>BindableResponse&lt;TResponse&gt;</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>BindableResponse&lt;TResponse&gt;</span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -664,7 +748,7 @@ hopefully, leads to more posts !</p>
 
 
 
-<figure class='code'><figcaption><span>IDialogViewModel&lt;TResponse&gt;</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>IDialogViewModel&lt;TResponse&gt;</span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -687,7 +771,7 @@ hopefully, leads to more posts !</p>
 
 <p>I will present the WPF version of the view here because the SL version requires a workaround for the non existing <code>IsDefault</code>/<code>IsCancel</code> Properties of the Button. For those interested in the SL version, the source is here. I will also omit all irrelevant (styling) properties.</p>
 
-<figure class='code'><figcaption><span>DialogView</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>DialogView</span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -756,7 +840,7 @@ hopefully, leads to more posts !</p>
 
 <p>Well, the first step cannot be encapsulated in an IResult, but 2-4 rest can easily be encapsulated.</p>
 
-<figure class='code'><figcaption><span>DialogResult&lt;TResponse&gt;</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>DialogResult&lt;TResponse&gt;</span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -814,7 +898,7 @@ hopefully, leads to more posts !</p>
 </span><span class='line'>    <span class="p">}</span>
 </span><span class='line'>
 </span><span class='line'>    <span class="k">public</span> <span class="n">DialogResult</span><span class="p">&lt;</span><span class="n">TResponse</span><span class="p">&gt;</span> <span class="n">In</span><span class="p">&lt;</span><span class="n">TDialogViewModel</span><span class="p">&gt;()</span>
-</span><span class='line'>        <span class="n">where</span> <span class="n">TDialogViewModel</span> <span class="p">:</span> <span class="n">IDialogViewModel</span><span class="p">&lt;</span><span class="n">TResponse</span><span class="p">&gt;</span>
+</span><span class='line'>        <span class="k">where</span> <span class="n">TDialogViewModel</span> <span class="p">:</span> <span class="n">IDialogViewModel</span><span class="p">&lt;</span><span class="n">TResponse</span><span class="p">&gt;</span>
 </span><span class='line'>    <span class="p">{</span>
 </span><span class='line'>        <span class="n">_locateVM</span> <span class="p">=</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="n">IoC</span><span class="p">.</span><span class="n">Get</span><span class="p">&lt;</span><span class="n">TDialogViewModel</span><span class="p">&gt;();</span>
 </span><span class='line'>        <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
@@ -827,7 +911,7 @@ hopefully, leads to more posts !</p>
 
 <p>Last but not least we can write a small Extension Method to get even more readable code !</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -840,7 +924,7 @@ hopefully, leads to more posts !</p>
 
 <p>And use it in the coroutine</p>
 
-<figure class='code'><figcaption><span>Demo</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Demo</span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -856,7 +940,7 @@ hopefully, leads to more posts !</p>
 <span class='line-number'>14</span>
 </pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">public</span> <span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">IResult</span><span class="p">&gt;</span> <span class="n">Foo</span><span class="p">()</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">var</span> <span class="n">question</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Dialog</span><span class="p">&lt;</span><span class="n">Answer</span><span class="p">&gt;(</span><span class="n">DialogType</span><span class="p">.</span><span class="n">Question</span><span class="p">,</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">question</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Dialog</span><span class="p">&lt;</span><span class="n">Answer</span><span class="p">&gt;(</span><span class="n">DialogType</span><span class="p">.</span><span class="n">Question</span><span class="p">,</span>
 </span><span class='line'>                                      <span class="s">&quot;Isn&#39;t this a nice way to create a Dialog Window?&quot;</span><span class="p">,</span>
 </span><span class='line'>                                      <span class="n">Answer</span><span class="p">.</span><span class="n">Yes</span><span class="p">,</span>
 </span><span class='line'>                                      <span class="n">Answer</span><span class="p">.</span><span class="n">No</span><span class="p">);</span>
@@ -870,19 +954,27 @@ hopefully, leads to more posts !</p>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
-]]></content>
-  </entry>
+
+
+<p><a rel="bookmark" href="http://kmees.github.com/2011/06/16/mvvm-dialogs-with-caliburn-dot-micro/">&#9875; Permalink</a></p>]]></content>
+    </entry>
   
-  <entry>
-    <title type="html"><![CDATA[Handling Errors in Caliburn.Micro's IResult - Part II]]></title>
-    <link href="http://kmees.github.com/blog/2011/06/01/handling-errors-in-caliburn-dot-micros-iresult-part-ii/"/>
-    <updated>2011-06-01T23:01:00+02:00</updated>
-    <id>http://kmees.github.com/blog/2011/06/01/handling-errors-in-caliburn-dot-micros-iresult-part-ii</id>
-    <content type="html"><![CDATA[<h2>Preface</h2>
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[Handling Errors in Caliburn.Micro's IResult - Part II]]></title>
+<link href="http://kmees.github.com/2011/06/01/handling-errors-in-caliburn-dot-micros-iresult-part-ii/"/>
+<updated>2011-06-01T23:01:00+02:00</updated>
+<id>http://kmees.github.com/2011/06/01/handling-errors-in-caliburn-dot-micros-iresult-part-ii</id>
+
+      <content type="html"><![CDATA[<h2>Preface</h2>
 
 <p>In my last post I gave two possible approaches and a preview of my final solution for handling errors in IResults. The syntax for my final solution was</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">yield</span> <span class="k">return</span> <span class="k">new</span> <span class="nf">ProcessDataResult</span><span class="p">()</span>
@@ -901,7 +993,7 @@ hopefully, leads to more posts !</p>
 
 <p>So the behaviour of the Rescue is similar to a try/catch block</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">try</span> <span class="p">{}</span>
@@ -921,7 +1013,7 @@ hopefully, leads to more posts !</p>
 
 <p>Well, let&#8217;s start with a base class for our decorators.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -982,7 +1074,7 @@ hopefully, leads to more posts !</p>
 </span><span class='line'>
 </span><span class='line'>    <span class="k">public</span> <span class="k">virtual</span> <span class="k">void</span> <span class="nf">Execute</span><span class="p">(</span><span class="n">ActionExecutionContext</span> <span class="n">context</span><span class="p">)</span>
 </span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="n">var</span> <span class="n">wrapper</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SequentialResult</span><span class="p">(</span><span class="k">new</span> <span class="n">SingleResultEnumerator</span><span class="p">(</span><span class="n">_inner</span><span class="p">));</span>
+</span><span class='line'>        <span class="kt">var</span> <span class="n">wrapper</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SequentialResult</span><span class="p">(</span><span class="k">new</span> <span class="n">SingleResultEnumerator</span><span class="p">(</span><span class="n">_inner</span><span class="p">));</span>
 </span><span class='line'>        <span class="n">wrapper</span><span class="p">.</span><span class="n">Completed</span> <span class="p">+=</span> <span class="n">InnerCompleted</span><span class="p">;</span>
 </span><span class='line'>
 </span><span class='line'>        <span class="n">wrapper</span><span class="p">.</span><span class="n">Execute</span><span class="p">(</span><span class="n">context</span><span class="p">);</span>
@@ -1012,7 +1104,7 @@ hopefully, leads to more posts !</p>
 
 <p>The Rescue Decorator will be generic (for the type that we want to catch) and takes a Function in its constructor which taked an exception as an argument and returns the Rescue Coroutine. We can also specify if we always want to cancel the Result after the rescue was executed.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1036,7 +1128,7 @@ hopefully, leads to more posts !</p>
 </span><span class='line'><span class="c1">/// &lt;/summary&gt;</span>
 </span><span class='line'><span class="c1">/// &lt;typeparam name = &quot;TException&quot;&gt;The type of the exception we want to perform the rescue on&lt;/typeparam&gt;</span>
 </span><span class='line'><span class="k">internal</span> <span class="k">class</span> <span class="nc">RescueCoroutineDecorator</span><span class="p">&lt;</span><span class="n">TException</span><span class="p">&gt;</span> <span class="p">:</span> <span class="n">ResultDecoratorBase</span>
-</span><span class='line'>    <span class="n">where</span> <span class="n">TException</span> <span class="p">:</span> <span class="n">Exception</span>
+</span><span class='line'>    <span class="k">where</span> <span class="n">TException</span> <span class="p">:</span> <span class="n">Exception</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>    <span class="k">private</span> <span class="k">readonly</span> <span class="kt">bool</span> <span class="n">_cancelResult</span><span class="p">;</span>
 </span><span class='line'>    <span class="k">private</span> <span class="k">readonly</span> <span class="n">Func</span><span class="p">&lt;</span><span class="n">TException</span><span class="p">,</span> <span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">IResult</span><span class="p">&gt;&gt;</span> <span class="n">_rescue</span><span class="p">;</span>
@@ -1055,7 +1147,7 @@ hopefully, leads to more posts !</p>
 
 <p>In the InnerCompleted()-Method we check if the Inner Result completed with an error of type TException and if so, execute the Rescue Coroutine. If not, we ignore the error and raise the Completed-Event with the same args.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1094,7 +1186,7 @@ hopefully, leads to more posts !</p>
 </span><span class='line'>
 </span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">args</span><span class="p">.</span><span class="n">Error</span> <span class="k">is</span> <span class="n">TException</span><span class="p">)</span>
 </span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="n">var</span> <span class="n">error</span> <span class="p">=</span> <span class="p">(</span><span class="n">TException</span><span class="p">)</span><span class="n">args</span><span class="p">.</span><span class="n">Error</span><span class="p">;</span>
+</span><span class='line'>        <span class="kt">var</span> <span class="n">error</span> <span class="p">=</span> <span class="p">(</span><span class="n">TException</span><span class="p">)</span><span class="n">args</span><span class="p">.</span><span class="n">Error</span><span class="p">;</span>
 </span><span class='line'>
 </span><span class='line'>        <span class="n">LogRescuedError</span><span class="p">(</span><span class="n">error</span><span class="p">);</span>
 </span><span class='line'>
@@ -1116,7 +1208,7 @@ hopefully, leads to more posts !</p>
 </span><span class='line'>
 </span><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">Rescue</span><span class="p">(</span><span class="n">TException</span> <span class="n">exception</span><span class="p">)</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">var</span> <span class="n">rescueResult</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SequentialResult</span><span class="p">(</span><span class="n">_rescue</span><span class="p">(</span><span class="n">exception</span><span class="p">).</span><span class="n">GetEnumerator</span><span class="p">());</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">rescueResult</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SequentialResult</span><span class="p">(</span><span class="n">_rescue</span><span class="p">(</span><span class="n">exception</span><span class="p">).</span><span class="n">GetEnumerator</span><span class="p">());</span>
 </span><span class='line'>    <span class="n">rescueResult</span><span class="p">.</span><span class="n">Completed</span> <span class="p">+=</span> <span class="n">RescueCompleted</span><span class="p">;</span>
 </span><span class='line'>
 </span><span class='line'>    <span class="n">rescueResult</span><span class="p">.</span><span class="n">Execute</span><span class="p">(</span><span class="n">_context</span><span class="p">);</span>
@@ -1126,7 +1218,7 @@ hopefully, leads to more posts !</p>
 
 <p>Then, when the Rescue Coroutine completed, the Decorator will also complete. Since we execute the Rescue inside the execution of the Decorator we can also check if the Rescue completes successfully and react accordingly (like setting the error on the EventArgs or cancel it)</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1146,15 +1238,21 @@ hopefully, leads to more posts !</p>
 <h2>Recap</h2>
 
 <p>Well, with the Decorator Pattern it was possible to implement all the desired features in a nice and testable way. Furthermore, we can use same principle for executing a coroutine when the result is cancelled or when an exception is thrown inside the result.</p>
-]]></content>
-  </entry>
+<p><a rel="bookmark" href="http://kmees.github.com/2011/06/01/handling-errors-in-caliburn-dot-micros-iresult-part-ii/">&#9875; Permalink</a></p>]]></content>
+    </entry>
   
-  <entry>
-    <title type="html"><![CDATA[Handling Errors in Caliburn.Micro's IResult - Part I]]></title>
-    <link href="http://kmees.github.com/blog/2011/05/31/handling-errors-in-caliburn-dot-micros-iresult-part-i/"/>
-    <updated>2011-05-31T22:01:00+02:00</updated>
-    <id>http://kmees.github.com/blog/2011/05/31/handling-errors-in-caliburn-dot-micros-iresult-part-i</id>
-    <content type="html"><![CDATA[<h2>The Problem</h2>
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[Handling Errors in Caliburn.Micro's IResult - Part I]]></title>
+<link href="http://kmees.github.com/2011/05/31/handling-errors-in-caliburn-dot-micros-iresult-part-i/"/>
+<updated>2011-05-31T22:01:00+02:00</updated>
+<id>http://kmees.github.com/2011/05/31/handling-errors-in-caliburn-dot-micros-iresult-part-i</id>
+
+      <content type="html"><![CDATA[<h2>The Problem</h2>
 
 <p>One of Caliburn.Micro&#8217;s nicest feature is, hands down, the concept of Actions. In that concept the <code>IResult</code> plays an important role, especially when using <em>Coroutines</em>. If you don&#8217;t know about them, you should definately <a href="http://devlicio.us/blogs/rob_eisenberg/archive/2010/08/21/caliburn-micro-soup-to-nuts-part-5-iresult-and-coroutines.aspx">read up on them here first</a>.</p>
 
@@ -1169,7 +1267,7 @@ hopefully, leads to more posts !</p>
 
 <p>Since the processing is also likely to fail for whatever reason we want to handle the error by executing a <em>Rescue Coroutine</em>.</p>
 
-<figure class='code'><figcaption><span>Pseudo Coroutine</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Pseudo Coroutine</span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1197,7 +1295,7 @@ hopefully, leads to more posts !</p>
 
 <p>Well, let&#8217;s see how we can handle it at all. The first approach is to ignore the built-in mechanism and expose an error property on the result which will then be checked during the execution of the Coroutine.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1250,13 +1348,13 @@ hopefully, leads to more posts !</p>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>    <span class="k">yield</span> <span class="k">return</span> <span class="k">new</span> <span class="nf">BusyResult</span><span class="p">(</span><span class="s">&quot;Processing...&quot;</span><span class="p">);</span>
 </span><span class='line'>
-</span><span class='line'>    <span class="n">var</span> <span class="n">processDataResult</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ProcessDataResult</span><span class="p">();</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">processDataResult</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ProcessDataResult</span><span class="p">();</span>
 </span><span class='line'>    <span class="k">yield</span> <span class="k">return</span> <span class="n">processDataResult</span><span class="p">;</span>
 </span><span class='line'>
 </span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">processDataResult</span><span class="p">.</span><span class="n">Error</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
 </span><span class='line'>    <span class="p">{</span>
 </span><span class='line'>        <span class="c1">// We could use Coroutine.BeginExecute(Rescue().GetEnumerator()); but than the context would be null</span>
-</span><span class='line'>        <span class="k">foreach</span> <span class="p">(</span><span class="n">var</span> <span class="n">rescueResult</span> <span class="k">in</span> <span class="n">Rescue</span><span class="p">())</span>
+</span><span class='line'>        <span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">rescueResult</span> <span class="k">in</span> <span class="n">Rescue</span><span class="p">())</span>
 </span><span class='line'>        <span class="p">{</span>
 </span><span class='line'>            <span class="k">yield</span> <span class="k">return</span> <span class="n">rescueResult</span><span class="p">;</span>
 </span><span class='line'>        <span class="p">}</span>
@@ -1312,7 +1410,7 @@ hopefully, leads to more posts !</p>
 
 <p>The second approach uses the built-in mechanism by raising the Completed Event with the Error roperty of the ResultCompletitionEventArgs set to the actual error.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1357,7 +1455,7 @@ hopefully, leads to more posts !</p>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>    <span class="k">yield</span> <span class="k">return</span> <span class="k">new</span> <span class="nf">BusyResult</span><span class="p">(</span><span class="s">&quot;Processing...&quot;</span><span class="p">);</span>
 </span><span class='line'>
-</span><span class='line'>    <span class="n">var</span> <span class="n">processDataResult</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ProcessDataResult</span><span class="p">();</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">processDataResult</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ProcessDataResult</span><span class="p">();</span>
 </span><span class='line'>    <span class="n">processDataResult</span><span class="p">.</span><span class="n">Completed</span> <span class="p">+=</span> <span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span> <span class="p">=&gt;</span>
 </span><span class='line'>                                       <span class="p">{</span>
 </span><span class='line'>                                           <span class="k">if</span> <span class="p">(</span><span class="n">args</span><span class="p">.</span><span class="n">Error</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
@@ -1420,7 +1518,7 @@ hopefully, leads to more posts !</p>
 
 <p>Whew, that&#8217;s quite a bit to ask for. Let&#8217;s have a look at the first two points. Since we want it to work on <em>every</em> implementation of IResult, we cannot use inheritance but how about an Extension Method for IResults together with some <em>fluent syntax</em>?</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1474,7 +1572,7 @@ hopefully, leads to more posts !</p>
 <p>That doesn&#8217;t look too bad, does it?</p>
 
 <p>But since this post got really long, I will show the implementation of the solution in the next part. So you either wait for the next post.</p>
-]]></content>
-  </entry>
+<p><a rel="bookmark" href="http://kmees.github.com/2011/05/31/handling-errors-in-caliburn-dot-micros-iresult-part-i/">&#9875; Permalink</a></p>]]></content>
+    </entry>
   
 </feed>

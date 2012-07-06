@@ -33,13 +33,14 @@ var nuget = (function(){
             var title = pkg.find("title").text();
             var isDuplicate = !packages.every(function(x){ x.name !== title; });
             if (!isDuplicate) {
-              var url = pkg.find("properties > GalleryDetailsUrl").text();
+              var properties = pkg.find("properties");
+              var url = properties.find("GalleryDetailsUrl").text();
               url = url.substring(0, url.lastIndexOf("/")+1);
               var package = {
                 url : url,
                 name : title,
-                description : pkg.find("properties > Description").text(),
-                downloadCount : parseInt(pkg.find("properties > DownloadCount").text())
+                description : properties.find("Description").text(),
+                downloadCount : parseInt(properties.find("DownloadCount").text())
               };
               packages.push(package);
             }

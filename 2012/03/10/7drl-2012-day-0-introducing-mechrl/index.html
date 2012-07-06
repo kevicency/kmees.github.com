@@ -1,0 +1,374 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>7DRL 2012 - Day 0: Introducing MechRL - Kevin Mees</title>
+  <meta name="author" content="Kevin Mees">
+  <meta name="Generator" content="Jekyll & Octopress (http://octopress.org)">
+
+  
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://kmees.github.com/2012/03/10/7drl-2012-day-0-introducing-mechrl/">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/octopress.min.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Kevin Mees" type="application/atom+xml">
+  
+<!--Fonts from Google's Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="/stylesheets/jquery.fancybox.css?v=2.0.4" type="text/css" media="screen" />
+<script type="text/javascript" src="/javascripts/jquery.fancybox.js?v=2.0.4"></script>
+
+<!-- Add fancyBox jQuery -->
+<script type="text/javascript">
+  $(document).ready(function() {
+      $(".fancybox").fancybox();
+  });
+</script>
+<!-- End fancyBox insert -->
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-27373569-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+   
+  <link href="/favicon.png" rel="icon">
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Kevin Mees</a></h1>
+  
+    <h2>.NET Geek and Rubyist</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:kmees.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/archives">Archives</a></li>
+  <li><a href="/projects/index.html">Projects</a></li>
+  <li><a href="/impressum.html">Impressum</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+
+
+
+
+
+
+
+
+
+
+
+<article class="hentry " role="article">
+  
+  <header>
+    <h1 class="entry-title">
+
+7DRL 2012 - Day 0: Introducing MechRL
+
+</h1>
+
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-10T22:37:00+01:00" pubdate data-updated="true">Mar 10<span>th</span>, 2012</time>
+         &bull; <a rel="bookmark" href="/2012/03/10/7drl-2012-day-0-introducing-mechrl/">Permalink</a>
+      </p>
+    
+  </header>
+
+<div class="entry-content"><p>Although I didn&#8217;t have that much time lately, I came up with an idea that is worth prototyping in a 7DRL. I was a huge fan of the MechWarrior franchise back in the late 90s and early 2000s. After watching the <a href="http://www.youtube.com/watch?v=udEAEARD-Fo">Hawken Gameplay Video</a> some time ago, I got a bit nostalgic and thought about doing a <em>MechWarriorlike Roguelike</em>. Through the lack of a better name (naming things is hard!), I&#8217;ll simply call it MechRL.</p>
+
+<!--more-->
+
+
+<h2>Mechanics</h2>
+
+<p>The movement of the mechs in MechWarrior was similar to that of a car in racing game. You had to accelerate/decelerate your mech and you weren&#8217;t able to change directions immediately but you rather had to turn. The movement paramters like v_max and inertia where also influenced by the weight of the mech.</p>
+
+<p>Another interesting mechanic was the combat which was closely related to movement. You were only able to shoot in the direction your mech was facing. Some mechs were able to turn their torso seperately from their legs which allowed you to perform some neat run-by attacks.</p>
+
+<p>Those two mechanics embody the core mechanics for my roguelike. It will be quite interesesting to
+see how these mechanics work in a turn-based environment. In case it won&#8217;t work well, I might try a
+hybrid approach instead of a turn-based one. The actual combat won&#8217;t also be skill shot based like in
+MechWarrior but something like VATS in Fallout 3.</p>
+
+<h2>Dungeon Design</h2>
+
+<p>The usual dungeon crawler&#8217;ish design for a roguelike won&#8217;t really work for MechRL. Instead, I opt
+for a non-linear mission design which drives a very simple story. I have about 7-10 missions planned
+  currently. Most of the missions will all take place on the same map whose layout will be randomly
+  generated. There will also be some kind of outpost which serves as the mission hub and a place to customize/upgrade your mech.</p>
+
+<h2>Character Progress</h2>
+
+<p>That brings me to the progression of your mech throughout the game. In the beginning, you will choose one of
+~three starter mechs that differ in their playstyle (fast and agil, slow and heavy
+armed,&#8230;). You will then be able to update the weapons and armor with stuff you find or completely
+replace parts of the mech. There won&#8217;t be alot of <strike>character</strike>mech stats but each part
+of your mech will have its own durability.</p>
+
+<h2>User Interface</h2>
+
+<p>As for the UI, although the game won&#8217;t run in a console, I will likely stick to ASCII art most of
+the time. I&#8217;m not that at graphic design and it simply costs to much time that I won&#8217;t have. I&#8217;ll
+also focus on keyboard input first and only add mouse support if I have some time left.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Kevin Mees</span></span>
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-10T22:37:00+01:00" pubdate data-updated="true">Mar 10<span>th</span>, 2012</time>
+
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/7drl/'>7DRL</a>, <a class='category' href='/blog/categories/mechrl/'>MechRL</a>
+  
+</span>
+
+
+
+      
+
+    </p>
+    
+      <div class="sharing">
+  
+    
+      <a href="http://twitter.com/share" title="Tweet this" class="twitter-share" target="_blank">Tweet</a>
+    
+  
+  
+  
+  
+
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2012/03/10/7drl-2012-choose-your-weapons/" title="Previous Post: 7DRL 2012 - Day 0: Weapons of Choice">&laquo; 7DRL 2012 - Day 0: Weapons of Choice</a>
+      
+      
+        <a class="basic-alignment right" href="/2012/03/13/7drl-2012-day-1-and-2-recap/" title="Next Post: 7DRL 2012 - Day 1&amp;2: Recap">7DRL 2012 - Day 1&amp;2: Recap &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+<section>
+  <h1>Comments</h1>
+  
+
+  
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  
+</section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2012/03/29/bypassing-the-google-feed-api-cache/">Bypassing the Google Feed API Cache</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/03/26/unicodetiles-dot-rb/">unicodetiles.rb</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/03/24/cmcontrib-1-dot-0-1-released/">CMContrib 1.0.1 Released</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/03/18/7drl-2012-its-over/">7DRL 2012 - It's over !</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/03/13/7drl-2012-day-1-and-2-recap/">7DRL 2012 - Day 1&amp;2: Recap</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets" data-user="kevin_mees" data-count="4" data-replies="false">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+    <a href="http://twitter.com/kevin_mees" class="twitter-follow-button" data-show-count="false">Follow @kevin_mees</a>
+  
+</section>
+
+
+
+<section>
+  <h1>On GitHub</h1>
+  <ul id="gh_repos" data-user="kmees" data-count="5" data-skip="true">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a class="github-follow" href="https://github.com/kmees">Follow @kmees</a>
+  
+</section>
+
+
+
+<section>
+  <h1>NuGet Packages</h1>
+  <ul id="nuget_pkgs">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a
+    href="http://nuget.org/profiles/kmees">@kmees</a> on NuGet Gallery
+  
+  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+  <script type="text/javascript">
+    $.ready(function(){
+      if (!window.jXHR){
+        var jxhr = document.createElement('script');
+        jxhr.type = 'text/javascript';
+        jxhr.src = '/javascripts/libs/jXHR.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(jxhr, s);
+      }
+    });
+
+    google.load("feeds", "1");
+
+    function initialize() {
+      nuget.showPackages({
+        author: 'Kevin Mees',
+        count: 5,
+        target: '#nuget_pkgs'
+      });
+    }
+
+    google.setOnLoadCallback(initialize);
+  </script>
+  <script src="/javascripts/nuget.js" type="text/javascript"> </script>
+</section>
+
+
+
+  <a href="https://plus.google.com/104563834307934930141?rel=author"><img src="https://ssl.gstatic.com/images/icons/gplus-32.png" alt="Google Plus icon"></a>
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Kevin Mees -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'kmees';
+			var disqus_developer = '0';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://kmees.github.com/2012/03/10/7drl-2012-day-0-introducing-mechrl/';
+        var disqus_url = 'http://kmees.github.com/2012/03/10/7drl-2012-day-0-introducing-mechrl/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+</body>
+</html>

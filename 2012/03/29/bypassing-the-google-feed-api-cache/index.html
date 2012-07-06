@@ -1,0 +1,359 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Bypassing the Google Feed API Cache - Kevin Mees</title>
+  <meta name="author" content="Kevin Mees">
+  <meta name="Generator" content="Jekyll & Octopress (http://octopress.org)">
+
+  
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://kmees.github.com/2012/03/29/bypassing-the-google-feed-api-cache/">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/octopress.min.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Kevin Mees" type="application/atom+xml">
+  
+<!--Fonts from Google's Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="/stylesheets/jquery.fancybox.css?v=2.0.4" type="text/css" media="screen" />
+<script type="text/javascript" src="/javascripts/jquery.fancybox.js?v=2.0.4"></script>
+
+<!-- Add fancyBox jQuery -->
+<script type="text/javascript">
+  $(document).ready(function() {
+      $(".fancybox").fancybox();
+  });
+</script>
+<!-- End fancyBox insert -->
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-27373569-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+   
+  <link href="/favicon.png" rel="icon">
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Kevin Mees</a></h1>
+  
+    <h2>.NET Geek and Rubyist</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:kmees.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/archives">Archives</a></li>
+  <li><a href="/projects/index.html">Projects</a></li>
+  <li><a href="/impressum.html">Impressum</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+
+
+
+
+
+
+
+
+
+
+
+<article class="hentry " role="article">
+  
+  <header>
+    <h1 class="entry-title">
+
+Bypassing the Google Feed API Cache
+
+</h1>
+
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-29T23:22:00+02:00" pubdate data-updated="true">Mar 29<span>th</span>, 2012</time>
+         &bull; <a rel="bookmark" href="/2012/03/29/bypassing-the-google-feed-api-cache/">Permalink</a>
+      </p>
+    
+  </header>
+
+<div class="entry-content"><p><img class="center" src="/images/posts/google_feed_api_meme.png"></p>
+
+<p>I noticed recently that the download count of the packages in my <a href="https://github.com/kmees/Octopress-NuGet-Aside">NuGet Aside</a> didn&#8217;t update properly. As I <a href="/blog/2012/02/29/nuget-aside-for-octopress/">mentioned earlier</a>, I use the <a href="https://developers.google.com/feed/">Google Feed API</a> to get the data from the NuGet Gallery feed of an author. This indicrection is needed because the NuGet Gallery API doesn&#8217;t support the <strong>jsonp</strong> response type (yet). Anyway, the problem is that Google caches the feeds heavily and only adds new entries but doesn&#8217;t update existing ones. This means that the packages keep their download count of the first request.</p>
+
+<!--more-->
+
+
+<p>After some experiments, I concluded that the caching behavior is solely based on the feed URL and modifying the URL in a way that it &#8216;looks&#8217; different but still returns the same data circumvents the cache. I created a salt function that returns a large number based on the current time which I just append to the URL as an additional query parameter (that gets ignored by the API).</p>
+
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">salt</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">now</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">();</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">saltDate</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">(</span><span class="nx">now</span><span class="p">.</span><span class="nx">getUTCFullYear</span><span class="p">(),</span> <span class="nx">now</span><span class="p">.</span><span class="nx">getUTCMonth</span><span class="p">(),</span> <span class="nx">now</span><span class="p">.</span><span class="nx">getUTCDate</span><span class="p">());</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nx">saltDate</span><span class="p">.</span><span class="nx">getTime</span><span class="p">();</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>As you may notice, the function returns the same number throughout the whole day. This way, the feed can still be cached but the data gets updated every day which is a good compromise !</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Kevin Mees</span></span>
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-29T23:22:00+02:00" pubdate data-updated="true">Mar 29<span>th</span>, 2012</time>
+
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/nuget/'>NuGet</a>, <a class='category' href='/blog/categories/octopress/'>Octopress</a>
+  
+</span>
+
+
+
+      
+
+    </p>
+    
+      <div class="sharing">
+  
+    
+      <a href="http://twitter.com/share" title="Tweet this" class="twitter-share" target="_blank">Tweet</a>
+    
+  
+  
+  
+  
+
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2012/03/26/unicodetiles-dot-rb/" title="Previous Post: unicodetiles.rb">&laquo; unicodetiles.rb</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+<section>
+  <h1>Comments</h1>
+  
+
+  
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  
+</section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2012/03/29/bypassing-the-google-feed-api-cache/">Bypassing the Google Feed API Cache</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/03/26/unicodetiles-dot-rb/">unicodetiles.rb</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/03/24/cmcontrib-1-dot-0-1-released/">CMContrib 1.0.1 Released</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/03/18/7drl-2012-its-over/">7DRL 2012 - It's over !</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/03/13/7drl-2012-day-1-and-2-recap/">7DRL 2012 - Day 1&amp;2: Recap</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets" data-user="kevin_mees" data-count="4" data-replies="false">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+    <a href="http://twitter.com/kevin_mees" class="twitter-follow-button" data-show-count="false">Follow @kevin_mees</a>
+  
+</section>
+
+
+
+<section>
+  <h1>On GitHub</h1>
+  <ul id="gh_repos" data-user="kmees" data-count="5" data-skip="true">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a class="github-follow" href="https://github.com/kmees">Follow @kmees</a>
+  
+</section>
+
+
+
+<section>
+  <h1>NuGet Packages</h1>
+  <ul id="nuget_pkgs">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a
+    href="http://nuget.org/profiles/kmees">@kmees</a> on NuGet Gallery
+  
+  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+  <script type="text/javascript">
+    $.ready(function(){
+      if (!window.jXHR){
+        var jxhr = document.createElement('script');
+        jxhr.type = 'text/javascript';
+        jxhr.src = '/javascripts/libs/jXHR.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(jxhr, s);
+      }
+    });
+
+    google.load("feeds", "1");
+
+    function initialize() {
+      nuget.showPackages({
+        author: 'Kevin Mees',
+        count: 5,
+        target: '#nuget_pkgs'
+      });
+    }
+
+    google.setOnLoadCallback(initialize);
+  </script>
+  <script src="/javascripts/nuget.js" type="text/javascript"> </script>
+</section>
+
+
+
+  <a href="https://plus.google.com/104563834307934930141?rel=author"><img src="https://ssl.gstatic.com/images/icons/gplus-32.png" alt="Google Plus icon"></a>
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Kevin Mees -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'kmees';
+			var disqus_developer = '0';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://kmees.github.com/2012/03/29/bypassing-the-google-feed-api-cache/';
+        var disqus_url = 'http://kmees.github.com/2012/03/29/bypassing-the-google-feed-api-cache/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+</body>
+</html>
