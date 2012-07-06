@@ -1,0 +1,283 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>RUGSaar - Octopress - Kevin Mees</title>
+  <meta name="author" content="Kevin Mees">
+  <meta name="Generator" content="Jekyll & Octopress (http://octopress.org)">
+
+  
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://kmees.github.com/slides/rugsaar-octopress.html">
+  <!-- Core and extension CSS files -->
+  <link rel="stylesheet" href="/deck.js/core/deck.core.css">
+  <link rel="stylesheet" href="/deck.js/extensions/goto/deck.goto.css">
+  <link rel="stylesheet" href="/deck.js/extensions/menu/deck.menu.css">
+  <link rel="stylesheet" href="/deck.js/extensions/navigation/deck.navigation.css">
+  <link rel="stylesheet" href="/deck.js/extensions/status/deck.status.css">
+  <link rel="stylesheet" href="/deck.js/extensions/hash/deck.hash.css">
+  <link rel="stylesheet" href="/deck.js/extensions/scale/deck.scale.css">
+
+  <!-- Style theme. More available in /themes/style/ or create your own. -->
+  <link rel="stylesheet" href="/deck.js/themes/style/web-2.0.css">
+  <!-- Transition theme. More available in /themes/transition/ or create your own. -->
+  <link rel="stylesheet" href="/deck.js/themes/transition/fade.css">
+
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/octopress.min.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Kevin Mees" type="application/atom+xml">
+  
+<!--Fonts from Google's Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="/stylesheets/jquery.fancybox.css?v=2.0.4" type="text/css" media="screen" />
+<script type="text/javascript" src="/javascripts/jquery.fancybox.js?v=2.0.4"></script>
+
+<!-- Add fancyBox jQuery -->
+<script type="text/javascript">
+  $(document).ready(function() {
+      $(".fancybox").fancybox();
+  });
+</script>
+<!-- End fancyBox insert -->
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-27373569-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+   
+  <link href="/favicon.png" rel="icon">
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Kevin Mees</a></h1>
+  
+    <h2>.NET Geek and Rubyist</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:kmees.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/archives">Archives</a></li>
+  <li><a href="/projects/index.html">Projects</a></li>
+  <li><a href="/impressum.html">Impressum</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="slide-content">
+      <div class="deck-container">
+        <!-- Begin slides -->
+<section class="slide" id="title-slide">
+  <h1>Getting Started with deck.js</h1>
+</section>
+
+<section class="slide" id="how-to-overview">
+  <h2>How to Make a Deck</h2>
+  <ol>
+    <li>
+      <h3>Write Slides</h3>
+      <p>Slide content is simple&nbsp;HTML.</p>
+    </li>
+    <li>
+      <h3>Choose Themes</h3>
+      <p>One for slide styles and one for deck&nbsp;transitions.</p>
+    </li>
+    <li>
+      <h3>Include Extensions</h3>
+      <p>Add extra functionality to your deck, or leave it stripped&nbsp;down.</p>
+    </li>
+  </ol>
+</section>
+
+<section class="slide" id="markup">
+  <h2>The Markup</h2>
+  <p>Slides are just HTML elements with a class of <code>slide</code>.</p>
+  <pre><code>&lt;section class=&quot;slide&quot;&gt;
+   &lt;h2&gt;How to Make a Deck&lt;/h2&gt;
+   &lt;ol&gt;
+      &lt;li&gt;
+         &lt;h3&gt;Write Slides&lt;/h3&gt;
+         &lt;p&gt;Slide content is simple HTML.&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+         &lt;h3&gt;Choose Themes&lt;/h3&gt;
+         &lt;p&gt;One for slide styles and one for deck transitions.&lt;/p&gt;
+      &lt;/li&gt;
+      &hellip;
+   &lt;/ol&gt;
+&lt;/section&gt;</code></pre>
+</section>
+
+<section class="slide" id="themes">
+  <h2>Style Themes</h2>
+  <p>Customizes the colors, typography, and layout of slide&nbsp;content.</p>
+  <pre><code>&lt;link rel=&quot;stylesheet&quot; href=&quot;/path/to/css/style-theme.css&quot;&gt;</code></pre>
+  <h2>Transition Themes</h2>
+  <p>Defines transitions between slides using CSS3 transitions.  Less capable browsers fall back to cutaways. But <strong>you</strong> aren&rsquo;t using <em>those</em> browsers to give your presentations, are&nbsp;you&hellip;</p>
+  <pre><code>&lt;link rel=&quot;stylesheet&quot; href=&quot;/path/to/css/transition-theme.css&quot;&gt;</code></pre>
+</section>
+
+<section class="slide" id="extensions">
+  <h2>Extensions</h2>
+  <p>Core gives you basic slide functionality with left and right arrow navigation, but you may want more. Here are the ones included in this&nbsp;deck:</p>
+
+  <ul>
+    <li class="slide" id="extensions-goto">
+      <strong>deck.goto</strong>: Adds a shortcut key to jump to any slide number.  Hit g, type in the slide number, and hit&nbsp;enter.
+    </li>
+
+    <li class="slide" id="extensions-hash">
+      <strong>deck.hash</strong>: Enables internal linking within slides, deep linking to individual slides, and updates the address bar &amp; a permalink anchor with each slide&nbsp;change.
+    </li>
+
+    <li class="slide" id="extensions-menu">
+      <strong>deck.menu</strong>: Adds a menu view, letting you see all slides in a grid. Hit m to toggle to menu view, continue navigating your deck, and hit m to return to normal view. Touch devices can double-tap the deck to switch between&nbsp;views.
+    </li>
+
+    <li class="slide" id="extensions-navigation">
+      <strong>deck.navigation</strong>: Adds clickable left and right buttons for the less keyboard&nbsp;inclined.
+    </li>
+
+    <li class="slide" id="extensions-status">
+      <strong>deck.status</strong>: Adds a page number indicator. (current/total)
+    </li>
+
+    <li class="slide" id="extensions-scale">
+      <strong>deck.scale</strong>: Scales each slide to fit within the deck container using CSS Transforms for those browsers that support them.
+    </li>
+  </ul>
+
+  <p class="slide" id="extension-folders">Each extension folder in the download package contains the necessary JavaScript, CSS, and HTML&nbsp;files. For a complete list of extension modules included in deck.js, check out the&nbsp;<a href="http://imakewebthings.github.com/deck.js/docs">documentation</a>.</p>
+</section>
+
+<section class="slide" id="nested">
+  <h2>Nested Slides</h2>
+  <p>That last slide had a few steps.  To create substeps in slides, just nest them:</p>
+  <pre><code>&lt;section class=&quot;slide&quot;&gt;
+  &lt;h2&gt;Extensions&lt;/h2&gt;
+  &lt;p&gt;Core gives you basic slide functionality...&lt;/p&gt;    
+  &lt;ul&gt;
+     &lt;li class=&quot;slide&quot;&gt;
+        &lt;h3&gt;deck.goto&lt;/h3&gt;
+        &lt;p&gt;Adds a shortcut key to jump to any slide number...&lt;/p&gt;
+     &lt;/li&gt;
+     &lt;li class=&quot;slide&quot;&gt;...&lt;/li&gt;  
+     &lt;li class=&quot;slide&quot;&gt;...&lt;/li&gt;
+     &lt;li class=&quot;slide&quot;&gt;...&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/section&gt;</code></pre>
+</section>
+
+<section class="slide" id="elements-images">
+  <h2>Other Elements: Images</h2>
+  <img src="http://placeki'>en.com/600/375&#8221; alt=&#8221;Kitties&#8221;>
+  <pre><code>&lt;img src=&quot;http://placekitten.com/600/375&quot; alt=&quot;Kitties&quot;&gt;</code></pre>
+</section>
+
+<section class="slide" id="elements-blockquotes">
+  <h2>Other Elements: Blockquotes</h2>
+  <blockquote cite="http://example.org">
+    <p>Food is an important part of a balanced diet.</p>
+    <p><cite>Fran Lebowitz</cite></p>
+  </blockquote>
+  <pre><code>&lt;blockquote cite=&quot;http://example.org&quot;&gt;
+  &lt;p&gt;Food is an important part of a balanced diet.&lt;/p&gt;
+  &lt;p&gt;&lt;cite&gt;Fran Lebowitz&lt;/cite&gt;&lt;/p&gt;
+&lt;/blockquote&gt;</code></pre>
+</section>
+
+<section class="slide" id="digging-deeper">
+  <h2>Digging Deeper</h2>
+  <p>If you want to learn about making your own themes, extending deck.js, and more, check out the&nbsp;<a href="../docs/">documentation</a>.</p>
+</section>
+
+
+        <!-- deck.navigation snippet -->
+        <a href="#" class="deck-prev-link" title="Previous">&#8592;</a>
+        <a href="#" class="deck-next-link" title="Next">&#8594;</a>
+
+        <!-- deck.status snippet -->
+        <p class="deck-status">
+          <span class="deck-status-current"></span>
+          /
+          <span class="deck-status-total"></span>
+        </p>
+
+        <!-- deck.goto snippet -->
+        <form action="." method="get" class="goto-form">
+          <label for="goto-slide">Go to slide:</label>
+          <input type="text" name="slidenum" id="goto-slide" list="goto-datalist">
+          <datalist id="goto-datalist"></datalist>
+          <input type="submit" value="Go">
+        </form>
+
+        <!-- deck.hash snippet -->
+        <a href="." title="Permalink to this slide" class="deck-permalink">#</a>
+
+        <!-- Deck Core and extensions -->
+        <script src="/deck.js/core/deck.core.js"></script>
+        <script src="/deck.js/extensions/hash/deck.hash.js"></script>
+        <script src="/deck.js/extensions/menu/deck.menu.js"></script>
+        <script src="/deck.js/extensions/goto/deck.goto.js"></script>
+        <script src="/deck.js/extensions/status/deck.status.js"></script>
+        <script src="/deck.js/extensions/navigation/deck.navigation.js"></script>
+
+        <!-- Initialize the deck -->
+        <script>
+          $(function() {
+            $.deck('.slide');
+          });
+        </script>
+      </div>
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Kevin Mees -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+</body>
+</html">
