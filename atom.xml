@@ -3,7 +3,7 @@
   <title><![CDATA[Kevin Mees]]></title>
   <link href="http://kmees.github.com/atom.xml" rel="self"/>
   <link href="http://kmees.github.com/"/>
-  <updated>2012-07-06T15:13:55+02:00</updated>
+  <updated>2012-07-06T15:22:09+02:00</updated>
   <id>http://kmees.github.com/</id>
   <author>
     <name><![CDATA[Kevin Mees]]></name>
@@ -19,9 +19,9 @@
 
 
 <title type="html"><![CDATA[Bypassing the Google Feed API Cache]]></title>
-<link href="http://kmees.github.com/2012/03/29/bypassing-the-google-feed-api-cache/"/>
+<link href="http://kmees.github.com/blog/2012/03/29/bypassing-the-google-feed-api-cache/"/>
 <updated>2012-03-29T23:22:00+02:00</updated>
-<id>http://kmees.github.com/2012/03/29/bypassing-the-google-feed-api-cache</id>
+<id>http://kmees.github.com/blog/2012/03/29/bypassing-the-google-feed-api-cache</id>
 
       <content type="html"><![CDATA[<p><img class="center" src="http://kmees.github.com/images/posts/google_feed_api_meme.png"></p>
 
@@ -46,7 +46,7 @@
 
 
 <p>As you may notice, the function returns the same number throughout the whole day. This way, the feed can still be cached but the data gets updated every day which is a good compromise !</p>
-<p><a rel="bookmark" href="http://kmees.github.com/2012/03/29/bypassing-the-google-feed-api-cache/">&#9875; Permalink</a></p>]]></content>
+<p><a rel="bookmark" href="http://kmees.github.com/blog/2012/03/29/bypassing-the-google-feed-api-cache/">&#9875; Permalink</a></p>]]></content>
     </entry>
   
     <entry>
@@ -56,9 +56,9 @@
 
 
 <title type="html"><![CDATA[unicodetiles.rb]]></title>
-<link href="http://kmees.github.com/2012/03/26/unicodetiles-dot-rb/"/>
+<link href="http://kmees.github.com/blog/2012/03/26/unicodetiles-dot-rb/"/>
 <updated>2012-03-26T10:29:00+02:00</updated>
-<id>http://kmees.github.com/2012/03/26/unicodetiles-dot-rb</id>
+<id>http://kmees.github.com/blog/2012/03/26/unicodetiles-dot-rb</id>
 
       <content type="html"><![CDATA[<p>After my miserable fail at the 7DRL 2012 I had the urge to get at least something get at least
 something useful done. So I decided to port <a href="http://tapio.github.com/unicodetiles.js/">unicodetiles.js</a>, a lightweight, character based tile engine for JavaScript to Ruby. Luckily, tapio, the author of unicodetiles.js, made it easy for me to find a name for the ruby port and it shall henceforth be called <a href="./projects/unicodetiles.html">unicodetiles.rb</a>.</p>
@@ -69,7 +69,7 @@ something useful done. So I decided to port <a href="http://tapio.github.com/uni
 fancy console applications used by a lot of roguelikes. The downside to ncurses is, that it is quite
 hard (or even impossible) to get running under Windows which really hampers the popularity of some
 roguelikes.</p>
-<p><a rel="bookmark" href="http://kmees.github.com/2012/03/26/unicodetiles-dot-rb/">&#9875; Permalink</a></p>]]></content>
+<p><a rel="bookmark" href="http://kmees.github.com/blog/2012/03/26/unicodetiles-dot-rb/">&#9875; Permalink</a></p>]]></content>
     </entry>
   
     <entry>
@@ -79,16 +79,16 @@ roguelikes.</p>
 
 
 <title type="html"><![CDATA[CMContrib 1.0.1 Released]]></title>
-<link href="http://kmees.github.com/2012/03/24/cmcontrib-1-dot-0-1-released/"/>
+<link href="http://kmees.github.com/blog/2012/03/24/cmcontrib-1-dot-0-1-released/"/>
 <updated>2012-03-24T19:30:00+01:00</updated>
-<id>http://kmees.github.com/2012/03/24/cmcontrib-1-dot-0-1-released</id>
+<id>http://kmees.github.com/blog/2012/03/24/cmcontrib-1-dot-0-1-released</id>
 
       <content type="html"><![CDATA[<p>I just released a new version of <a href="./projects/cmcontrib.html" title="">CMContrib</a> on
 <a href="http://nuget.org/packages/Caliburn.Micro-Contrib">NuGet</a>. The new version just has some minor fixes
 but the CMContrib assembly is now <em>strongly named</em> !</p>
 
 <p>Grab it while it&#8217;s hot !</p>
-<p><a rel="bookmark" href="http://kmees.github.com/2012/03/24/cmcontrib-1-dot-0-1-released/">&#9875; Permalink</a></p>]]></content>
+<p><a rel="bookmark" href="http://kmees.github.com/blog/2012/03/24/cmcontrib-1-dot-0-1-released/">&#9875; Permalink</a></p>]]></content>
     </entry>
   
     <entry>
@@ -98,9 +98,9 @@ but the CMContrib assembly is now <em>strongly named</em> !</p>
 
 
 <title type="html"><![CDATA[7DRL 2012 - It's over !]]></title>
-<link href="http://kmees.github.com/2012/03/18/7drl-2012-its-over/"/>
+<link href="http://kmees.github.com/blog/2012/03/18/7drl-2012-its-over/"/>
 <updated>2012-03-18T14:00:00+01:00</updated>
-<id>http://kmees.github.com/2012/03/18/7drl-2012-its-over</id>
+<id>http://kmees.github.com/blog/2012/03/18/7drl-2012-its-over</id>
 
       <content type="html"><![CDATA[<p>It&#8217;s Sunday, March 18th and exactly 7 days ago I started my 7DRL Challenge. Sadly, I wasn&#8217;t able to
 finish my roguelike in time but it was fun nevertheless. If I had to put a number on the
@@ -160,7 +160,7 @@ crucial.</p>
 
 <p><img class="center" src="http://kmees.github.com/images/posts/mechrl_1.png" width="640" height="480">
 <img class="center" src="http://kmees.github.com/images/posts/mechrl_2.png" width="640" height="480"></p>
-<p><a rel="bookmark" href="http://kmees.github.com/2012/03/18/7drl-2012-its-over/">&#9875; Permalink</a></p>]]></content>
+<p><a rel="bookmark" href="http://kmees.github.com/blog/2012/03/18/7drl-2012-its-over/">&#9875; Permalink</a></p>]]></content>
     </entry>
   
     <entry>
@@ -170,9 +170,9 @@ crucial.</p>
 
 
 <title type="html"><![CDATA[7DRL 2012 - Day 1&amp;2: Recap]]></title>
-<link href="http://kmees.github.com/2012/03/13/7drl-2012-day-1-and-2-recap/"/>
+<link href="http://kmees.github.com/blog/2012/03/13/7drl-2012-day-1-and-2-recap/"/>
 <updated>2012-03-13T13:01:00+01:00</updated>
-<id>http://kmees.github.com/2012/03/13/7drl-2012-day-1-and-2-recap</id>
+<id>http://kmees.github.com/blog/2012/03/13/7drl-2012-day-1-and-2-recap</id>
 
       <content type="html"><![CDATA[<h2>Day 1</h2>
 
@@ -204,7 +204,7 @@ still way~~~ behind my non-existent schedule (that might be one of the main prob
 
 <p>I hope to get something presentable out of Day 3 to upload some (interesting) screenshots but I&#8217;m
 rather skeptical</p>
-<p><a rel="bookmark" href="http://kmees.github.com/2012/03/13/7drl-2012-day-1-and-2-recap/">&#9875; Permalink</a></p>]]></content>
+<p><a rel="bookmark" href="http://kmees.github.com/blog/2012/03/13/7drl-2012-day-1-and-2-recap/">&#9875; Permalink</a></p>]]></content>
     </entry>
   
     <entry>
@@ -214,9 +214,9 @@ rather skeptical</p>
 
 
 <title type="html"><![CDATA[7DRL 2012 - Day 0: Introducing MechRL]]></title>
-<link href="http://kmees.github.com/2012/03/10/7drl-2012-day-0-introducing-mechrl/"/>
+<link href="http://kmees.github.com/blog/2012/03/10/7drl-2012-day-0-introducing-mechrl/"/>
 <updated>2012-03-10T22:37:00+01:00</updated>
-<id>http://kmees.github.com/2012/03/10/7drl-2012-day-0-introducing-mechrl</id>
+<id>http://kmees.github.com/blog/2012/03/10/7drl-2012-day-0-introducing-mechrl</id>
 
       <content type="html"><![CDATA[<p>Although I didn&#8217;t have that much time lately, I came up with an idea that is worth prototyping in a 7DRL. I was a huge fan of the MechWarrior franchise back in the late 90s and early 2000s. After watching the <a href="http://www.youtube.com/watch?v=udEAEARD-Fo">Hawken Gameplay Video</a> some time ago, I got a bit nostalgic and thought about doing a <em>MechWarriorlike Roguelike</em>. Through the lack of a better name (naming things is hard!), I&#8217;ll simply call it MechRL.</p>
 
@@ -254,7 +254,7 @@ of your mech will have its own durability.</p>
 <p>As for the UI, although the game won&#8217;t run in a console, I will likely stick to ASCII art most of
 the time. I&#8217;m not that at graphic design and it simply costs to much time that I won&#8217;t have. I&#8217;ll
 also focus on keyboard input first and only add mouse support if I have some time left.</p>
-<p><a rel="bookmark" href="http://kmees.github.com/2012/03/10/7drl-2012-day-0-introducing-mechrl/">&#9875; Permalink</a></p>]]></content>
+<p><a rel="bookmark" href="http://kmees.github.com/blog/2012/03/10/7drl-2012-day-0-introducing-mechrl/">&#9875; Permalink</a></p>]]></content>
     </entry>
   
     <entry>
@@ -264,9 +264,9 @@ also focus on keyboard input first and only add mouse support if I have some tim
 
 
 <title type="html"><![CDATA[7DRL 2012 - Day 0: Weapons of Choice]]></title>
-<link href="http://kmees.github.com/2012/03/10/7drl-2012-choose-your-weapons/"/>
+<link href="http://kmees.github.com/blog/2012/03/10/7drl-2012-choose-your-weapons/"/>
 <updated>2012-03-10T13:37:00+01:00</updated>
-<id>http://kmees.github.com/2012/03/10/7drl-2012-choose-your-weapons</id>
+<id>http://kmees.github.com/blog/2012/03/10/7drl-2012-choose-your-weapons</id>
 
       <content type="html"><![CDATA[<p>Alright, I&#8217;m gonna start my 7DRL Challenge tomorrow around noon. I wanted to start today, but I
 spent most of day setting up my system and testing the libraries I want to use. My development
@@ -291,7 +291,7 @@ environment will be:</p>
 
 <p>The project will be hosted on <a href="https://github.com/kmees/MechRL">Github</a> and I was able to setup
 XSplit, so I&#8217;ll stream while coding. Will be interesting to see if I get at least one viewer :). My <a href="http://www.twitch.tv/">twich.tv</a> channel can be found <a href="http://www.twitch.tv/kmees">here</a>.</p>
-<p><a rel="bookmark" href="http://kmees.github.com/2012/03/10/7drl-2012-choose-your-weapons/">&#9875; Permalink</a></p>]]></content>
+<p><a rel="bookmark" href="http://kmees.github.com/blog/2012/03/10/7drl-2012-choose-your-weapons/">&#9875; Permalink</a></p>]]></content>
     </entry>
   
     <entry>
@@ -301,9 +301,9 @@ XSplit, so I&#8217;ll stream while coding. Will be interesting to see if I get a
 
 
 <title type="html"><![CDATA[7DRL 2012 - Challenge Accepted]]></title>
-<link href="http://kmees.github.com/2012/03/07/7drl-2012-challenge-accepted/"/>
+<link href="http://kmees.github.com/blog/2012/03/07/7drl-2012-challenge-accepted/"/>
 <updated>2012-03-07T17:11:00+01:00</updated>
-<id>http://kmees.github.com/2012/03/07/7drl-2012-challenge-accepted</id>
+<id>http://kmees.github.com/blog/2012/03/07/7drl-2012-challenge-accepted</id>
 
       <content type="html"><![CDATA[<p><img class="center" src="http://kmees.github.com/images/posts/challenge_accepted.png"></p>
 
@@ -312,7 +312,7 @@ XSplit, so I&#8217;ll stream while coding. Will be interesting to see if I get a
 <p>I will try to blog about my progress on each of the seven days if I can manage to find some spare
 time. I&#8217;m also thinking about streaming/recording the development process but I don&#8217;t know if I can
 get everything set up in time. In any case, the project will of course be hosted on github !</p>
-<p><a rel="bookmark" href="http://kmees.github.com/2012/03/07/7drl-2012-challenge-accepted/">&#9875; Permalink</a></p>]]></content>
+<p><a rel="bookmark" href="http://kmees.github.com/blog/2012/03/07/7drl-2012-challenge-accepted/">&#9875; Permalink</a></p>]]></content>
     </entry>
   
     <entry>
@@ -322,9 +322,9 @@ get everything set up in time. In any case, the project will of course be hosted
 
 
 <title type="html"><![CDATA[NuGet Aside for Octopress]]></title>
-<link href="http://kmees.github.com/2012/02/29/nuget-aside-for-octopress/"/>
+<link href="http://kmees.github.com/blog/2012/02/29/nuget-aside-for-octopress/"/>
 <updated>2012-02-29T15:37:00+01:00</updated>
-<id>http://kmees.github.com/2012/02/29/nuget-aside-for-octopress</id>
+<id>http://kmees.github.com/blog/2012/02/29/nuget-aside-for-octopress</id>
 
       <content type="html"><![CDATA[<p>I just finished as aside for <a href="http://www.octopress.org">Octopress</a> that list the
 Top N downloaded packages where you are an author. It also adds a link to your
@@ -332,7 +332,7 @@ NuGet gallery profile if you have one. The style is basically the same as the st
 
 <p>Since there is no official way to publish 3rd party add-ons for Octopress yet, I
 created a <a href="https://github.com/kmees/Octopress-NuGet-Aside">github repository</a> with the required files and setup instructions in the <a href="https://github.com/kmees/Octopress-NuGet-Aside/blob/master/README.md">ReadMe</a>.</p>
-<p><a rel="bookmark" href="http://kmees.github.com/2012/02/29/nuget-aside-for-octopress/">&#9875; Permalink</a></p>]]></content>
+<p><a rel="bookmark" href="http://kmees.github.com/blog/2012/02/29/nuget-aside-for-octopress/">&#9875; Permalink</a></p>]]></content>
     </entry>
   
     <entry>
@@ -342,9 +342,9 @@ created a <a href="https://github.com/kmees/Octopress-NuGet-Aside">github reposi
 
 
 <title type="html"><![CDATA[CMContrib WPF Demo goin' Metro]]></title>
-<link href="http://kmees.github.com/2012/02/26/cmcontrib-wpf-demo-goin-metro/"/>
+<link href="http://kmees.github.com/blog/2012/02/26/cmcontrib-wpf-demo-goin-metro/"/>
 <updated>2012-02-26T18:45:00+01:00</updated>
-<id>http://kmees.github.com/2012/02/26/cmcontrib-wpf-demo-goin-metro</id>
+<id>http://kmees.github.com/blog/2012/02/26/cmcontrib-wpf-demo-goin-metro</id>
 
       <content type="html"><![CDATA[<p>Inspired by the <a href="https://github.com/Code52/DownmarkerWPF">DownmarkerWPF</a>, I
 decided to change the Style of the CMContrib WPF Demo to Metro. I used the same
@@ -362,7 +362,7 @@ Metro framework, namely <a href="https://github.com/MahApps/MahApps.Metro">MahAp
 <h2>Old Style</h2>
 
 <p><img class="" src="http://kmees.github.com/images/posts/wpfdemo_old.png" width="640" height="480"></p>
-<p><a rel="bookmark" href="http://kmees.github.com/2012/02/26/cmcontrib-wpf-demo-goin-metro/">&#9875; Permalink</a></p>]]></content>
+<p><a rel="bookmark" href="http://kmees.github.com/blog/2012/02/26/cmcontrib-wpf-demo-goin-metro/">&#9875; Permalink</a></p>]]></content>
     </entry>
   
     <entry>
@@ -372,9 +372,9 @@ Metro framework, namely <a href="https://github.com/MahApps/MahApps.Metro">MahAp
 
 
 <title type="html"><![CDATA[Context-Based Views for Dialogs]]></title>
-<link href="http://kmees.github.com/2012/02/24/context-based-views-for-dialogs/"/>
+<link href="http://kmees.github.com/blog/2012/02/24/context-based-views-for-dialogs/"/>
 <updated>2012-02-24T11:32:00+01:00</updated>
-<id>http://kmees.github.com/2012/02/24/context-based-views-for-dialogs</id>
+<id>http://kmees.github.com/blog/2012/02/24/context-based-views-for-dialogs</id>
 
       <content type="html"><![CDATA[<h2>Retrospect</h2>
 
@@ -603,7 +603,7 @@ syntax to for showing the <code>FooQuestion</code> view.</p>
 <p>Although I added an example for this feature to the Silverlight demo, it
 currently crashes each browser when embedded in a page. Out-of-browser works
 though. If you know why, tell me ! Will update the demo once it works.</p>
-<p><a rel="bookmark" href="http://kmees.github.com/2012/02/24/context-based-views-for-dialogs/">&#9875; Permalink</a></p>]]></content>
+<p><a rel="bookmark" href="http://kmees.github.com/blog/2012/02/24/context-based-views-for-dialogs/">&#9875; Permalink</a></p>]]></content>
     </entry>
   
     <entry>
@@ -613,13 +613,13 @@ though. If you know why, tell me ! Will update the demo once it works.</p>
 
 
 <title type="html"><![CDATA[CMContrib 1.0 released]]></title>
-<link href="http://kmees.github.com/2012/02/08/cmcontrib-1-dot-0-released/"/>
+<link href="http://kmees.github.com/blog/2012/02/08/cmcontrib-1-dot-0-released/"/>
 <updated>2012-02-08T22:38:00+01:00</updated>
-<id>http://kmees.github.com/2012/02/08/cmcontrib-1-dot-0-released</id>
+<id>http://kmees.github.com/blog/2012/02/08/cmcontrib-1-dot-0-released</id>
 
       <content type="html"><![CDATA[<p>I just uploaded <a href="http://nuget.org/packages/Caliburn.Micro-Contrib">CMContrib 1.0</a> to NuGet. I also created a <a href="http://kmees.github.com/projects/cmcontrib.html">CMContrib project
 page</a> with additional info about the features and a Silverlight Demo with samples for each feature.</p>
-<p><a rel="bookmark" href="http://kmees.github.com/2012/02/08/cmcontrib-1-dot-0-released/">&#9875; Permalink</a></p>]]></content>
+<p><a rel="bookmark" href="http://kmees.github.com/blog/2012/02/08/cmcontrib-1-dot-0-released/">&#9875; Permalink</a></p>]]></content>
     </entry>
   
     <entry>
@@ -629,9 +629,9 @@ page</a> with additional info about the features and a Silverlight Demo with sam
 
 
 <title type="html"><![CDATA[Migration to Octopress]]></title>
-<link href="http://kmees.github.com/2011/11/29/migration-to-octopress/"/>
+<link href="http://kmees.github.com/blog/2011/11/29/migration-to-octopress/"/>
 <updated>2011-11-29T23:44:00+01:00</updated>
-<id>http://kmees.github.com/2011/11/29/migration-to-octopress</id>
+<id>http://kmees.github.com/blog/2011/11/29/migration-to-octopress</id>
 
       <content type="html"><![CDATA[<p>I am currently migrating my blog from <em>Wordpress</em> to <em>Octopress</em>. The main
 reason for the migration is the awful (at least for coding blogs) post editor in
@@ -639,7 +639,7 @@ Wordpress. With the migration I can write the posts in Markdown and Vim which,
 hopefully, leads to more posts !</p>
 
 <p>And because Octopress is new and shiny and geeky !</p>
-<p><a rel="bookmark" href="http://kmees.github.com/2011/11/29/migration-to-octopress/">&#9875; Permalink</a></p>]]></content>
+<p><a rel="bookmark" href="http://kmees.github.com/blog/2011/11/29/migration-to-octopress/">&#9875; Permalink</a></p>]]></content>
     </entry>
   
     <entry>
@@ -649,9 +649,9 @@ hopefully, leads to more posts !</p>
 
 
 <title type="html"><![CDATA[MVVM Dialogs with Caliburn.Micro]]></title>
-<link href="http://kmees.github.com/2011/06/16/mvvm-dialogs-with-caliburn-dot-micro/"/>
+<link href="http://kmees.github.com/blog/2011/06/16/mvvm-dialogs-with-caliburn-dot-micro/"/>
 <updated>2011-06-16T21:10:00+02:00</updated>
-<id>http://kmees.github.com/2011/06/16/mvvm-dialogs-with-caliburn-dot-micro</id>
+<id>http://kmees.github.com/blog/2011/06/16/mvvm-dialogs-with-caliburn-dot-micro</id>
 
       <content type="html"><![CDATA[<h2>Background</h2>
 
@@ -956,7 +956,7 @@ hopefully, leads to more posts !</p>
 
 
 
-<p><a rel="bookmark" href="http://kmees.github.com/2011/06/16/mvvm-dialogs-with-caliburn-dot-micro/">&#9875; Permalink</a></p>]]></content>
+<p><a rel="bookmark" href="http://kmees.github.com/blog/2011/06/16/mvvm-dialogs-with-caliburn-dot-micro/">&#9875; Permalink</a></p>]]></content>
     </entry>
   
     <entry>
@@ -966,9 +966,9 @@ hopefully, leads to more posts !</p>
 
 
 <title type="html"><![CDATA[Handling Errors in Caliburn.Micro's IResult - Part II]]></title>
-<link href="http://kmees.github.com/2011/06/01/handling-errors-in-caliburn-dot-micros-iresult-part-ii/"/>
+<link href="http://kmees.github.com/blog/2011/06/01/handling-errors-in-caliburn-dot-micros-iresult-part-ii/"/>
 <updated>2011-06-01T23:01:00+02:00</updated>
-<id>http://kmees.github.com/2011/06/01/handling-errors-in-caliburn-dot-micros-iresult-part-ii</id>
+<id>http://kmees.github.com/blog/2011/06/01/handling-errors-in-caliburn-dot-micros-iresult-part-ii</id>
 
       <content type="html"><![CDATA[<h2>Preface</h2>
 
@@ -1238,7 +1238,7 @@ hopefully, leads to more posts !</p>
 <h2>Recap</h2>
 
 <p>Well, with the Decorator Pattern it was possible to implement all the desired features in a nice and testable way. Furthermore, we can use same principle for executing a coroutine when the result is cancelled or when an exception is thrown inside the result.</p>
-<p><a rel="bookmark" href="http://kmees.github.com/2011/06/01/handling-errors-in-caliburn-dot-micros-iresult-part-ii/">&#9875; Permalink</a></p>]]></content>
+<p><a rel="bookmark" href="http://kmees.github.com/blog/2011/06/01/handling-errors-in-caliburn-dot-micros-iresult-part-ii/">&#9875; Permalink</a></p>]]></content>
     </entry>
   
     <entry>
@@ -1248,9 +1248,9 @@ hopefully, leads to more posts !</p>
 
 
 <title type="html"><![CDATA[Handling Errors in Caliburn.Micro's IResult - Part I]]></title>
-<link href="http://kmees.github.com/2011/05/31/handling-errors-in-caliburn-dot-micros-iresult-part-i/"/>
+<link href="http://kmees.github.com/blog/2011/05/31/handling-errors-in-caliburn-dot-micros-iresult-part-i/"/>
 <updated>2011-05-31T22:01:00+02:00</updated>
-<id>http://kmees.github.com/2011/05/31/handling-errors-in-caliburn-dot-micros-iresult-part-i</id>
+<id>http://kmees.github.com/blog/2011/05/31/handling-errors-in-caliburn-dot-micros-iresult-part-i</id>
 
       <content type="html"><![CDATA[<h2>The Problem</h2>
 
@@ -1572,7 +1572,7 @@ hopefully, leads to more posts !</p>
 <p>That doesn&#8217;t look too bad, does it?</p>
 
 <p>But since this post got really long, I will show the implementation of the solution in the next part. So you either wait for the next post.</p>
-<p><a rel="bookmark" href="http://kmees.github.com/2011/05/31/handling-errors-in-caliburn-dot-micros-iresult-part-i/">&#9875; Permalink</a></p>]]></content>
+<p><a rel="bookmark" href="http://kmees.github.com/blog/2011/05/31/handling-errors-in-caliburn-dot-micros-iresult-part-i/">&#9875; Permalink</a></p>]]></content>
     </entry>
   
 </feed>
