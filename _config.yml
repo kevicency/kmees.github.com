@@ -106,7 +106,7 @@ disqus_developer: 0
 google_analytics_tracking_id: "UA-27373569-1"
 
 # Facebook Like
-facebook_like: false
+facebook_like: true
 
 # NuGet packages
 nuget_user: "kmees"

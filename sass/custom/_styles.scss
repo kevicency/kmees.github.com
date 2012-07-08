@@ -1,3 +1,16 @@
+@import "deck.js";
+
+.deck-container {
+  width: auto;
+  max-width: 800px;
+  margin: 0px auto 0px auto;
+  min-height: 600px;
+  font-size: 16px;
+  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+}
+
 // This File is imported last, and will override other styles in the cascade
 // Add styles here to make changes without digging in too much
 @font-face {
