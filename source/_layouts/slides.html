@@ -7,19 +7,18 @@ layout: default
       {% if page.title %}
       <header class="slide" id="title-slide">
         <h1 class="slide-title">{% if site.titlecase %}{{ page.title | titlecase }}{% else %}{{ page.title }}{% endif %}</h1>
-        {% if page.date %}<p class="meta">{% include post/date.html %}{{ time }}</p>{% endif %}
       </header>
       {% endif %}
       {{ content }}
 
       <script src="{{ root_url }}/javascripts/lib/deck.js/deck.core.js" type="text/javascript"></script>
-      {% unless page.slide_navigation == false %}
+      {% unless page.deck_navigation == false %}
         <a href="#" class="deck-prev-link" title="Previous">&#8592;</a>
         <a href="#" class="deck-next-link" title="Next">&#8594;</a>
         <script src="{{ root_url }}/javascripts/lib/deck.js/deck.navigation.js" type="text/javascript"></script>
       {% endunless %}
 
-      {% unless page.slide_status == false %}
+      {% unless page.deck_status == false %}
         <p class="deck-status">
           <span class="deck-status-current"></span>
           /
@@ -28,7 +27,7 @@ layout: default
         <script src="{{ root_url }}/javascripts/lib/deck.js/deck.status.js" type="text/javascript"></script>
       {% endunless %}
 
-      {% unless page.slide_goto == false %}
+      {% unless page.deck_goto == false %}
         <form action="." method="get" class="goto-form">
           <label for="goto-slide">Go to slide:</label>
           <input type="text" name="slidenum" id="goto-slide" list="goto-datalist">
@@ -38,16 +37,16 @@ layout: default
         <script src="{{ root_url }}/javascripts/lib/deck.js/deck.goto.js" type="text/javascript"></script>
       {% endunless %}
 
-      {% unless page.slide_hash == false %}
+      {% unless page.deck_hash == false %}
         <a href="." title="Permalink to this slide" class="deck-permalink">#</a>
         <script src="{{ root_url }}/javascripts/lib/deck.js/deck.hash.js" type="text/javascript"></script>
       {% endunless %}
 
-      {% unless page.slide_menu == false %}
+      {% unless page.deck_menu == false %}
         <script src="{{ root_url }}/javascripts/lib/deck.js/deck.menu.js" type="text/javascript"></script>
       {% endunless %}
 
-      {% unless page.slide_scale == false %}
+      {% unless page.deck_scale == false %}
         <script src="{{ root_url }}/javascripts/lib/deck.js/deck.scale.js" type="text/javascript"></script>
       {% endunless %}
 
@@ -60,13 +59,13 @@ layout: default
     </div>
     {% unless page.footer == false %}
       <footer>
-        <p class="meta">{% include post/meta.html %}{% include custom/slidedeck_meta.html %}</p>
+        <p class="meta">{% include post/meta.html %}{% include custom/slides_meta.html %}</p>
         {% unless page.sharing == false %}
           {% include post/sharing.html %}
         {% endunless %}
       </footer>
     {% endunless %}
-    {% include custom/after_slidedeck.html %}
+    {% include custom/after_slides.html %}
   </article>
 </div>
 {% unless page.sidebar == false or site.default_sidebar == false %}
