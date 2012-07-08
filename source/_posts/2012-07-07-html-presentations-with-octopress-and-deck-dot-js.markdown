@@ -14,38 +14,57 @@ hacker...ish and since Octopress is "a blogging framework for hackers" we surely
 I've recently read about [various HTML5 based web presentation frameworks](http://www.sitepoint.com/5-free-html5-presentation-systems/#fbid=1hmB1c0Eihu)
 and wanted to try them out but didn't have an opportunity 'til now. I'll go with [deck.js](http://http://imakewebthings.com/deck.js/)
 for no specific reason other than that it seems easy to show the slides inside an existing webpage
-  or blog.
-So I'll be giving a talk about Octopress with slides hosted inside my own Octopress blog.
-
-Now that souds hackerish !
+or blog.
+So I'll be giving a talk about Octopress with slides hosted inside my own Octopress blog !
 <!-- more -->
-## Creating a Slidedeck Layout
-Okay, where to start? From inspecting the [demo presentation]() and having a look at the [source](),
-we need a custom layout page for our slides. We need to load the css files from *deck.js* in the
-head of the layout page. We also need to load/execute some JavaScript in the body of the page. To keep
-everything **DRY**, this will also be handled by the layout page. This way, the
-file with the presentation needs to focus solely on the content of the presentation and the rest is handled
-by the framework.
 
-We start by customizing the head file of the layout. We copy the `source/_includes/head.html` and
-name it `slidedeck_head.html`. We can keep everything as it is and just add the deck.js specific
-markup **before** the link tag to our `screen.css`. We need to include it before the `screen.css`
-such that we can override some default deck.js styles.
+_I have linked most source files instead of embedding the source directly because the liquid tags in
+html pages won't render correctly_
 
-Next, we copy `source/_layouts/defaut.html`, which containts the default layout, and call it `slidedeck.html`.
-We can basically keep all of the markup and just add all the deck.js specific code to the innermost div, 
-just underneath the content placeholder. Deck.js requires a `.deck-container` which wraps the slide divs, 
-so we'll add that class to the `#content` div. We also replace the inclusion oh `head.html` with our custom 
-`slidedeck_head.html`. If you don't want to use a specific deck.js extension, just remove the
-according script tag from the layout file.
+## The slides layout
+Okay, where to start? From inspecting the [demo presentation](http://imakewebthings.com/deck.js/introduction/) and having a look at the [source](https://github.com/imakewebthings/deck.js),
+we need a custom layout for our slides that takes care of the following tasks.
 
-Here's the source of the two layout files.
-{% include_code slidedeck_head.html %}
-{% include_code slidedeck.html %}
+  * Loading all the css files required by deck.js in the head.
+  * Loading all the js files required by deck.js in the body and initializing the slidedeck.
+    Extensions should be activatable per slidedeck.
+  * Loading a theme and transition effect defined by each slidedeck
+
+Since we want to host the slides inside our blog, the slides layout should have the default
+octopress layout as its parent, similair to the layout for posts and pages.
+
+### Loading the CSS
+A quick peek at the deck.js source shows that the author kindly included the SASS files from which
+the CSS was created. This means that we can easily add those and compile them into our `screen.css`
+instead of loading them all separately. We will start by creating a `sass/custom/deck.js/` folder
+and copying all the `deck.*.sccs` files into it. We should also rename them to `_deck.*.scss` to
+match the SASS naming convention for partial files. Then we'll create `sass/custom/deck.js.scss`
+that imports all the files from the deck.js subfolder and finally import that file at the top of
+the `_styles.scss`.
+
+{% include_code ../../../sass/custom/_deck.js.scss %}
+
+### Loading the JS
+This part will be rather easy. We will use the [source/_layouts/page.html](https://github.com/kmees/kmees.github.com/tree/source/source/_layouts/page.html) as a template for our
+slides layout. We can basically keep it as is and only change the page secific stuff like 
+`custom/page-meta.html` with `custom/slides-meta.html`. I also changed the `<header/>` tag to a 
+title slide that shows the title of the slidedeck and some other minor
+stuff. Anyway, the important part is to add the deck.js stuff directly below the `content` Liquid
+tag and add a `.deck-container` div as a subelement of `<article/>`.
+To support deactivation of specific extensions for each slidedeck, we will wrap the markup for each
+extension with a `{{ unless page.deck_feature == false }}` Liquid block. The properties of the page
+can be set in the *YAML Front Matter* which I'll cover in a minute. Here's the source of the
+finished [slides
+layout](https://github.com/kmees/kmees.github.com/tree/source/source/_layouts/slides.html).
+
+### Support for Themes and Transition Effects
+We will also use page properties for loading a specific theme on transition effect. The markup will
+reside in [source/_includes/custom/head.html](https://github.com/kmees/kmees.github.com/tree/source/source/_inlucudes/custom/head.html) and is quite simple. It just loads the css file for
+the theme and transition effect with the name provided by `page.deck_theme` and
+`page.deck_transition` respectively.
 
 ## Creating the Slides
-
-Alright, now we can actually start to work on the slides. We'll create a `source/slides` folder and
+With the layout in place, we can now actually start to work on the slides. We'll create a `source/slides` folder and
 add `demo.html` inside. To keep it simple, we'll add just two slides.
 
 {% include_code ../../slides/demo.html %}
