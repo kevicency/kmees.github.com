@@ -112,6 +112,74 @@
   <header>
     <h1 class="entry-title">
 
+<a href="/blog/2012/07/16/html-presentations-with-octopress-and-deck-dot-js-part-ii/">HTML Presentations With Octopress and deck.js - Part II</a>
+
+</h1>
+
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-16T14:02:00+02:00" pubdate data-updated="true">Jul 16<span>th</span>, 2012</time>
+         &bull; <a rel="bookmark" href="/blog/2012/07/16/html-presentations-with-octopress-and-deck-dot-js-part-ii/">Permalink</a>
+      </p>
+    
+  </header>
+
+<div class="entry-content"><p>In my last post I demonstrated how to create HTML presentations with <a href="http://todo">deck.js</a> and
+hosting them inside your Octopress blog. While the <em>&#8216;client-side&#8217;</em> is basically finished, the
+<em>&#8216;backend&#8217;</em> still needs some work because</p>
+
+<ul>
+<li>we can&#8217;t use markdown to write the slides</li>
+<li>we must create a new slidedeck by hand</li>
+</ul>
+
+
+<p>The first problem can be solved by creating a custom <code>Liquid::Block</code> for slides and the second
+problem can be solved by creating a small rake task that basically works the same as the <code>new_post</code>
+task.</p>
+
+</div>
+
+  <footer>
+    
+    <p><a class="comments-link" href="/blog/2012/07/16/html-presentations-with-octopress-and-deck-dot-js-part-ii/#disqus_thread">View comments &raquo;</a></p>
+    
+    
+    <p><a rel="full-article" href="/blog/2012/07/16/html-presentations-with-octopress-and-deck-dot-js-part-ii/">Read on &rarr;</a></p>
+    
+  </footer>
+
+
+    </article>
+  
+    
+
+
+
+
+
+
+
+
+
+
+    <article >
+      
+  <header>
+    <h1 class="entry-title">
+
 <a href="/blog/2012/07/07/html-presentations-with-octopress-and-deck-dot-js/">HTML Presentations With Octopress and deck.js</a>
 
 </h1>
@@ -649,64 +717,6 @@ get everything set up in time. In any case, the project will of course be hosted
 
     </article>
   
-    
-
-
-
-
-
-
-
-
-
-
-    <article >
-      
-  <header>
-    <h1 class="entry-title">
-
-<a href="/blog/2012/02/29/nuget-aside-for-octopress/">NuGet Aside for Octopress</a>
-
-</h1>
-
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-02-29T15:37:00+01:00" pubdate data-updated="true">Feb 29<span>th</span>, 2012</time>
-         &bull; <a rel="bookmark" href="/blog/2012/02/29/nuget-aside-for-octopress/">Permalink</a>
-      </p>
-    
-  </header>
-
-<div class="entry-content"><p>I just finished as aside for <a href="http://www.octopress.org">Octopress</a> that list the
-Top N downloaded packages where you are an author. It also adds a link to your
-NuGet gallery profile if you have one. The style is basically the same as the style of the github aside.</p>
-
-<p>Since there is no official way to publish 3rd party add-ons for Octopress yet, I
-created a <a href="https://github.com/kmees/Octopress-NuGet-Aside">github repository</a> with the required files and setup instructions in the <a href="https://github.com/kmees/Octopress-NuGet-Aside/blob/master/README.md">ReadMe</a>.</p>
-</div>
-
-  <footer>
-    
-    <p><a class="comments-link" href="/blog/2012/02/29/nuget-aside-for-octopress/#disqus_thread">View comments &raquo;</a></p>
-    
-    
-  </footer>
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -723,6 +733,10 @@ created a <a href="https://github.com/kmees/Octopress-NuGet-Aside">github reposi
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2012/07/16/html-presentations-with-octopress-and-deck-dot-js-part-ii/">HTML Presentations with Octopress and deck.js - Part II</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/07/07/html-presentations-with-octopress-and-deck-dot-js/">HTML Presentations with Octopress and deck.js</a>
       </li>
     
@@ -736,10 +750,6 @@ created a <a href="https://github.com/kmees/Octopress-NuGet-Aside">github reposi
     
       <li class="post">
         <a href="/blog/2012/03/24/cmcontrib-1-dot-0-1-released/">CMContrib 1.0.1 Released</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/03/18/7drl-2012-its-over/">7DRL 2012 - It&#8217;s over !</a>
       </li>
     
   </ul>

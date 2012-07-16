@@ -3,7 +3,7 @@
   <title><![CDATA[Kevin Mees]]></title>
   <link href="http://kmees.github.com/atom.xml" rel="self"/>
   <link href="http://kmees.github.com/"/>
-  <updated>2012-07-09T10:07:43+02:00</updated>
+  <updated>2012-07-16T16:08:38+02:00</updated>
   <id>http://kmees.github.com/</id>
   <author>
     <name><![CDATA[Kevin Mees]]></name>
@@ -11,6 +11,243 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[HTML Presentations with Octopress and deck.js - Part II]]></title>
+<link href="http://kmees.github.com/blog/2012/07/16/html-presentations-with-octopress-and-deck-dot-js-part-ii/"/>
+<updated>2012-07-16T14:02:00+02:00</updated>
+<id>http://kmees.github.com/blog/2012/07/16/html-presentations-with-octopress-and-deck-dot-js-part-ii</id>
+
+      <content type="html"><![CDATA[<p>In my last post I demonstrated how to create HTML presentations with <a href="http://todo">deck.js</a> and
+hosting them inside your Octopress blog. While the <em>&#8216;client-side&#8217;</em> is basically finished, the
+<em>&#8216;backend&#8217;</em> still needs some work because</p>
+
+<ul>
+<li>we can&#8217;t use markdown to write the slides</li>
+<li>we must create a new slidedeck by hand</li>
+</ul>
+
+
+<p>The first problem can be solved by creating a custom <code>Liquid::Block</code> for slides and the second
+problem can be solved by creating a small rake task that basically works the same as the <code>new_post</code>
+task.</p>
+
+<!-- more -->
+
+
+<h2>A Liquid::Block for Slides</h2>
+
+<p>Currently, when writing slides, we have to use HTML because Markdown inside HTML block tags like
+<code>&lt;div&gt;&lt;/div&gt;</code> will be ignored by the Markdown processor. To fix this problem we will create a custom
+<code>Liquid::Block</code> that wraps its content inside a slide div. With the help of the <code>Liquid::Block</code> we
+can write a slide like this:</p>
+
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>&#x7b;&#x25; slide first %}
+</span><span class='line'>  ## Title
+</span><span class='line'>  content
+</span><span class='line'>&#x7b;&#x25; endslide $}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This will then compile to the following HTML:</p>
+
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&#39;slide&#39;</span> <span class="na">id=</span><span class="s">&#39;first&#39;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;h2&gt;</span>Title<span class="nt">&lt;/h2&gt;</span>
+</span><span class='line'>  content
+</span><span class='line'><span class="nt">&lt;/div&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Implementation</h3>
+
+<p>Implementing the <code>Liquid::Block</code> is actually quite easy. First, we create a file <code>slide.rb</code> in <code>./plugins</code>
+with the following content:</p>
+
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Jekyll</span>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">Slide</span> <span class="o">&lt;</span> <span class="no">Liquid</span><span class="o">::</span><span class="no">Block</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Liquid</span><span class="o">::</span><span class="no">Template</span><span class="o">.</span><span class="n">register_tag</span><span class="p">(</span><span class="s1">&#39;slide&#39;</span><span class="p">,</span> <span class="no">Jekyll</span><span class="o">::</span><span class="no">Slide</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This creates a class for our custom <code>Liquid::Block</code> and registers it as a tag in the Liquid engine. This is enough to use
+the tag but nothing will be generated yet. Next we will override the <code>initialize</code> method and parse the id of the slide.</p>
+
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Slide</span> <span class="o">&lt;</span> <span class="no">Liquid</span><span class="o">::</span><span class="no">Block</span>
+</span><span class='line'>  <span class="no">SlideId</span> <span class="o">=</span> <span class="sr">/(\w+)/</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">tag_name</span><span class="p">,</span> <span class="n">markup</span><span class="p">,</span> <span class="n">tokens</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">super</span>
+</span><span class='line'>    <span class="vi">@id</span> <span class="o">=</span> <span class="kp">nil</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">markup</span><span class="o">.</span><span class="n">strip</span> <span class="o">=~</span> <span class="no">SlideId</span>
+</span><span class='line'>      <span class="vi">@id</span> <span class="o">=</span> <span class="vg">$1</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Since we only have to parse one argument, the id, this is fairly simple. The <code>markup</code> variable contains everything that comes
+after <code>slide</code> in the opening brackets, i.e. <code>{% slide markup is this part %}</code>. The regex we use to parse the id matches the
+first word and ignores everything thereafter.</p>
+
+<p>The next step is to override the <code>render</code> method that converts everything inside our slide block
+from Markdown to HTML and wraps it with a slide div.</p>
+
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;rdiscount&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">module</span> <span class="nn">Jekyll</span>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">Slide</span> <span class="o">&lt;</span> <span class="no">Liquid</span><span class="o">::</span><span class="no">Block</span>
+</span><span class='line'>    <span class="c1"># ...</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">render</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">id_tag</span> <span class="o">=</span> <span class="s2">&quot; id=&#39;</span><span class="si">#{</span><span class="vi">@id</span><span class="si">}</span><span class="s2">&#39;&quot;</span> <span class="k">unless</span> <span class="vi">@id</span><span class="o">.</span><span class="n">nil?</span>
+</span><span class='line'>      <span class="n">content</span> <span class="o">=</span> <span class="no">RDiscount</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="k">super</span><span class="o">.</span><span class="n">strip</span><span class="p">,</span> <span class="ss">:smart</span><span class="p">)</span><span class="o">.</span><span class="n">to_html</span><span class="o">.</span><span class="n">chop</span>
+</span><span class='line'>      <span class="s2">&quot;&lt;div class=&#39;slide&#39;</span><span class="si">#{</span><span class="n">id_tag</span><span class="si">}</span><span class="s2">&gt;</span><span class="si">#{</span><span class="n">content</span><span class="si">}</span><span class="s2">&lt;/div&gt;&quot;</span><span class="o">.</span><span class="n">strip</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The only interesting part here is the usage of <code>super</code>. We call <code>super</code> here to get the content of
+our block tag and run it through <em>RDiscount</em> to convert it to HTML.</p>
+
+<p>And that is all we need for our custom slide block !</p>
+
+<h2>A Rake task for Slides</h2>
+
+<p>The will be even easier than creating the <code>Liquid::Block</code>. First we define two new variables in the
+<code>Rakefile</code> which are pretty self-explanatory</p>
+
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">slides_dir</span>      <span class="o">=</span> <span class="s2">&quot;slides&quot;</span>    <span class="c1"># directory for slides`</span>
+</span><span class='line'><span class="n">new_slides_ext</span>  <span class="o">=</span> <span class="s2">&quot;markdown&quot;</span>  <span class="c1"># default new slides file extension when using the new_slides task</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>For the task itself we copy the existing <code>:new_post</code> task and replace the <code>posts_dir</code> with
+<code>slides_dir</code>, <code>new_post_ext</code> with <code>new_slides_ext</code> and adjust all the messages. We will also add all
+the deck.js options to the <em>YAML Front Matter</em> and change the layout from <code>post</code> to <code>slides</code>. The
+complete slides task looks like this:</p>
+
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># usage rake new_slides[my-cool-slides] or rake new_post[&#39;my cool slides&#39;] or rake new_post (defaults to &quot;new-slides&quot;)</span>
+</span><span class='line'><span class="n">desc</span> <span class="s2">&quot;Create new slides in </span><span class="si">#{</span><span class="n">source_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">#{</span><span class="n">slides_dir</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="n">task</span> <span class="ss">:new_slides</span><span class="p">,</span> <span class="ss">:title</span> <span class="k">do</span> <span class="o">|</span><span class="n">t</span><span class="p">,</span> <span class="n">args</span><span class="o">|</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">title</span>
+</span><span class='line'>    <span class="n">title</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">title</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">title</span> <span class="o">=</span> <span class="n">get_stdin</span><span class="p">(</span><span class="s2">&quot;Enter a title for your slides: &quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="k">raise</span> <span class="s2">&quot;### You haven&#39;t set anything up yet. First run `rake install` to set up an Octopress theme.&quot;</span> <span class="k">unless</span> <span class="no">File</span><span class="o">.</span><span class="n">directory?</span><span class="p">(</span><span class="n">source_dir</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">mkdir_p</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">source_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">#{</span><span class="n">slides_dir</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">source_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">#{</span><span class="n">slides_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">#{</span><span class="n">title</span><span class="o">.</span><span class="n">to_url</span><span class="si">}</span><span class="s2">.</span><span class="si">#{</span><span class="n">new_post_ext</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="k">if</span> <span class="no">File</span><span class="o">.</span><span class="n">exist?</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+</span><span class='line'>    <span class="nb">abort</span><span class="p">(</span><span class="s2">&quot;rake aborted!&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">ask</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="n">filename</span><span class="si">}</span><span class="s2"> already exists. Do you want to overwrite?&quot;</span><span class="p">,</span> <span class="o">[</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="o">]</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;n&#39;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;Creating new slides: </span><span class="si">#{</span><span class="n">filename</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">slides</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">slides</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;---&quot;</span>
+</span><span class='line'>    <span class="n">slides</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;layout: slides&quot;</span>
+</span><span class='line'>    <span class="n">slides</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;title: </span><span class="se">\&quot;</span><span class="si">#{</span><span class="n">title</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="sr">/&amp;/</span><span class="p">,</span><span class="s1">&#39;&amp;amp;&#39;</span><span class="p">)</span><span class="si">}</span><span class="se">\&quot;</span><span class="s2">&quot;</span>
+</span><span class='line'>    <span class="n">slides</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;date: </span><span class="si">#{</span><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-%d %H:%M&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>    <span class="n">slides</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;sidebar: false&quot;</span>
+</span><span class='line'>    <span class="n">slides</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;deck_theme: web-2.0&quot;</span>
+</span><span class='line'>    <span class="n">slides</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;deck_transition: fade&quot;</span>
+</span><span class='line'>    <span class="n">slides</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;deck_navigation: true&quot;</span>
+</span><span class='line'>    <span class="n">slides</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;deck_status: true&quot;</span>
+</span><span class='line'>    <span class="n">slides</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;deck_goto: true&quot;</span>
+</span><span class='line'>    <span class="n">slides</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;deck_hash: true&quot;</span>
+</span><span class='line'>    <span class="n">slides</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;deck_menu: true&quot;</span>
+</span><span class='line'>    <span class="n">slides</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;deck_scale: true&quot;</span>
+</span><span class='line'>    <span class="n">slides</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;---&quot;</span>
+</span><span class='line'>    <span class="n">slides</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;&amp;#x7b;&amp;#x25; slide first %}&quot;</span>
+</span><span class='line'>    <span class="n">slides</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;&amp;#x7b;&amp;#x25; endslide %}&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+<p><a rel="bookmark" href="http://kmees.github.com/blog/2012/07/16/html-presentations-with-octopress-and-deck-dot-js-part-ii/">&#9875; Permalink</a></p>]]></content>
+    </entry>
   
     <entry>
       
