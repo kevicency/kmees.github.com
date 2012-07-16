@@ -5,6 +5,8 @@ date: 2012-07-07 01:39
 comments: true
 external-url: 
 categories: 
+- octopress
+- deck.js
 ---
 So, I'm about the give a short talk about [Octopress](http://www.octopress.org) at the next RUGSaar
 (Ruby Usergroup Saar) meeting. Since I will probably need at least a bunch of slides I thought about

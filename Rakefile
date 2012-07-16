@@ -200,7 +200,7 @@ task :new_slides, :title do |t, args|
   if args.title
     title = args.title
   else
-    title = get_stdin("Enter a title for your post: ")
+    title = get_stdin("Enter a title for your slides: ")
   end
   raise "### You haven't set anything up yet. First run `rake install` to set up an Octopress theme." unless File.directory?(source_dir)
   mkdir_p "#{source_dir}/#{slides_dir}"

@@ -2,7 +2,7 @@ require 'rdiscount'
 
 module Jekyll
   class Slide < Liquid::Block
-    SlideId = /(.+)/
+    SlideId = /(\w+)/
 
     def initialize(tag_name, markup, tokens)
       super
