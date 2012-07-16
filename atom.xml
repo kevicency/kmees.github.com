@@ -3,7 +3,7 @@
   <title><![CDATA[Kevin Mees]]></title>
   <link href="http://kmees.github.com/atom.xml" rel="self"/>
   <link href="http://kmees.github.com/"/>
-  <updated>2012-07-16T16:08:38+02:00</updated>
+  <updated>2012-07-16T16:14:04+02:00</updated>
   <id>http://kmees.github.com/</id>
   <author>
     <name><![CDATA[Kevin Mees]]></name>
@@ -23,8 +23,8 @@
 <updated>2012-07-16T14:02:00+02:00</updated>
 <id>http://kmees.github.com/blog/2012/07/16/html-presentations-with-octopress-and-deck-dot-js-part-ii</id>
 
-      <content type="html"><![CDATA[<p>In my last post I demonstrated how to create HTML presentations with <a href="http://todo">deck.js</a> and
-hosting them inside your Octopress blog. While the <em>&#8216;client-side&#8217;</em> is basically finished, the
+      <content type="html"><![CDATA[<p>In my <a href="http://kmees.github.com/blog/2012/07/07/html-presentations-with-octopress-and-deck-dot-js/">last post</a> I demonstrated how to create HTML presentations with <a href="http://http://imakewebthings.com/deck.js/">deck.js</a>
+and hosting them inside your Octopress blog. While the <em>&#8216;client-side&#8217;</em> is basically finished, the
 <em>&#8216;backend&#8217;</em> still needs some work because</p>
 
 <ul>
