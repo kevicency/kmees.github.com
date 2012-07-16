@@ -8,8 +8,8 @@ categories:
 - Octopress
 - deck.js
 ---
-In my last post I demonstrated how to create HTML presentations with [deck.js](http://todo) and
-hosting them inside your Octopress blog. While the *'client-side'* is basically finished, the
+In my [last post](/blog/2012/07/07/html-presentations-with-octopress-and-deck-dot-js/) I demonstrated how to create HTML presentations with [deck.js](http://http://imakewebthings.com/deck.js/)
+and hosting them inside your Octopress blog. While the *'client-side'* is basically finished, the
 *'backend'* still needs some work because
 
   * we can't use markdown to write the slides
