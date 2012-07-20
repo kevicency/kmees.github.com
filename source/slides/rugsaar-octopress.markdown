@@ -21,13 +21,14 @@ A blogging framework for hackers
 
 {% slide %}
 ## Octopress
-  * Framework zum Erstellen statischer Blogseiten
-  * Basierend auf Jekyll
+  * Swiss army knife for Jekyll
+  * Quickstarts your Blog
+  * or any other static Website
 {% endslide %}
 
 {% slide %}
 ## Jekyll
-Generator fuer statische Websiten
+Blog aware, static site generator written in Ruby
 
 Input:
 
@@ -37,47 +38,46 @@ Input:
 
 Output: Website
 
-Engine hinter GitHub Pages
+Engine behind GitHub Pages
 {% endslide %}
 
 {% slide %}
-## Jekyll - Probleme
-  * Kein Default Layout
-  * Kein Theming
-  * Kein Scaffolding
-  * Kein Syntax Highlighting
-  * Kein Social
+## Jekyll - Problems
+  * NO Default Layout
+  * NO Theming
+  * NO Scaffolding
+  * NO Syntax Highlighting
+  * NO Social
 
-&rArr; Man fängt bei Null an.
+&rArr; You have to start from scratch.
 {% endslide %}
 
 {% slide %}
 ## Octopress to the Rescue
 ### Layout
-  * Semantisches HTML5 Template
-  * Leicht Anpassbar durch Partials
-  * Mobile Unterstützung
+  * Semantic HTML5 Template
+  * Easy customization with partials
+  * Mobile support
 {% endslide %}
 
 {% slide %}
 ## Octopress to the Rescue
 ### Theming
-  * Sehr gutes Default Theme
-  * Kein CSS, sondern Compass + Sass
-  * Automisches Erstellen der Screen.css
-  * Automatische Neugenerierung
+  * Neat Default Theme
+  * No CSS but Compass + Sass
+  * Live development support
 {% endslide %}
 
 {% slide %}
 ## Octopress to the Rescue
 ### Scaffolding
-Rake Tasks für:
+Rake Tasks for:
 
-  * Installation (Orderstruktur)
-  * Neue Posts
-  * Neue Pages
+  * Installation
+  * New Posts
+  * New Pages
   * Minifying (2.1)
-  * uvm.
+  * and alot more
 {% endslide %}
 
 {% slide %}
@@ -87,24 +87,24 @@ Rake Tasks für:
   * Facebook Like / Google +1
   * Disqus Comments
   * Delicious
-  * uvm.
+  * and many others
 {% endslide %}
 
 {% slide %}
 ## Octopress to the Rescue
 ### Blogging Plugins
   * Codeblocks (+ Pygments Syntax Highlighting)
-  * Einbetten von
+  * Easy embedding of
     * Gist
     * jsFiddle
-    * Dateien im Filesystem
+    * local files
   * Quotes (Pullquote / Blockquote)
   * HTML5 Videos
 {% endslide %}
 
 {% slide %}
 ## Octopress to the Rescue
-### Deployment Skripte
+### Deployment Scripts for
   * GitHub Pages
   * Heroku
   * RSync
@@ -112,7 +112,7 @@ Rake Tasks für:
 
 {% slide %}
 ## Octopress to the Rescue
-### Sonstiges
+### Other good stuff
   * Sidebar Widgets (Asides)
   * Sitemap Generator
   * Haml Support
