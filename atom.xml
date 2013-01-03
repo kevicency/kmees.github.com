@@ -3,7 +3,7 @@
   <title><![CDATA[Kevin Mees]]></title>
   <link href="http://kmees.github.com/atom.xml" rel="self"/>
   <link href="http://kmees.github.com/"/>
-  <updated>2012-07-20T19:07:41+02:00</updated>
+  <updated>2013-01-03T22:11:39+01:00</updated>
   <id>http://kmees.github.com/</id>
   <author>
     <name><![CDATA[Kevin Mees]]></name>
@@ -11,6 +11,36 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[Hack a Bookmark Bar Seperator for Chrome]]></title>
+<link href="http://kmees.github.com/blog/2013/01/03/hack-a-bookmark-bar-seperator-for-chrome/"/>
+<updated>2013-01-03T11:40:00+01:00</updated>
+<id>http://kmees.github.com/blog/2013/01/03/hack-a-bookmark-bar-seperator-for-chrome</id>
+
+      <content type="html"><![CDATA[<p>New Year&#8217;s Day is Cleanup Day (yay) !</p>
+
+<p>When I finally arrived at my bookmarks I desperately wanted to organize my bookmarks on the Bookmark Bar n groups but there&#8217;s (still!) no option to add a simple seperator to it. So we can either live with it or get creative about it. I prefer the second approach !</p>
+
+<p><img class="center" src="http://kmees.github.com/images/posts/bookmark_bar_no_sep.png" title="No Seperators :(" ></p>
+
+<h2>The favicon seperator bookmark</h2>
+
+<p>Since the Bookmark Bar uses a pages favicon as the bookmark icon, we simply need to find a page with a favicon that looks like a seperator (good luck with that&#8230;) which we can (ab)use&#8230;or we just create one. There&#8217;s a site called <a href="http://www.favicon.cc/">favicon.cc</a> with has an online editor for favicons and it uses the  created favicon as the pages favicon. Wonderful ! The only drawback is that we need to create an account to get a permalink to the favicon so that we can bookmark it. So here&#8217;s <a href="http://www.favicon.cc/?action=icon&amp;file_id=582779">my attempt</a>. A real masterpiece!</p>
+
+<h2>Duplicating bookmarks</h2>
+
+<p><img class="center" src="http://kmees.github.com/images/posts/one_does_not_simply_bookmark.jpeg">
+So now that we have a bookmark with a favicon that looks like a seperator we are good to go&#8230;except when we need more than one seperator. We cannot simply bookmark the page again but with the help of the Chrome Bookmark Manager (Option-Command-B on OS X) we can duplicate the bookmark. Simply right-click the seperator bookmark, <code>copy</code> and <code>paste</code> it as much as needed and you are finally good to go.</p>
+
+<p><img class="center" src="http://kmees.github.com/images/posts/bookmark_bar_sep.png" title="Seperators !" ></p>
+<p><a rel="bookmark" href="http://kmees.github.com/blog/2013/01/03/hack-a-bookmark-bar-seperator-for-chrome/">&#9875; Permalink</a></p>]]></content>
+    </entry>
   
     <entry>
       
@@ -119,7 +149,7 @@ the tag but nothing will be generated yet. Next we will override the <code>initi
 
 
 <p>Since we only have to parse one argument, the id, this is fairly simple. The <code>markup</code> variable contains everything that comes
-after <code>slide</code> in the opening brackets, i.e. <code>{% slide markup is this part %}</code>. The regex we use to parse the id matches the
+after <code>slide</code> in the opening brackets, i.e. <code>&lt;div class='slide' id='markup'&gt;&lt;/div&gt;</code>. The regex we use to parse the id matches the
 first word and ignores everything thereafter.</p>
 
 <p>The next step is to override the <code>render</code> method that converts everything inside our slide block
